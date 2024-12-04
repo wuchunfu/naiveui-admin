@@ -1,12 +1,17 @@
 <template>
-  <BaseTable :columns="columns" :data="data"  :search-form-items="formFiledList" is-add-action title="基本列表" desc="基本列表秒杀"/>
+  <BaseTable
+      :columns="columns"
+      :data="data"
+      :search-form-items="formFiledList"
+      is-add-action title="基本列表"
+      desc="基本列表秒杀"
+  />
 </template>
-<script setup lang="ts">
 
-import {computed, reactive} from "vue";
-import {ITableColumn} from "@/components/basic/table/index";
+<script setup lang="ts">
+import { ITableColumn } from "@/components/basic/table/index";
 import BaseTable from "@/components/basic/table/index.vue";
-import {BaseFormItemProps} from "@/components/basic/form/index";
+import { BaseFormItemProps } from "@/components/basic/form/index";
 
 const columns = reactive<ITableColumn[]>([
   {
@@ -20,6 +25,7 @@ const columns = reactive<ITableColumn[]>([
     type: "string",
   }
 ])
+
 const formFiledList = reactive<BaseFormItemProps[]>([
   {
     label: '姓名',
@@ -38,16 +44,18 @@ const formFiledList = reactive<BaseFormItemProps[]>([
     filedType: 'string',
   }
 ])
-const data = computed(()=>{
+
+const data = computed(() => {
   return getTestTable()
 })
-function getTestTable(){
+
+function getTestTable() {
   // for 100次
   let data = []
   for (let i = 0; i < 100; i++) {
     data.push({
-      name: '特产'+i,
-      age: ""+i,
+      name: '特产' + i,
+      age: "" + i,
     })
   }
   return data

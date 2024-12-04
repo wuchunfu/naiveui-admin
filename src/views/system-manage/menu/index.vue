@@ -1,6 +1,5 @@
 <script setup lang="tsx">
 import type { Ref } from 'vue';
-import { ref } from 'vue';
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useBoolean } from '@/hooks/use-boolean';
 import { fetchGetAllPages, fetchGetMenuList } from '@/service/api';
@@ -183,7 +182,7 @@ async function handleBatchDelete() {
   // request
   console.log(checkedRowKeys.value);
 
-  onBatchDeleted();
+  await onBatchDeleted();
 }
 
 function handleDelete(id: number) {

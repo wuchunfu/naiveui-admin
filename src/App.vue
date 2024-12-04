@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { NConfigProvider } from 'naive-ui';
 import { useThemeStore } from "@/store";
 import { subscribeThemeStore } from "@/store/subscribe";
 import { useAppStore } from '@/store/modules/app';
@@ -11,7 +9,7 @@ defineOptions({
 });
 
 const appStore = useAppStore();
-const theme = useThemeStore()
+const themeStore = useThemeStore()
 
 const naiveLocale = computed(() => {
   return naiveLocales[appStore.locale];
@@ -27,8 +25,8 @@ subscribeThemeStore()
 
 <template>
   <n-config-provider
-      :theme="theme.systemTheme"
-      :theme-overrides="theme.getNaiveThemeOverrides"
+      :theme="themeStore.systemTheme"
+      :theme-overrides="themeStore.getNaiveThemeOverrides"
       :locale="naiveLocale"
       :date-locale="naiveDateLocale"
   >
