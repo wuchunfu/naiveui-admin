@@ -102,10 +102,6 @@ export const useThemeStore = defineStore({
     setLayoutMode(mode: string) {
       this.layout.mode = mode;
     },
-    /** 设置卡片模式 */
-    setCardMode(mode: number) {
-      this.card.mode = mode;
-    },
   },
   persist: {
     storage: SecureStorage

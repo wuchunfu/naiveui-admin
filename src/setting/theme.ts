@@ -4,9 +4,6 @@ export const themeSetting: Theme.GlobalTheme = {
     mode: "base",
     round: 4
   },
-  card: {
-    mode: 1
-  },
   color: {
     primary: "#6366F1",
     info: "#6366F1",

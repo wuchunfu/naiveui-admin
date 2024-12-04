@@ -18,8 +18,6 @@
         <ThemeModeConfig/>
 
         <LayoutModeConfig/>
-
-        <CardModeConfig/>
         
         <MenuConfig/>
 
@@ -48,7 +46,6 @@ import { useThemeStore } from "@/store";
 import { $t } from "@/locales";
 import ThemeModeConfig from "@/layouts/components/setting/theme-mode-config.vue";
 import LayoutModeConfig from "@/layouts/components/setting/layout-mode-config.vue";
-import CardModeConfig from "@/layouts/components/setting/card-mode-config.vue";
 import MenuConfig from "@/layouts/components/setting/menu-config.vue";
 import ColorConfig from "@/layouts/components/setting/color-config.vue";
 import SidebarConfig from "@/layouts/components/setting/sidebar-config.vue";

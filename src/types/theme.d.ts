@@ -11,9 +11,6 @@ declare namespace Theme {
       //  分离式卡片圆角
       round: number;
     }
-    card: {
-      mode: number | 1 | 2 | 3 | 4;
-    }
     // 颜色色配置
     color: {
       primary: string;
