@@ -1,7 +1,15 @@
 import process from 'node:process';
 import { defineConfig, loadEnv } from 'vite';
-import { setupVitePlugins } from "./build/plugins";
-import { getBuildTime, getRootPath, getSrcPath } from "./build/utils";
+import { setupVitePlugins } from "./vites/plugins";
+import { createViteProxy, createViteOptimizeDeps } from "./vites/config";
+import { getBuildTime, getRootPath, getSrcPath } from "./vites/utils";
+import pkg from './package.json';
+
+const { dependencies, devDependencies, name, version } = pkg;
+const __APP_INFO__ = {
+  pkg: { dependencies, devDependencies, name, version },
+  lastBuildTime: getBuildTime(),
+};
 
 // https://vitejs.dev/config/
 const rootPath = getRootPath();
@@ -11,11 +19,11 @@ export default defineConfig(configEnv => {
   // 获取环境变量
   const viteEnv = loadEnv(configEnv.mode, process.cwd()) as unknown as Env.ImportMeta;
 
-  const enableProxy = configEnv.command === 'serve' && !configEnv.isPreview;
+  const { VITE_PORT, VITE_BASE_URL, VITE_DROP_CONSOLE, VITE_SOURCE_MAP } = viteEnv;
 
   const buildTime = getBuildTime();
   return {
-    base: viteEnv.VITE_BASE_URL,
+    base: VITE_BASE_URL,
     resolve: {
       alias: {
         '~': rootPath,
@@ -23,15 +31,17 @@ export default defineConfig(configEnv => {
       }
     },
     plugins: setupVitePlugins(viteEnv, buildTime),
-    // server: {
-    //   host: '0.0.0.0',
-    //   port: 8888,
-    //   open: false,
-    //   proxy: createViteProxy(viteEnv, enableProxy),
-    //   fs: {
-    //     cachedChecks: false
-    //   }
-    // },
+    server: {
+      host: true, // 监听所有地址
+      port: VITE_PORT, // 端口号
+      open: false, // 项目启动时是否自动在浏览器中打开应用程序
+      hmr: true, // 开启热更新
+      cors: true, // 跨域允许
+      proxy: createViteProxy(viteEnv),
+      fs: {
+        cachedChecks: false
+      }
+    },
     // server: {
     //   host: '0.0.0.0',
     //   port: 8888,
@@ -47,12 +57,20 @@ export default defineConfig(configEnv => {
     build: {
       target: "ESNext",
       reportCompressedSize: false,
-      sourcemap: viteEnv.VITE_SOURCE_MAP === 'Y',
+      brotliSize: false,
+      chunkSizeWarningLimit: 2000,
+      sourcemap: VITE_SOURCE_MAP === 'Y',
       commonjsOptions: {
         ignoreTryCatch: false
+      },
+      esbuild: {
+        pure: VITE_DROP_CONSOLE ? ['console.log', 'debugger'] : [],
       }
     },
+    optimizeDeps: createViteOptimizeDeps,
     define: {
+      __INTLIFY_PROD_DEVTOOLS__: false,
+      __APP_INFO__: JSON.stringify(__APP_INFO__),
       BUILD_TIME: JSON.stringify(buildTime)
     },
     css: {

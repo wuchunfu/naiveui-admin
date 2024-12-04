@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { routeModuleList, router } from "@/router";
 import { useAuthStore } from "@/store";
-import { PageRoute } from "@/typings/route";
+import { PageRoute } from "@/types/route";
 import {
   dynamicGenerateMenus,
   dynamicGenerateRoutes,
@@ -9,7 +9,7 @@ import {
   groupDynamicMenu,
   staticPageRouteGenerateRoutes
 } from "@/utils";
-import { System } from "@/typings/system";
+import { System } from "@/types/system";
 import { nextTick } from "vue";
 
 interface RouteState {

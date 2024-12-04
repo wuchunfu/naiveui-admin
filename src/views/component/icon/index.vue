@@ -6,7 +6,7 @@
           <n-space vertical>
             <p>本地svg使用vite插件进行自动导入</p>
             <p>目录在env配置中：VITE_ICON_LOCAL_PATH</p>
-            <p>使用方式：标签eg-icon local-icon="logo-fill" 或者 标签icon-local-* </p>
+            <p>使用方式：标签eg-icon local-icon="logo-fill" 或者 标签local-icon-* </p>
             <p>示例：</p>
             <n-space>
               <eg-icon local-icon="logo-fill" class="text-24px"/>

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { App } from "vue";
 import { constantRoutes } from "@/router/common";
-import { PageRoute } from "@/typings/route";
+import { PageRoute } from "@/types/route";
 import { createRouterGuard } from "@/router/permissions";
 
 const { VITE_BASE_URL } = import.meta.env;

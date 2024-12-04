@@ -1,4 +1,4 @@
-import { PageRoute } from "@/typings/route";
+import { PageRoute } from "@/types/route";
 
 const page: PageRoute = {
   name: 'component',

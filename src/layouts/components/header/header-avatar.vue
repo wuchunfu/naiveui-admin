@@ -8,9 +8,9 @@
 </template>
 
 <script setup lang="ts">
-import localAvatarUrl from "@/assets/images/linki.png"
+import localAvatarUrl from "@/assets/images/user-avatar.png"
 import { useAuthStore, useRouteStore } from "@/store";
-import { System } from "@/typings/system";
+import { System } from "@/types/system";
 import { renderIcon } from "@/utils";
 import { useDialog } from "naive-ui";
 import { useRouter } from "vue-router";

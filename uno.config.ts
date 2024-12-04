@@ -1,5 +1,8 @@
-import { presetAttributify } from '@unocss/preset-attributify';
 import { presetUno } from '@unocss/preset-uno';
+import { presetIcons } from '@unocss/preset-icons';
+import { presetRemToPx } from '@unocss/preset-rem-to-px';
+import { presetTypography } from '@unocss/preset-typography';
+import { presetAttributify } from '@unocss/preset-attributify';
 import transformerDirectives from '@unocss/transformer-directives';
 import transformerVariantGroup from '@unocss/transformer-variant-group';
 import { defineConfig } from '@unocss/vite';
@@ -20,8 +23,17 @@ export default defineConfig({
       ]
     }
   },
-  presets: [presetUno({ dark: 'class' }), presetAttributify],
-  transformers: [transformerDirectives(), transformerVariantGroup()],
+  transformers: [
+    transformerDirectives(),
+    transformerVariantGroup()
+  ],
+  presets: [
+    presetUno({ dark: 'class' }),
+    presetAttributify,
+    presetTypography,
+    presetRemToPx,
+    presetIcons
+  ],
   shortcuts: {
     'wh-full': 'w-full h-full',
     'flex-center': 'flex justify-center items-center',

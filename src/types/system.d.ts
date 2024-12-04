@@ -1,5 +1,5 @@
 // Desc: 系统相关的类型定义
-import { IRouteMeta } from "@/typings/route";
+import { IRouteMeta } from "@/types/route";
 import { RouteComponent } from "vue-router";
 
 declare namespace System {

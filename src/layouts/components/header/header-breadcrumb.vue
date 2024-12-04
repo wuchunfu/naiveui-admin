@@ -23,7 +23,7 @@
 <script setup lang="ts">
 // 生成面包屑数据
 import { RouteLocationMatched, useRoute } from "vue-router";
-import { System } from "@/typings/system";
+import { System } from "@/types/system";
 import { renderIcon } from "@/utils";
 import { computed } from "vue";
 import { router } from "@/router";

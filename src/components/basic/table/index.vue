@@ -39,7 +39,7 @@
       >
         <template #empty>
           <div class="flex-col-center">
-            <icon-local-empty class="text-400px text-primary"/>
+            <SvgIcon local-icon="empty" class="text-400px text-primary"/>
             <p class="text-20px text-primary" v-if="!props.emptyText">
               无{{ props.title }}数据~
             </p>

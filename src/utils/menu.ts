@@ -1,5 +1,5 @@
-import { PageRoute } from "@/typings/route";
-import { System } from "@/typings/system";
+import { PageRoute } from "@/types/route";
+import { System } from "@/types/system";
 import { isSingleRoute, renderIcon } from "@/utils/index";
 
 /**

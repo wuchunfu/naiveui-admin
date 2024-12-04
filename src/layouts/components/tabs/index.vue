@@ -101,7 +101,7 @@
 <script setup lang="ts">
 import Draggable from 'vuedraggable'
 import { computed, nextTick, onMounted, reactive, ref, watch } from "vue";
-import { PageRoute } from "@/typings/route";
+import { PageRoute } from "@/types/route";
 import { useRoute, useRouter } from "vue-router";
 import elementResizeDetectorMaker from "element-resize-detector";
 import { renderIcon } from "@/utils";

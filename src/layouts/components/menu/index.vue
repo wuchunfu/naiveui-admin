@@ -21,7 +21,7 @@
 import { computed, PropType, ref, watch } from "vue";
 import { useRouteStore } from "@/store";
 import { useRoute, useRouter } from "vue-router";
-import { System } from "@/typings/system";
+import { System } from "@/types/system";
 
 defineOptions({
   name: 'Menu'

@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import { PropType } from "vue";
 import { DropdownOption } from "naive-ui";
-import { System } from "@/typings/system";
+import { System } from "@/types/system";
 
 const props = defineProps({
   options: {

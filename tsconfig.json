@@ -8,18 +8,23 @@
       "DOM",
       "ESNext"
     ],
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "sourceMap": true,
+    "allowJs": true,
     "jsx": "preserve",
     "jsxImportSource": "vue",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "noImplicitOverride": false,
     "declaration": false,
+    "noImplicitOverride": false,
     "noImplicitAny": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "strictNullChecks": true,
+    "experimentalDecorators": true,
     "isolatedModules": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
@@ -41,10 +46,18 @@
     ]
   },
   "include": [
-    "./**/*.ts",
-    "./**/*.d.ts",
-    "./**/*.tsx",
-    "./**/*.vue"
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "src/types/**/*.ts",
+    "src/types/**/*.d.ts",
+    "build/**/*.ts",
+    "build/**/*.d.ts",
+    "vites/**/*.ts",
+    "vites/**/*.d.ts",
+    "mock/**/*.ts",
+    "vite.config.ts"
   ],
   "exclude": [
     "node_modules",

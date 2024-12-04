@@ -87,7 +87,7 @@
 </template>
 
 <script setup lang="ts">
-import IconLoad from "@/assets/icons/empty.svg";
+import IconLoad from "@/assets/svg-icon/empty.svg";
 import { useRouter } from "vue-router";
 import { useThemeStore } from "@/store";
 import { PropType } from "vue";

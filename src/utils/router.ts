@@ -1,4 +1,4 @@
-import { LayoutComponentType, PageRoute } from "@/typings/route";
+import { LayoutComponentType, PageRoute } from "@/types/route";
 
 /**
  * 静态pageRoute转换为路由

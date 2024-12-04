@@ -5,7 +5,7 @@ defineOptions({
 </script>
 
 <template>
-  <icon-local-logo/>
+  <SvgIcon local-icon="logo"/>
 </template>
 
 <style scoped></style>

@@ -1,4 +1,4 @@
-import { PageRoute } from "@/typings/route";
+import { PageRoute } from "@/types/route";
 import { defineStore } from "pinia";
 import { constantRoutes } from "@/router/common";
 import { SecureStorage } from "@/store/plugins";

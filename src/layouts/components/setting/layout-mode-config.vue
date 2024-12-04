@@ -7,6 +7,10 @@ defineOptions({
 });
 
 const themeStore = useThemeStore();
+
+const handleModeChange = (val: string) => {
+  themeStore.setLayoutMode(val);
+};
 </script>
 
 <template>
@@ -15,20 +19,24 @@ const themeStore = useThemeStore();
     <n-grid x-gap="24" y-gap="24" :cols="2">
       <n-grid-item>
         <base-hover-tip text="基本布局" :hover-style="false">
-          <icon-local-layout-base
-              class="p-4px border-2px hover:border-primary rounded-6px text-100px"
-              :class="[themeStore.layout.mode === 'base' ? 'border-primary' : 'border-transparent']"
-              @click="themeStore.setLayoutMode('base')"
-          />
+          <div @click="handleModeChange('base')">
+            <SvgIcon
+                local-icon="layout-base"
+                class="p-4px border-2px hover:border-primary rounded-6px text-100px"
+                :class="[themeStore.layout.mode === 'base' ? 'border-primary' : 'border-transparent']"
+            />
+          </div>
         </base-hover-tip>
       </n-grid-item>
       <n-grid-item>
         <base-hover-tip text="分离式卡片布局" :hover-style="false">
-          <icon-local-layout-card
-              class="p-4px border-2px hover:border-primary rounded-6px text-100px"
-              :class="[themeStore.layout.mode === 'card' ? 'border-primary' : 'border-transparent']"
-              @click="themeStore.setLayoutMode('card')"
-          />
+          <div @click="handleModeChange('card')">
+            <SvgIcon
+                local-icon="layout-card"
+                class="p-4px border-2px hover:border-primary rounded-6px text-100px"
+                :class="[themeStore.layout.mode === 'card' ? 'border-primary' : 'border-transparent']"
+            />
+          </div>
         </base-hover-tip>
       </n-grid-item>
       <n-grid-item span="2" v-if="themeStore.layout.mode === 'card'">
