@@ -7,26 +7,26 @@ import { RouterEnum } from '@/enums/RouterEnum';
 NProgress.configure({ showSpinner: false });
 const whiteList: string[] = [RouterEnum.LOGIN, RouterEnum.REGISTER]
 
-export function getPageTitle(pageTitle: string | undefined) {
+export const getPageTitle = (pageTitle: string): string => {
   const title = import.meta.env.VITE_APP_TITLE;
   if (pageTitle) {
     // 拼接每个路由页面的名称显示在浏览器
     return `${ pageTitle } - ${ title }`
   }
-  return `${ title }`
-}
+  return title
+};
 
-export async function createRouterGuard(router: Router) {
+export const createRouterGuard = async (router: Router) => {
   router.beforeEach(async (to, from, next) => {
     NProgress.start();
     //@ts-ignore
     window.$loadingBar?.start();
-    document.title = getPageTitle(to.meta.title);
+    document.title = getPageTitle(to.meta.title as string);
 
     const authStore = useAuthStore();
     const routeStore = useRouteStore();
 
-    if (authStore.isLogin) {
+    if (authStore.token) {
       if (to.path === RouterEnum.LOGIN) {
         return next({ path: RouterEnum.INDEX });
       } else if (whiteList.includes(to.path as string)) {
@@ -69,7 +69,7 @@ export async function createRouterGuard(router: Router) {
   });
 
   router.afterEach((to) => {
-    document.title = getPageTitle(to.meta.title);
+    document.title = getPageTitle(to.meta.title as string);
     NProgress.done();
     //@ts-ignore
     window.$loadingBar?.finish();
@@ -81,4 +81,4 @@ export async function createRouterGuard(router: Router) {
     //@ts-ignore
     window.$loadingBar?.finish();
   })
-}
+};

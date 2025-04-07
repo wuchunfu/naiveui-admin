@@ -1,17 +1,4 @@
-<template>
-  <div
-      class="flex-center nowrap-hidden text-primary transition-all"
-      :style="{height:`${props.height}px`}"
-  >
-    <SvgIcon local-icon="logo" class="text-32px" :class="{'mr-2': !props.collapsed}"/>
-    <h2 v-show="!props.collapsed" class="text-xl font-semibold">
-      {{ VITE_APP_TITLE }}
-    </h2>
-  </div>
-</template>
-
 <script setup lang="ts">
-
 defineOptions({
   name: 'Logo'
 });
@@ -29,6 +16,18 @@ const props = defineProps({
 
 const { VITE_APP_TITLE } = import.meta.env;
 </script>
+
+<template>
+  <div
+    class="flex-center nowrap-hidden text-primary transition-all"
+    :style="{height:`${props.height}px`}"
+  >
+    <SvgIcon local-icon="logo" class="text-32px" :class="{'mr-2': !props.collapsed}"/>
+    <h2 v-show="!props.collapsed" class="text-xl font-semibold">
+      {{ VITE_APP_TITLE }}
+    </h2>
+  </div>
+</template>
 
 <style scoped lang="scss">
 </style>

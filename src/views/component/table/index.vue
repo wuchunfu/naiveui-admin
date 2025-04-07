@@ -1,29 +1,7 @@
-<template>
-  <div class="flex-col h-full gap-12px">
-    <n-card title="" size="small">
-      <n-collapse>
-        <n-collapse-item title="搜索条件">
-          <div>可以</div>
-        </n-collapse-item>
-      </n-collapse>
-    </n-card>
-    <n-card class="flex-1 overflow-hidden" title="数据" size="small">
-      <NDataTable :columns="columns"
-                  :data="pageState.tableData"
-                  size="small"
-                  :scroll-x="962"
-                  flex-height
-                  :loading="pageState.loading"
-                  class="h-full"
-      ></NDataTable>
-    </n-card>   
-  </div>
-</template>
 <script lang="ts" setup>
-import BaseTable from "@/components/basic/table/index.vue";
-import {onMounted, reactive, ref} from "vue";
-import {BaseFormItemProps} from "@/components/basic/form/index";
-import {ITableColumn} from "@/components/basic/table/index";
+import { onMounted, reactive, ref } from "vue";
+import type { DataTableColumns } from "naive-ui";
+import { BaseFormItemProps } from "@/components/basic/form/index";
 
 const pageInfo = reactive({
   path: "/system/role/menu",
@@ -34,19 +12,25 @@ const pageState = reactive({
   isUpdate: false,
   editData: null,
   loading: false,
-  tableData: [],
+  tableData: [] as any[],
 })
 const formRef = ref()
 const formData = reactive({})
 const formFiledList: Array<BaseFormItemProps> = [
-  {field: 'roleId', label: '角色id', filedType: 'string', isSearch: false, required: true},
-  {field: 'menuId', label: '菜单ID', filedType: 'string', isSearch: false, required: true},
+  { field: 'roleId', label: '角色id', filedType: 'string', isSearch: false, required: true },
+  { field: 'menuId', label: '菜单ID', filedType: 'string', isSearch: false, required: true },
 ]
 
-const columns = [
-  {key: 'roleId', title: '角色id', type: 'string'},
-  {key: 'menuId', title: '菜单ID', type: 'string'},
-]
+const columns: DataTableColumns = [
+  {
+    key: "roleId" as const, // 确保 key 是常量字符串
+    title: "角色id"
+  },
+  {
+    key: "menuId" as const, // 确保 key 是常量字符串
+    title: "菜单ID"
+  }
+];
 
 /**
  * 获取数据
@@ -58,8 +42,8 @@ async function onGetData(params?: any) {
   pageState.tableData = []
   for (let i = 0; i < 20; i++) {
     pageState.tableData.push({
-      roleId: `${i}`,
-      menuId: `${i}`,
+      roleId: `${ i }`,
+      menuId: `${ i }`,
     })
   }
   pageState.loading = false
@@ -98,3 +82,29 @@ onMounted(() => {
   onGetData()
 })
 </script>
+
+<template>
+  <div class="flex-col h-full gap-12px">
+    <n-card title="" size="small">
+      <n-collapse>
+        <n-collapse-item title="搜索条件">
+          <div>可以</div>
+        </n-collapse-item>
+      </n-collapse>
+    </n-card>
+    <n-card class="flex-1 overflow-hidden" title="数据" size="small">
+      <NDataTable
+        :columns="columns"
+        :data="pageState.tableData"
+        size="small"
+        :scroll-x="962"
+        flex-height
+        :loading="pageState.loading"
+        class="h-full"
+      />
+    </n-card>
+  </div>
+</template>
+
+<style scoped lang="scss">
+</style>

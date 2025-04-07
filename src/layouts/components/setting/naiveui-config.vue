@@ -13,11 +13,12 @@ const themeStore = useThemeStore();
   <div class="flex items-center justify-between">
     <p class="text-16px ">全局圆角</p>
     <n-input-number
-        class="w-120px text-center"
-        v-model:value="themeStore.naive.borderRadius"
-        :min="0"
+      class="w-120px text-center"
+      v-model:value="themeStore.naive.borderRadius"
+      :min="0"
     />
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>

@@ -8,7 +8,7 @@ import { useTable, useTableOperate } from '@/hooks/table';
 import { $t } from '@/locales';
 import { yesOrNoRecord } from '@/constants/common';
 import { enableStatusRecord, menuTypeRecord } from '@/constants/business';
-import SvgIcon from '@/components/custom/svg-icon.vue';
+import SvgIcon from '@/components/common/svg-icon.vue';
 import MenuOperateModal, { type OperateType } from './modules/menu-operate-modal.vue';
 
 const appStore = useAppStore();
@@ -19,7 +19,7 @@ const wrapperRef = ref<HTMLElement | null>(null);
 
 const { columns, columnChecks, data, loading, pagination, getData, getDataByPage } = useTable({
   apiFn: fetchGetMenuList,
-  columns: () => [
+  columns: (): any => [
     {
       type: 'selection',
       align: 'center',
@@ -35,8 +35,8 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
       title: $t('page.manage.menu.menuType'),
       align: 'center',
       width: 80,
-      render: row => {
-        const tagMap: Record<Api.SystemManage.MenuType, NaiveUI.ThemeColor> = {
+      render: (row: any) => {
+        const tagMap: Record<CommonType.MenuType, NaiveUI.ThemeColor> = {
           1: 'default',
           2: 'primary'
         };
@@ -51,7 +51,7 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
       title: $t('page.manage.menu.menuName'),
       align: 'center',
       minWidth: 120,
-      render: row => {
+      render: (row: any) => {
         const { i18nKey, menuName } = row;
 
         const label = i18nKey ? $t(i18nKey) : menuName;
@@ -64,15 +64,15 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
       title: $t('page.manage.menu.icon'),
       align: 'center',
       width: 60,
-      render: row => {
+      render: (row: any) => {
         const icon = row.iconType === '1' ? row.icon : undefined;
 
         const localIcon = row.iconType === '2' ? row.icon : undefined;
 
         return (
-            <div class="flex-center">
-              <SvgIcon icon={ icon } localIcon={ localIcon } class="text-icon"/>
-            </div>
+          <div class="flex-center">
+            <SvgIcon icon={ icon } local-icon={ localIcon } class="text-icon"/>
+          </div>
         );
       }
     },
@@ -93,12 +93,12 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
       title: $t('page.manage.menu.menuStatus'),
       align: 'center',
       width: 80,
-      render: row => {
+      render: (row: any) => {
         if (row.status === null) {
           return null;
         }
 
-        const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
+        const tagMap: Record<CommonType.EnableStatus, NaiveUI.ThemeColor> = {
           1: 'success',
           2: 'warning'
         };
@@ -113,7 +113,7 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
       title: $t('page.manage.menu.hideInMenu'),
       align: 'center',
       width: 80,
-      render: row => {
+      render: (row: any) => {
         const hide: CommonType.YesOrNo = row.hideInMenu ? 'Y' : 'N';
 
         const tagMap: Record<CommonType.YesOrNo, NaiveUI.ThemeColor> = {
@@ -143,33 +143,33 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
       title: $t('common.operate'),
       align: 'center',
       width: 230,
-      render: row => (
-          <div class="flex-center justify-end gap-8px">
-            { row.menuType === '1' && (
-                <NButton type="primary" ghost size="small" onClick={ () => handleAddChildMenu(row) }>
-                  { $t('page.manage.menu.addChildMenu') }
-                </NButton>
-            ) }
-            <NButton type="primary" ghost size="small" onClick={ () => handleEdit(row) }>
-              { $t('common.edit') }
+      render: (row: any) => (
+        <div class="flex-center justify-end gap-8px">
+          { row.menuType === '1' && (
+            <NButton type="primary" ghost size="small" onClick={ () => handleAddChildMenu(row) }>
+              { $t('page.manage.menu.addChildMenu') }
             </NButton>
-            <NPopconfirm onPositiveClick={ () => handleDelete(row.id) }>
-              { {
-                default: () => $t('common.confirmDelete'),
-                trigger: () => (
-                    <NButton type="error" ghost size="small">
-                      { $t('common.delete') }
-                    </NButton>
-                )
-              } }
-            </NPopconfirm>
-          </div>
+          ) }
+          <NButton type="primary" ghost size="small" onClick={ () => handleEdit(row) }>
+            { $t('common.edit') }
+          </NButton>
+          <NPopconfirm onPositiveClick={ () => handleDelete(row.id) }>
+            { {
+              default: () => $t('common.confirmDelete'),
+              trigger: () => (
+                <NButton type="error" ghost size="small">
+                  { $t('common.delete') }
+                </NButton>
+              )
+            } }
+          </NPopconfirm>
+        </div>
       )
     }
   ]
 });
 
-const { checkedRowKeys, onBatchDeleted, onDeleted } = useTableOperate(data, getData);
+const { checkedRowKeys, onBatchDeleted, onDeleted } = useTableOperate(data as any, getData);
 
 const operateType = ref<OperateType>('add');
 
@@ -227,47 +227,48 @@ init();
 
 <template>
   <div
-      ref="wrapperRef"
-      class="flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto"
+    ref="wrapperRef"
+    class="flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto"
   >
     <NCard
-        :title="$t('page.manage.menu.title')"
-        :bordered="false"
-        size="small"
-        class="sm:flex-1-hidden card-wrapper"
+      :title="$t('page.manage.menu.title')"
+      :bordered="false"
+      size="small"
+      class="sm:flex-1-hidden card-wrapper"
     >
       <template #header-extra>
         <TableHeaderOperation
-            v-model:columns="columnChecks"
-            :disabled-delete="checkedRowKeys.length === 0"
-            :loading="loading"
-            @add="handleAdd"
-            @delete="handleBatchDelete"
-            @refresh="getData"
+          v-model:columns="columnChecks"
+          :disabled-delete="checkedRowKeys.length === 0"
+          :loading="loading"
+          @add="handleAdd"
+          @delete="handleBatchDelete"
+          @refresh="getData"
         />
       </template>
       <NDataTable
-          v-model:checked-row-keys="checkedRowKeys"
-          :columns="columns"
-          :data="data"
-          size="small"
-          :flex-height="!appStore.isMobile"
-          :scroll-x="1088"
-          :loading="loading"
-          :row-key="row => row.id"
-          remote
-          :pagination="pagination"
-          class="sm:h-full"
+        v-model:checked-row-keys="checkedRowKeys"
+        :columns="columns"
+        :data="data"
+        size="small"
+        :flex-height="!appStore.isMobile"
+        :scroll-x="1088"
+        :loading="loading"
+        :row-key="row => row.id"
+        remote
+        :pagination="pagination"
+        class="sm:h-full"
       />
       <MenuOperateModal
-          v-model:visible="visible"
-          :operate-type="operateType"
-          :row-data="editingData"
-          :all-pages="allPages"
-          @submitted="getDataByPage"
+        v-model:visible="visible"
+        :operate-type="operateType"
+        :row-data="editingData"
+        :all-pages="allPages"
+        @submitted="getDataByPage"
       />
     </NCard>
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>

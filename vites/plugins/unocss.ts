@@ -4,7 +4,7 @@ import UnoCss from '@unocss/vite';
 import presetIcons from '@unocss/preset-icons';
 import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders';
 
-export function setupUnocss(viteEnv: Env.ImportMeta) {
+export const setupUnocss = (viteEnv: Env.ImportMeta) => {
   const { VITE_ICON_PREFIX, VITE_ICON_LOCAL_PREFIX, VITE_ICON_LOCAL_PATH } = viteEnv;
 
   const srcPath = path.resolve(process.cwd(), 'src');
@@ -31,4 +31,4 @@ export function setupUnocss(viteEnv: Env.ImportMeta) {
       })
     ]
   });
-}
+};

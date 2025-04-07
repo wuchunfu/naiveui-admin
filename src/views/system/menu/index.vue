@@ -1,34 +1,6 @@
-<template>
-  <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <eg-tree-table
-        :loading="pageState.loading"
-        :get-data="onGetData"
-        :search-form-items="formFiledList"
-        :data="tableData"
-        :columns="columns"
-        is-select
-        title="菜单管理"
-        desc="系统的菜单管理"
-        @add="onAdd"
-        @edit="onEdit"
-        :row-action="rowAction"
-        @delete="onDelete"
-    />
-
-    <MenuDrawer
-        v-model:show="pageState.drawerOpen"
-        :is-update="pageState.isUpdate"
-        :data="pageState.editData"
-        @success="onGetData"
-        :form-items="formFiledList"
-    />
-  </div>
-</template>
-
 <script setup lang="tsx">
 import { BaseFormItemProps } from "@/components/basic/form/index";
 import { ITableColumn } from "@/components/basic/table/index";
-import { groupDynamicMenu } from "@/utils";
 import MenuDrawer from "@/views/system/menu/menu-drawer.vue";
 import { NButton } from 'naive-ui';
 import { computed, reactive, Ref, ref } from "vue";
@@ -150,28 +122,28 @@ const columns: Array<ITableColumn> = [
 
 const rowAction = (row: any, rowIndex: number) => {
   return (
-      <NButton
-          type="primary"
-          ghost
-          size="small"
-          onClick={ () => {
-            pageState.drawerOpen = true
-            pageState.isUpdate = false
-            pageState.editData = {
-              parentId: row.id,
-              order: row.order,
-              open: row.isHide,
-              permissions: row.permissions,
-            }
-            if (row.menuType === MenuEnum.CATEGORY) {
-              pageState.editData.menuType = MenuEnum.MENU
-            } else if (row.menuType === MenuEnum.MENU) {
-              pageState.editData.menuType = MenuEnum.BUTTON
-            }
-          } }
-      >
-        添加
-      </NButton>
+    <NButton
+      type="primary"
+      ghost
+      size="small"
+      onClick={ () => {
+        pageState.drawerOpen = true
+        pageState.isUpdate = false
+        pageState.editData = {
+          parentId: row.id,
+          order: row.order,
+          open: row.isHide,
+          permissions: row.permissions,
+        }
+        if (row.menuType === MenuEnum.CATEGORY) {
+          pageState.editData.menuType = MenuEnum.MENU
+        } else if (row.menuType === MenuEnum.MENU) {
+          pageState.editData.menuType = MenuEnum.BUTTON
+        }
+      } }
+    >
+      添加
+    </NButton>
   )
 }
 
@@ -187,7 +159,7 @@ function onEdit(row: any) {
 }
 
 async function onDelete(row: any) {
-  const { error } = await deleteSystemMenu(row.id)
+  const { error }: any = await deleteSystemMenu(row.id)
   if (!error) {
     await onGetData()
   }
@@ -442,7 +414,7 @@ async function onGetData(params?: any) {
   //     "isHide": false
   //   }
   // ]
-  
+
   const data = [
     {
       "createTime": "2023-12-20 14:47:18",
@@ -458,9 +430,7 @@ async function onGetData(params?: any) {
       "menuType": "MENU",
       "updateTime": "2023-12-20 14:47:18",
       "isHide": false,
-      "children": [
-
-      ]
+      "children": []
     },
     {
       "createTime": "2023-12-19 14:38:13",
@@ -491,9 +461,7 @@ async function onGetData(params?: any) {
           "menuType": "MENU",
           "updateTime": "2023-12-20 15:09:53",
           "isHide": false,
-          "children": [
-
-          ]
+          "children": []
         },
         {
           "createTime": "2023-12-20 14:46:27",
@@ -509,9 +477,7 @@ async function onGetData(params?: any) {
           "menuType": "MENU",
           "updateTime": "2023-12-20 14:46:27",
           "isHide": false,
-          "children": [
-
-          ]
+          "children": []
         },
         {
           "icon": "line-md:list-3-filled",
@@ -526,9 +492,7 @@ async function onGetData(params?: any) {
           "menuType": "MENU",
           "updateTime": "2023-12-20 14:57:03",
           "isHide": false,
-          "children": [
-
-          ]
+          "children": []
         }
       ]
     },
@@ -561,9 +525,7 @@ async function onGetData(params?: any) {
           "menuType": "MENU",
           "updateTime": "2023-12-25 17:58:44",
           "isHide": false,
-          "children": [
-
-          ]
+          "children": []
         },
         {
           "createTime": "2023-12-25 17:59:39",
@@ -579,9 +541,7 @@ async function onGetData(params?: any) {
           "menuType": "MENU",
           "updateTime": "2023-12-25 17:59:39",
           "isHide": false,
-          "children": [
-
-          ]
+          "children": []
         },
         {
           "createTime": "2023-12-25 18:00:20",
@@ -597,9 +557,7 @@ async function onGetData(params?: any) {
           "menuType": "MENU",
           "updateTime": "2023-12-25 18:00:20",
           "isHide": false,
-          "children": [
-
-          ]
+          "children": []
         }
       ]
     },
@@ -632,9 +590,7 @@ async function onGetData(params?: any) {
           "menuType": "MENU",
           "updateTime": "2023-12-25 10:45:06",
           "isHide": false,
-          "children": [
-
-          ]
+          "children": []
         }
       ]
     },
@@ -667,9 +623,7 @@ async function onGetData(params?: any) {
           "menuType": "MENU",
           "updateTime": "2023-12-25 18:02:34",
           "isHide": false,
-          "children": [
-
-          ]
+          "children": []
         },
         {
           "createTime": "2023-12-25 18:03:05",
@@ -685,9 +639,7 @@ async function onGetData(params?: any) {
           "menuType": "MENU",
           "updateTime": "2023-12-25 18:03:05",
           "isHide": false,
-          "children": [
-
-          ]
+          "children": []
         },
         {
           "createTime": "2023-12-25 18:03:28",
@@ -703,9 +655,7 @@ async function onGetData(params?: any) {
           "menuType": "MENU",
           "updateTime": "2023-12-25 18:03:28",
           "isHide": false,
-          "children": [
-
-          ]
+          "children": []
         }
       ]
     },
@@ -723,9 +673,7 @@ async function onGetData(params?: any) {
       "menuType": "MENU",
       "updateTime": "2023-12-25 18:04:18",
       "isHide": false,
-      "children": [
-
-      ]
+      "children": []
     }
   ]
 
@@ -735,4 +683,32 @@ async function onGetData(params?: any) {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<template>
+  <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
+    <eg-tree-table
+      :loading="pageState.loading"
+      :get-data="onGetData"
+      :search-form-items="formFiledList"
+      :data="tableData"
+      :columns="columns"
+      is-select
+      title="菜单管理"
+      desc="系统的菜单管理"
+      @add="onAdd"
+      @edit="onEdit"
+      :row-action="rowAction"
+      @delete="onDelete"
+    />
+
+    <MenuDrawer
+      v-model:show="pageState.drawerOpen"
+      :is-update="pageState.isUpdate"
+      :data="pageState.editData"
+      @success="onGetData"
+      :form-items="formFiledList"
+    />
+  </div>
+</template>
+
+<style scoped lang="scss">
+</style>

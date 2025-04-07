@@ -1,33 +1,12 @@
-<template>
-  <n-menu
-      ref="menuRef"
-      :value="activeKey"
-      :expanded-keys="expandedKeys"
-      accordion
-      :mode="props.mode"
-      :collapsed="props.collapsed"
-      :options="menuOptions"
-      :collapsed-icon-size="24"
-      :collapsed-width="props.collapsedWidth"
-      :indent="24"
-      :inverted="props.inverted"
-      @update:value="clickMenuItem"
-      @update:expanded-keys="menuExpanded"
-      show-trigger
-  />
-</template>
-
 <script setup lang="ts">
-import { computed, PropType, ref, watch } from "vue";
 import { useRouteStore } from "@/store";
-import { useRoute, useRouter } from "vue-router";
 import { System } from "@/types/system";
 
 defineOptions({
   name: 'Menu'
 });
 
-const menuOptions = useRouteStore().menus as any
+const menuOptions = useRouteStore().menus as System.GlobalMenu[]
 const menuRef = ref()
 const route = useRoute();
 const router = useRouter();
@@ -86,13 +65,32 @@ const getActiveKeyPathsOfMenus = (activeKey: string, menus: System.GlobalMenu[])
 };
 
 watch(() => route.name, () => {
-      expandedKeys.value = getActiveKeyPathsOfMenus(activeKey.value, menuOptions);
-    }, {
-      immediate: true
-    }
+    expandedKeys.value = getActiveKeyPathsOfMenus(activeKey.value, menuOptions);
+  }, {
+    immediate: true
+  }
 );
 // updateMenu()
 </script>
+
+<template>
+  <n-menu
+    ref="menuRef"
+    :value="activeKey"
+    :expanded-keys="expandedKeys"
+    accordion
+    :mode="props.mode"
+    :collapsed="props.collapsed"
+    :options="menuOptions"
+    :collapsed-icon-size="24"
+    :collapsed-width="props.collapsedWidth"
+    :indent="24"
+    :inverted="props.inverted"
+    @update:value="clickMenuItem"
+    @update:expanded-keys="menuExpanded"
+    show-trigger
+  />
+</template>
 
 <style scoped lang="scss">
 </style>

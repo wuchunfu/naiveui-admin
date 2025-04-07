@@ -23,14 +23,6 @@ declare namespace Api {
     /** common search params of table */
     type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'>;
 
-    /**
-     * enable status
-     *
-     * - "1": enabled
-     * - "2": disabled
-     */
-    type EnableStatus = '1' | '2';
-
     /** common record */
     type CommonRecord<T = any> = {
       /** record id */
@@ -96,14 +88,6 @@ declare namespace Api {
     /** all role */
     type AllRole = Pick<Role, 'id' | 'roleName' | 'roleCode'>;
 
-    /**
-     * user gender
-     *
-     * - "1": "male"
-     * - "2": "female"
-     */
-    type UserGender = '1' | '2';
-
     /** user */
     type User = Common.CommonRecord<{
       /** user name */
@@ -129,14 +113,6 @@ declare namespace Api {
     /** user list */
     type UserList = Common.PaginatingQueryRecord<User>;
 
-    /**
-     * menu type
-     *
-     * - "1": directory
-     * - "2": menu
-     */
-    type MenuType = '1' | '2';
-
     type MenuButton = {
       /**
        * button code
@@ -147,14 +123,6 @@ declare namespace Api {
       /** button description */
       desc: string;
     };
-
-    /**
-     * icon type
-     *
-     * - "1": iconify icon
-     * - "2": local icon
-     */
-    type IconType = '1' | '2';
 
     type MenuPropsOfRoute = Pick<
       import('vue-router').RouteMeta,
@@ -205,51 +173,4 @@ declare namespace Api {
       children?: MenuTree[];
     };
   }
-}
-
-/**
- * 登录返回的数据
- */
-interface TokenVO {
-  tokenValue: string;
-  tokenName: string;
-  isLogin: boolean;
-  loginId: string;
-  loginType: string;
-  tokenTimeout: number;
-  sessionTimeout: number;
-  tokenSessionTimeout: number;
-  tokenActivityTimeout: number;
-  loginDevice: string;
-  tag: string;
-}
-
-interface IMenus {
-  id: string;
-  parentId: string;
-  menuType: string;
-  menuName: string;
-  routeName: string;
-  routePath: string;
-  component: string;
-  query: string;
-  params: string;
-  icon: string;
-  sort: number;
-  permissions: string;
-  isCache: boolean;
-  isIframe: boolean;
-  isHide: boolean;
-  children: IMenus[];
-}
-
-interface AdminUserVO {
-  id: string;
-  phone: string;
-  username: string;
-  sex: string;
-  avatar: string;
-  menus: IMenus[]
-
-  [x: string]: any;
 }

@@ -1,69 +1,3 @@
-<template>
-  <n-layout has-sider class="bg-layout layout">
-    <n-layout-sider
-        class="layout-side "
-        :collapsed-width="theme.sidebar.collapsedWidth"
-        :collapsed="theme.sidebar.collapsed"
-        collapse-mode="width"
-        :width="theme.sidebar.width"
-        :inverted="theme.sidebar.inverted"
-        :native-scrollbar="false"
-        :show-trigger="theme.sidebar.showCollapse&&'bar'"
-        @collapse="theme.setSidebarCollapsed(true)"
-        @expand="theme.setSidebarCollapsed(false)"
-    >
-      <page-logo
-          class="logo"
-          :collapsed="theme.sidebar.collapsed"
-          :height="theme.menu.headerHeight"
-      />
-      <page-menu
-          class="menu"
-          :style="{top:`${theme.menu.headerHeight}px`}"
-          :collapsed="theme.sidebar.collapsed"
-          :collapsed-width="theme.sidebar.collapsedWidth"
-          :inverted="theme.sidebar.inverted"
-      />
-    </n-layout-sider>
-    <n-layout style="height: 100vh" class="bg-layout">
-      <n-layout-header
-          class="bg-layout " :class="[isCard&&'px-12px']"
-          :style="{height: theme.menu.tabsHeight + theme.menu.headerHeight+'px'}"
-      >
-        <div class="flex-col">
-          <page-header
-              :collapsed="theme.sidebar.collapsed"
-              :show-collapsed="theme.menu.showCollapse"
-              :height="theme.menu.headerHeight"
-              :show-breadcrumb="theme.menu.showBreadcrumb"
-              :show-breadcrumb-icon="theme.menu.showBreadcrumbIcon"
-              @update:collapsed="theme.setSidebarCollapsed"
-          />
-          <page-tabs
-              :height="theme.menu.tabsHeight"
-              :is-card="isCard"
-              v-if="theme.menu.showTabs"
-          />
-        </div>
-      </n-layout-header>
-      <n-layout
-          position="absolute"
-          :native-scrollbar="false"
-          :style="[pageContentStyle]"
-          class="bg-layout"
-      >
-        <page-content/>
-      </n-layout>
-      <PageFooter
-          v-if="theme.footer.show"
-          :is-card="isCard"
-          :height="theme.footer.height"
-          :round="theme.layout.round"
-      />
-    </n-layout>
-  </n-layout>
-</template>
-
 <script setup lang="ts">
 import { useThemeStore } from "@/store";
 import PageLogo from "@/layouts/components/logo/index.vue";
@@ -72,7 +6,6 @@ import PageMenu from "@/layouts/components/menu/index.vue";
 import PageContent from "@/layouts/components/content/index.vue";
 import PageTabs from "@/layouts/components/tabs/index.vue";
 import PageFooter from "@/layouts/components/footer/index.vue";
-import { computed } from "vue";
 
 defineOptions({
   name: "BaseLayout"
@@ -83,8 +16,8 @@ const theme = useThemeStore();
 const isCard = computed(() => theme.layout.mode === "card");
 
 const pageContentStyle = computed(() => {
-  const padding = 12;
-  let top = theme.menu.showTabs ? theme.menu.headerHeight + theme.menu.tabsHeight : theme.menu.headerHeight;
+  const padding = 56;
+  let top = theme.menu.headerHeight;
   const bottom = theme.footer.show ? theme.footer.height : 0;
   const style = {} as any;
   if (!isCard.value) {
@@ -95,6 +28,73 @@ const pageContentStyle = computed(() => {
   return style;
 });
 </script>
+
+<template>
+  <n-layout has-sider class="bg-layout layout">
+    <n-layout-sider
+      class="layout-side "
+      :collapsed-width="theme.sidebar.collapsedWidth"
+      :collapsed="theme.sidebar.collapsed"
+      collapse-mode="width"
+      :width="theme.sidebar.width"
+      :inverted="theme.sidebar.inverted"
+      :native-scrollbar="false"
+      :show-trigger="theme.sidebar.showCollapse&&'bar'"
+      @collapse="theme.setSidebarCollapsed(true)"
+      @expand="theme.setSidebarCollapsed(false)"
+    >
+      <page-logo
+        class="logo"
+        :collapsed="theme.sidebar.collapsed"
+        :height="theme.menu.headerHeight"
+      />
+      <page-menu
+        class="menu"
+        :style="{top:`${theme.menu.headerHeight}px`}"
+        :collapsed="theme.sidebar.collapsed"
+        :collapsed-width="theme.sidebar.collapsedWidth"
+        :inverted="theme.sidebar.inverted"
+      />
+    </n-layout-sider>
+    <n-layout style="height: 100vh" class="bg-layout">
+      <n-layout-header
+        class="bg-layout"
+        :class="[isCard&&'px-12px']"
+        :style="{height: theme.menu.tabsHeight + theme.menu.headerHeight+'px'}"
+      >
+        <div class="flex-col">
+          <page-header
+            :collapsed="theme.sidebar.collapsed"
+            :show-collapsed="theme.menu.showCollapse"
+            :height="theme.menu.headerHeight"
+            :show-breadcrumb="theme.menu.showBreadcrumb"
+            :show-breadcrumb-icon="theme.menu.showBreadcrumbIcon"
+            @update:collapsed="theme.setSidebarCollapsed"
+          />
+          <page-tabs
+            :height="theme.menu.tabsHeight"
+            :is-card="isCard"
+            v-if="theme.menu.showTabs"
+          />
+        </div>
+      </n-layout-header>
+      <n-layout
+        position="absolute"
+        :native-scrollbar="false"
+        :style="[pageContentStyle]"
+        class="bg-layout"
+      >
+        <page-content/>
+      </n-layout>
+      <PageFooter
+        v-if="theme.footer.show"
+        :is-card="isCard"
+        :height="theme.footer.height"
+        :round="theme.layout.round"
+      />
+    </n-layout>
+  </n-layout>
+</template>
 
 <style>
 .n-scrollbar > .n-scrollbar-container > .n-scrollbar-content {

@@ -1,103 +1,3 @@
-<template>
-  <div
-      class="tabs-view flex w-full items-center"
-      :class="[props.isCard ? '' : 'px-12px bg-#fff dark:bg-dark']"
-      :style="{height: `${props.height}px`, ...getHeaderStyle}"
-  >
-    <div class="tabs-view-main">
-      <div
-          ref="tabsWrap"
-          class="tabs-line"
-          :class="{'tabs-line-scroll--ed': state.scrollable}"
-      >
-        <div
-            class="tabs-line-left bg-#f8f8f8 text-#666 dark:text-#999"
-            @click="scrollLeft"
-            v-if="state.scrollable"
-        >
-          <SvgIcon icon="line-md:chevron-left"/>
-        </div>
-        <div
-            class="tabs-line-right bg-#f8f8f8 text-#666 dark:text-#999"
-            @click="scrollRight"
-            v-if="state.scrollable"
-        >
-          <SvgIcon icon="line-md:chevron-right"/>
-        </div>
-        <div class="tabs-line-scroll" ref="tabsScroll">
-          <!--     拖动     -->
-          <Draggable
-              :list="tabsList"
-              animation="300"
-              item-key="fullPath"
-              class="flex"
-          >
-            <template #item="{element}">
-              <div
-                  class="tabs-line-scroll-item"
-                  :id="`tab_item_${element.name}`"
-                  @click.stop="onTagClick(element)"
-                  @contextmenu="onContextMenu($event, element)"
-              >
-                <div class="flex-1 flex items-center justify-center">
-                  <n-button
-                      size="small"
-                      class=""
-                      :type="state.activeTag === element.name ? 'primary' : 'default'"
-                      ghost
-                      :class="[props.isCard && 'bg-container']"
-                  >
-                    <SvgIcon
-                        :icon="element.meta.icon"
-                        :class="{'text-primary': state.activeTag === element.name}"
-                        class="mr-6px"
-                    />
-                    {{ element.meta.title }}
-                    <SvgIcon
-                        icon="line-md:close"
-                        class="text-14px ml-6px mr--6px p-1px rounded-50 hover:bg-primary_3 hover:text-#fff"
-                        v-if="isClose(element)"
-                        @click.stop="onCloseTabs(element)"
-                    />
-                  </n-button>
-                </div>
-              </div>
-            </template>
-          </Draggable>
-        </div>
-      </div>
-      <!--      <div class="tabs-close bg-#fff dark:bg-#333 text-#666 dark:text-#999">-->
-      <!--        <n-dropdown trigger="hover" :options="tabsMenuOptions" placement="bottom-end"  @select="onDropdownClick">-->
-      <!--          <icon-solar:alt-arrow-down-linear/>-->
-      <!--        </n-dropdown>-->
-      <!--      </div>-->
-      <n-dropdown
-          trigger="hover"
-          :options="tabsMenuOptions"
-          placement="bottom-end"
-          @select="onDropdownClick"
-      >
-        <div class="bg-#f8f8f8 dark:bg-#333 text-#666 dark:text-#999 rounded-4px ml-12px">
-          <n-button class="w-32px h-32px" size="small" :bordered="false">
-            <template #icon>
-              <SvgIcon icon="solar:alt-arrow-down-linear"/>
-            </template>
-          </n-button>
-        </div>
-      </n-dropdown>
-      <n-dropdown
-          :show="state.showDropdown"
-          :x="state.dropdownX"
-          :y="state.dropdownY"
-          :options="tabsMenuOptions"
-          @select="onDropdownClick"
-          placement="bottom-start"
-          @clickoutside="state.showDropdown=false"
-      />
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import Draggable from 'vuedraggable'
 import { computed, nextTick, onMounted, reactive, ref, watch } from "vue";
@@ -126,7 +26,7 @@ const tabsStore = useTabsStore()
 const tabsList = computed(() => tabsStore.tabList);
 const router = useRouter();
 const route = useRoute();
-const tabsScroll = ref(null);
+const tabsScroll = ref<HTMLElement | null>(null);
 const tabsWrap = ref(null);
 
 const state = reactive({
@@ -135,11 +35,11 @@ const state = reactive({
   dropdownY: 0,
   showDropdown: false,
   scrollable: false,
-  currentTab: null,
+  currentTab: null as PageRoute | null,
 })
 
 const pageIsAffix = ref(false);
-const activePage = ref(null);
+const activePage = ref<PageRoute | null>(null);
 
 // 展开操作key
 // 刷新 关闭 关闭其他 关闭所有
@@ -186,6 +86,8 @@ const tabsMenuOptions = computed(() => {
   let isRefresh = false
   if (activePage.value) {
     isRefresh = activePage.value?.name != route.name
+  } else {
+    isRefresh = true;
   }
   return [
     {
@@ -233,8 +135,8 @@ const getHeaderStyle = computed(() => {
 const onContextMenu = (e: MouseEvent, tab: PageRoute) => {
   e.preventDefault();
   e.stopPropagation();
-  activePage.value = tab
-  pageIsAffix.value = tab.meta?.affix
+  activePage.value = tab;
+  pageIsAffix.value = (tab.meta?.affix ?? false);
   state.showDropdown = false;
   state.currentTab = tab;
   nextTick().then(() => {
@@ -279,7 +181,7 @@ const closeAllTabs = () => {
   updateTabsScroll()
 }
 
-async function updateTabsScroll(autoScroll = false) {
+const updateTabsScroll = async (autoScroll = false) => {
   await nextTick()
   if (!tabsScroll.value) {
     return
@@ -307,13 +209,16 @@ async function updateTabsScroll(autoScroll = false) {
  * @param value 滚动的距离
  * @param amplitude 振幅
  */
-function scrollTo(value: number, amplitude: number) {
+const scrollTo = (value: number, amplitude: number) => {
+  if (!tabsScroll.value) {
+    return;
+  }
   const currentScroll = tabsScroll.value.scrollLeft
   const scrollWidth =
-      (amplitude > 0 && currentScroll + amplitude >= value) ||
-      (amplitude < 0 && currentScroll + amplitude <= value)
-          ? value
-          : currentScroll + amplitude;
+    (amplitude > 0 && currentScroll + amplitude >= value) ||
+    (amplitude < 0 && currentScroll + amplitude <= value)
+      ? value
+      : currentScroll + amplitude;
   tabsScroll.value && tabsScroll.value.scrollTo(scrollWidth, 0);
   if (scrollWidth === value) return;
   return window.requestAnimationFrame(() => scrollTo(value, amplitude));
@@ -322,7 +227,10 @@ function scrollTo(value: number, amplitude: number) {
 /**
  * 向左滚动
  */
-function scrollLeft() {
+const scrollLeft = () => {
+  if (!tabsScroll.value) {
+    return;
+  }
   const containerWidth = tabsScroll.value.offsetWidth;
   const currentScroll = tabsScroll.value.scrollLeft;
   if (!currentScroll) {
@@ -335,29 +243,32 @@ function scrollLeft() {
 /**
  * 向右滚动
  */
-function scrollRight() {
+const scrollRight = () => {
+  if (!tabsScroll.value) {
+    return;
+  }
   const containerWidth = tabsScroll.value.offsetWidth;
   const navWidth = tabsScroll.value.scrollWidth;
   const currentScroll = tabsScroll.value.scrollLeft;
   if (navWidth - currentScroll <= containerWidth) return;
   const scrollLeft = navWidth - currentScroll > containerWidth * 2
-      ? currentScroll + containerWidth
-      : navWidth - containerWidth;
+    ? currentScroll + containerWidth
+    : navWidth - containerWidth;
   scrollTo(scrollLeft, (scrollLeft - currentScroll) / 20);
 }
 
 /**
  * 监听窗口变化
  */
-function onResize() {
+const onResize = () => {
   updateTabsScroll(true)
 }
 
-function onElementResize() {
+const onElementResize = () => {
   elementResizeDetectorMaker().listenTo(tabsScroll.value, onResize);
 }
 
-function onScroll(e) {
+const onScroll = (e) => {
 }
 
 watch(() => route.name, (to) => {
@@ -370,6 +281,106 @@ onMounted(() => {
 
 window.addEventListener('scroll', onScroll, true)
 </script>
+
+<template>
+  <div
+    class="tabs-view flex w-full items-center"
+    :class="[props.isCard ? '' : 'px-12px bg-#fff dark:bg-dark']"
+    :style="{height: `${props.height}px`, ...getHeaderStyle}"
+  >
+    <div class="tabs-view-main">
+      <div
+        ref="tabsWrap"
+        class="tabs-line"
+        :class="{'tabs-line-scroll--ed': state.scrollable}"
+      >
+        <div
+          class="tabs-line-left bg-#f8f8f8 text-#666 dark:text-#999"
+          @click="scrollLeft"
+          v-if="state.scrollable"
+        >
+          <SvgIcon icon="line-md:chevron-left"/>
+        </div>
+        <div
+          class="tabs-line-right bg-#f8f8f8 text-#666 dark:text-#999"
+          @click="scrollRight"
+          v-if="state.scrollable"
+        >
+          <SvgIcon icon="line-md:chevron-right"/>
+        </div>
+        <div class="tabs-line-scroll" ref="tabsScroll">
+          <!--     拖动     -->
+          <Draggable
+            :list="tabsList"
+            animation="300"
+            item-key="fullPath"
+            class="flex"
+          >
+            <template #item="{element}">
+              <div
+                class="tabs-line-scroll-item"
+                :id="`tab_item_${element.name}`"
+                @click.stop="onTagClick(element)"
+                @contextmenu="onContextMenu($event, element)"
+              >
+                <div class="flex-1 flex items-center justify-center">
+                  <n-button
+                    size="small"
+                    class=""
+                    :type="state.activeTag === element.name ? 'primary' : 'default'"
+                    ghost
+                    :class="[props.isCard && 'bg-container']"
+                  >
+                    <SvgIcon
+                      :icon="element.meta.icon"
+                      :class="{'text-primary': state.activeTag === element.name}"
+                      class="mr-6px"
+                    />
+                    {{ element.meta.title }}
+                    <SvgIcon
+                      icon="line-md:close"
+                      class="text-14px ml-6px mr--6px p-1px rounded-50 hover:bg-primary_3 hover:text-#fff"
+                      v-if="isClose(element)"
+                      @click.stop="onCloseTabs(element)"
+                    />
+                  </n-button>
+                </div>
+              </div>
+            </template>
+          </Draggable>
+        </div>
+      </div>
+      <!--      <div class="tabs-close bg-#fff dark:bg-#333 text-#666 dark:text-#999">-->
+      <!--        <n-dropdown trigger="hover" :options="tabsMenuOptions" placement="bottom-end"  @select="onDropdownClick">-->
+      <!--          <icon-solar:alt-arrow-down-linear/>-->
+      <!--        </n-dropdown>-->
+      <!--      </div>-->
+      <n-dropdown
+        trigger="hover"
+        :options="tabsMenuOptions"
+        placement="bottom-end"
+        @select="onDropdownClick"
+      >
+        <div class="bg-#f8f8f8 dark:bg-#333 text-#666 dark:text-#999 rounded-4px ml-12px">
+          <n-button class="w-32px h-32px" size="small" :bordered="false">
+            <template #icon>
+              <SvgIcon icon="solar:alt-arrow-down-linear"/>
+            </template>
+          </n-button>
+        </div>
+      </n-dropdown>
+      <n-dropdown
+        :show="state.showDropdown"
+        :x="state.dropdownX"
+        :y="state.dropdownY"
+        :options="tabsMenuOptions"
+        @select="onDropdownClick"
+        placement="bottom-start"
+        @clickoutside="state.showDropdown=false"
+      />
+    </div>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .tabs-view {

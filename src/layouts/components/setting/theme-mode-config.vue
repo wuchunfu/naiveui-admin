@@ -9,8 +9,8 @@ defineOptions({
 
 const themeStore = useThemeStore();
 
-function handleSegmentChange(value: string | number) {
-  themeStore.setThemeMode(value as UnionKey.ThemeScheme);
+const handleSegmentChange = (value: string | number) => {
+  themeStore.setThemeMode(value as CommonType.ThemeMode);
 }
 </script>
 
@@ -28,4 +28,5 @@ function handleSegmentChange(value: string | number) {
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>

@@ -1,23 +1,3 @@
-<template>
-  <n-space vertical>
-    <n-card :bordered="false" title="测试1" class=" w-full">
-    </n-card>
-    <n-card :bordered="false" title="" class=" w-full">
-      <BaseForm
-          :items="formFiledList"
-          :grid-props="{cols:2}"
-          inline
-          v-model:data="data"
-      />
-
-    </n-card>
-    <n-card :bordered="false" title="" class=" w-full">
-      <BaseForm :items="formFiledList" :grid-props="{cols:1}" :data="data"/>
-    </n-card>
-    <n-card>
-    </n-card>
-  </n-space>
-</template>
 
 <script setup lang="ts">
 import BaseForm from "@/components/basic/form/index.vue"
@@ -45,6 +25,26 @@ const data = reactive({
 })
 </script>
 
-<style scoped>
+<template>
+  <n-space vertical>
+    <n-card :bordered="false" title="测试1" class=" w-full">
+    </n-card>
+    <n-card :bordered="false" title="" class=" w-full">
+      <BaseForm
+          :items="formFiledList"
+          :grid-props="{cols:2}"
+          inline
+          v-model:data="data"
+      />
 
+    </n-card>
+    <n-card :bordered="false" title="" class=" w-full">
+      <BaseForm :items="formFiledList" :grid-props="{cols:1}" :data="data"/>
+    </n-card>
+    <n-card>
+    </n-card>
+  </n-space>
+</template>
+
+<style scoped lang="scss">
 </style>

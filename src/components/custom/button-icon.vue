@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { PopoverPlacement } from 'naive-ui';
-import { twMerge } from 'tailwind-merge';
+import { PopoverPlacement } from 'naive-ui';
 
 defineOptions({
   name: 'ButtonIcon',
@@ -27,17 +26,33 @@ const props = withDefaults(defineProps<Props>(), {
   zIndex: 98
 });
 
-const DEFAULT_CLASS = 'h-[36px] text-icon';
+const buttonClass = computed(() => {
+  const defaultClass = 'h-[36px] text-icon'
+  if (props.class === '' || props.class === undefined) {
+    return defaultClass
+  } else {
+    return `${ defaultClass } ${ props.class }`
+  }
+})
 </script>
 
 <template>
-  <NTooltip :placement="tooltipPlacement" :z-index="zIndex" :disabled="!tooltipContent">
+  <NTooltip
+    :placement="tooltipPlacement"
+    :z-index="zIndex"
+    :disabled="!tooltipContent"
+  >
     <template #trigger>
-      <NButton quaternary :class="twMerge(DEFAULT_CLASS, props.class)" v-bind="$attrs">
+      <NButton
+        quaternary
+        :class="buttonClass"
+        v-bind="$attrs"
+      >
         <div class="flex-center gap-8px">
-          <slot>
-            <SvgIcon :icon="icon" />
+          <slot name="icon">
+            <SvgIcon :icon="icon"/>
           </slot>
+          <slot name="content"></slot>
         </div>
       </NButton>
     </template>
@@ -45,4 +60,5 @@ const DEFAULT_CLASS = 'h-[36px] text-icon';
   </NTooltip>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+</style>

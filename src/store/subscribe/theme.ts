@@ -1,6 +1,5 @@
 import { systemThemeRef, useThemeStore } from "@/store";
 import { getColorPalettes, getRgbOfColor } from "@/utils";
-import { watch } from "vue";
 
 export const subscribeThemeStore = () => {
   // 缓存处理
@@ -10,7 +9,7 @@ export const subscribeThemeStore = () => {
   } else if (themeStore.mode === 'light') {
     document.documentElement.classList.remove('dark');
   } else {
-    if (systemThemeRef.value === "dark") {
+    if (systemThemeRef.value === 'dark') {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
@@ -25,8 +24,10 @@ export const subscribeThemeStore = () => {
     } else if (state.mode === 'light') {
       document.documentElement.classList.remove('dark');
     } else {
-      if (systemThemeRef.value === "dark") {
-        document.documentElement.classList.add('dark');
+      if (systemThemeRef.value === 'dark') {
+        document.documentElement.classList.remove('dark');
+      } else if (systemThemeRef.value === 'light') {
+        document.documentElement.classList.remove('dark');
       } else {
         document.documentElement.classList.remove('dark');
       }
@@ -39,8 +40,8 @@ export const subscribeThemeStore = () => {
 // 监听系统主题
 watch(systemThemeRef, (value) => {
   const themeStore = useThemeStore();
-  if (value === "dark") {
-    if (themeStore.mode === "dark" || themeStore.mode === "auto") {
+  if (value === 'dark') {
+    if (themeStore.mode === 'dark' || themeStore.mode === 'auto') {
       document.documentElement.classList.add('dark');
     }
   } else {
@@ -48,7 +49,7 @@ watch(systemThemeRef, (value) => {
   }
 })
 
-function addThemeColorToCss(color: string) {
+const addThemeColorToCss = (color: string) => {
   const styleCss: any[] = []
   const { r, g, b } = getRgbOfColor(color);
   styleCss.push(`--primary-color: ${ r },${ g },${ b }`);
@@ -58,4 +59,4 @@ function addThemeColorToCss(color: string) {
     styleCss.push(`--primary-color-${ index }: ${ R },${ G },${ B }`);
   })
   document.documentElement.style.cssText += styleCss.join(';');
-}
+};

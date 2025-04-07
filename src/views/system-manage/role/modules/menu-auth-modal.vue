@@ -41,7 +41,7 @@ async function updateHome(val: string) {
 const pages = shallowRef<string[]>([]);
 
 async function getPages() {
-  const { error, data } = await fetchGetAllPages();
+  const { error, data }: any = await fetchGetAllPages();
 
   if (!error) {
     pages.value = data;
@@ -60,7 +60,7 @@ const pageSelectOptions = computed(() => {
 const tree = shallowRef<Api.SystemManage.MenuTree[]>([]);
 
 async function getTree() {
-  const { error, data } = await fetchGetMenuTree();
+  const { error, data }: any = await fetchGetMenuTree();
 
   if (!error) {
     tree.value = data;
@@ -143,4 +143,5 @@ watch(visible, val => {
   </NModal>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>

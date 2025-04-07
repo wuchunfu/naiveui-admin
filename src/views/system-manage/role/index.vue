@@ -31,7 +31,7 @@ const {
     roleName: null,
     roleCode: null
   },
-  columns: () => [
+  columns: (): any => [
     {
       type: 'selection',
       align: 'center',
@@ -65,12 +65,12 @@ const {
       title: $t('page.manage.role.roleStatus'),
       align: 'center',
       width: 100,
-      render: row => {
+      render: (row: any) => {
         if (row.status === null) {
           return null;
         }
 
-        const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
+        const tagMap: Record<CommonType.EnableStatus, NaiveUI.ThemeColor> = {
           1: 'success',
           2: 'warning'
         };
@@ -85,7 +85,7 @@ const {
       title: $t('common.operate'),
       align: 'center',
       width: 130,
-      render: row => (
+      render: (row: any) => (
           <div class="flex-center gap-8px">
             <NButton type="primary" ghost size="small" onClick={ () => edit(row.id) }>
               { $t('common.edit') }
@@ -116,7 +116,7 @@ const {
   onBatchDeleted,
   onDeleted
   // closeDrawer
-} = useTableOperate(data, getData);
+}: any = useTableOperate(data as any, getData);
 
 async function handleBatchDelete() {
   // request
@@ -183,4 +183,5 @@ function edit(id: number) {
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>

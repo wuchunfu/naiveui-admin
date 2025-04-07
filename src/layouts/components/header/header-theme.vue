@@ -1,11 +1,3 @@
-<template>
-  <ThemeSchemaSwitch
-      :theme-schema="theme.mode"
-      :show-tooltip="true"
-      @switch="toggleThemeScheme"
-  />
-</template>
-
 <script setup lang="ts">
 import { useThemeStore } from "@/store";
 
@@ -13,18 +5,16 @@ defineOptions({
   name: 'HeaderTheme'
 });
 
-const theme = useThemeStore()
-
-const toggleThemeScheme = () => {
-  const mode = theme.mode;
-  if (mode === 'light') {
-    theme.setThemeMode('dark')
-  } else if (mode === 'dark') {
-    theme.setThemeMode('auto')
-  } else {
-    theme.setThemeMode('light')
-  }
-}
+const themeStore = useThemeStore()
 </script>
 
-<style scoped lang="scss"></style>
+<template>
+  <ThemeSchemaSwitch
+    :theme-schema="themeStore.mode"
+    :show-tooltip="true"
+    @switch="themeStore.toggleThemeMode"
+  />
+</template>
+
+<style scoped lang="scss">
+</style>

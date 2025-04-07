@@ -1,31 +1,3 @@
-<template>
-  <n-drawer
-      v-model:show="drawerOpen"
-      @after-enter="onAfterEnter"
-      @after-leave="onAfterLeave"
-      :width="props.width"
-  >
-    <n-drawer-content :title="`${title}菜单`">
-      <BaseForm
-          label-width="140px"
-          label-align="right"
-          ref="formRef"
-          v-model:data="formData"
-          :items="filedItems"
-          :grid-props="{cols:1}"
-          @submit="onSubmit"
-      >
-        <template #parentId="{model,field,item}">
-          <menu-select
-              v-model:value="model[field]"
-              :options="item?.filedOptions?.options"
-          />
-        </template>
-      </BaseForm>
-    </n-drawer-content>
-  </n-drawer>
-</template>
-
 <script setup lang="ts">
 import { computed, PropType, Ref, ref } from "vue";
 import BaseForm from "@/components/basic/form/index.vue"
@@ -145,7 +117,7 @@ async function onSubmit(valid: boolean) {
       formData.value.permissions = ""
       formData.value.isIframe = false
     }
-    const { data, error } = await saveOrUpdateSystemMenu(formData.value, props.isUpdate)
+    const { data, error }: any = await saveOrUpdateSystemMenu(formData.value, props.isUpdate)
     if (!error) {
       // @ts-ignore
       window.$message.success(`${ props.isUpdate ? "编辑" : "新增" }${ data?.name ?? '' }成功`)
@@ -177,4 +149,33 @@ function onAfterLeave() {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<template>
+  <n-drawer
+    v-model:show="drawerOpen"
+    @after-enter="onAfterEnter"
+    @after-leave="onAfterLeave"
+    :width="props.width"
+  >
+    <n-drawer-content :title="`${title}菜单`">
+      <BaseForm
+        label-width="140px"
+        label-align="right"
+        ref="formRef"
+        v-model:data="formData"
+        :items="filedItems"
+        :grid-props="{cols:1}"
+        @submit="onSubmit"
+      >
+        <template #parentId="{model,field,item}">
+          <menu-select
+            v-model:value="model[field]"
+            :options="item?.filedOptions?.options"
+          />
+        </template>
+      </BaseForm>
+    </n-drawer-content>
+  </n-drawer>
+</template>
+
+<style scoped lang="scss">
+</style>

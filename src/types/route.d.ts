@@ -52,11 +52,31 @@ interface IRouteMeta extends RouteMeta {
   hide?: boolean;
   /** 外链链接 */
   href?: string;
-  permissions?: string;
+  /** 路由权限 */
+  permissions?: string[];
   /** 路由顺序，可用于菜单的排序 */
   sort?: number;
   /** 当前路由需要选中的菜单项(用于跳转至不在左侧菜单显示的路由且需要高亮某个菜单的情况) */
   activeMenu?: string;
   /** 是否固定在tab卡不可关闭  */
   affix?: boolean;
+}
+
+interface IMenus {
+  id: string;
+  parentId: string;
+  menuType: string;
+  menuName: string;
+  routeName: string;
+  routePath: string;
+  component: string;
+  query: string;
+  params: string;
+  icon: string;
+  sort: number;
+  permissions?: string[];
+  isCache: boolean;
+  isIframe: boolean;
+  isHide: boolean;
+  children: IMenus[];
 }

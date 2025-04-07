@@ -1,30 +1,3 @@
-<template>
-  <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <BaseTable
-        :columns="columns"
-        :loading="pageState.loading"
-        :data="pageState.tableData"
-        :get-data="onGetData"
-        :search-form-items="formFiledList"
-        is-add-action
-        is-select
-        title="系统用户"
-        desc="系统用户"
-        @add="onAdd"
-        @edit="onEdit"
-        @delete="onDelete"
-    />
-
-    <UserDrawer
-        v-model:show="pageState.drawerOpen"
-        :is-update="pageState.isUpdate"
-        :data="pageState.editData"
-        @success="onGetData"
-        :form-items="formFiledList"
-    />
-  </div>
-</template>
-
 <script setup lang="ts">
 import { BaseFormItemProps } from "@/components/basic/form/index";
 import { ITableColumn } from "@/components/basic/table/index";
@@ -297,7 +270,7 @@ async function onEdit(row: any) {
  * @param row
  */
 async function onDelete(row: any) {
-  const { error } = await deleteSystemUser(row.id)
+  const { error }: any = await deleteSystemUser(row.id)
   if (!error) {
     // @ts-ignore
     window.$message.success(`删除${ row?.username ?? '' }成功`)
@@ -306,4 +279,32 @@ async function onDelete(row: any) {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<template>
+  <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
+    <BaseTable
+      :columns="columns"
+      :loading="pageState.loading"
+      :data="pageState.tableData"
+      :get-data="onGetData"
+      :search-form-items="formFiledList"
+      is-add-action
+      is-select
+      title="系统用户"
+      desc="系统用户"
+      @add="onAdd"
+      @edit="onEdit"
+      @delete="onDelete"
+    />
+
+    <UserDrawer
+      v-model:show="pageState.drawerOpen"
+      :is-update="pageState.isUpdate"
+      :data="pageState.editData"
+      @success="onGetData"
+      :form-items="formFiledList"
+    />
+  </div>
+</template>
+
+<style scoped lang="scss">
+</style>

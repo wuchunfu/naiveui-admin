@@ -38,13 +38,14 @@ const animationOptions = [
   <div class="flex items-center justify-between mt-12px">
     <p class="text-16px ">动画效果</p>
     <n-select
-        class="w-120px text-center"
-        v-model:value="themeStore.animation.type"
-        :options="animationOptions"
-        placeholder="选择效果"
+      class="w-120px text-center"
+      v-model:value="themeStore.animation.type"
+      :options="animationOptions"
+      placeholder="选择效果"
     >
     </n-select>
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>

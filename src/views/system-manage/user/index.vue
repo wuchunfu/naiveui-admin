@@ -35,35 +35,35 @@ const {
     userPhone: null,
     userEmail: null
   },
-  columns: () => [
+  columns: (): any => [
     {
       type: 'selection',
       align: 'center',
       width: 48
     },
     {
-      key: 'index',
+      key: "index",
       title: $t('common.index'),
       align: 'center',
       width: 64
     },
     {
-      key: 'userName',
+      key: "userName",
       title: $t('page.manage.user.userName'),
       align: 'center',
       minWidth: 100
     },
     {
-      key: 'userGender',
+      key: "userGender",
       title: $t('page.manage.user.userGender'),
       align: 'center',
       width: 100,
-      render: row => {
+      render: (row: any) => {
         if (row.userGender === null) {
           return null;
         }
 
-        const tagMap: Record<Api.SystemManage.UserGender, NaiveUI.ThemeColor> = {
+        const tagMap: Record<CommonType.UserGender, NaiveUI.ThemeColor> = {
           1: 'primary',
           2: 'error'
         };
@@ -74,7 +74,7 @@ const {
       }
     },
     {
-      key: 'nickName',
+      key: "nickName",
       title: $t('page.manage.user.nickName'),
       align: 'center',
       minWidth: 100
@@ -86,22 +86,22 @@ const {
       width: 120
     },
     {
-      key: 'userEmail',
+      key: "userEmail",
       title: $t('page.manage.user.userEmail'),
       align: 'center',
       minWidth: 200
     },
     {
-      key: 'status',
+      key: "status",
       title: $t('page.manage.user.userStatus'),
       align: 'center',
       width: 100,
-      render: row => {
+      render: (row: any) => {
         if (row.status === null) {
           return null;
         }
 
-        const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
+        const tagMap: Record<CommonType.EnableStatus, NaiveUI.ThemeColor> = {
           1: 'success',
           2: 'warning'
         };
@@ -112,26 +112,26 @@ const {
       }
     },
     {
-      key: 'operate',
+      key: "operate",
       title: $t('common.operate'),
       align: 'center',
       width: 130,
-      render: row => (
-          <div class="flex-center gap-8px">
-            <NButton type="primary" ghost size="small" onClick={ () => edit(row.id) }>
-              { $t('common.edit') }
-            </NButton>
-            <NPopconfirm onPositiveClick={ () => handleDelete(row.id) }>
-              { {
-                default: () => $t('common.confirmDelete'),
-                trigger: () => (
-                    <NButton type="error" ghost size="small">
-                      { $t('common.delete') }
-                    </NButton>
-                )
-              } }
-            </NPopconfirm>
-          </div>
+      render: (row: any) => (
+        <div class="flex-center gap-8px">
+          <NButton type="primary" ghost size="small" onClick={ () => edit(row.id) }>
+            { $t('common.edit') }
+          </NButton>
+          <NPopconfirm onPositiveClick={ () => handleDelete(row.id) }>
+            { {
+              default: () => $t('common.confirmDelete'),
+              trigger: () => (
+                <NButton type="error" ghost size="small">
+                  { $t('common.delete') }
+                </NButton>
+              )
+            } }
+          </NPopconfirm>
+        </div>
       )
     }
   ]
@@ -147,7 +147,7 @@ const {
   onBatchDeleted,
   onDeleted
   // closeDrawer
-} = useTableOperate(data, getData);
+}: any = useTableOperate(data as any, getData);
 
 async function handleBatchDelete() {
   // request
@@ -171,47 +171,48 @@ function edit(id: number) {
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
     <UserSearch
-        v-model:model="searchParams"
-        @reset="resetSearchParams"
-        @search="getDataByPage"
+      v-model:model="searchParams"
+      @reset="resetSearchParams"
+      @search="getDataByPage"
     />
     <NCard
-        :title="$t('page.manage.user.title')"
-        :bordered="false"
-        size="small"
-        class="sm:flex-1-hidden card-wrapper"
+      :title="$t('page.manage.user.title')"
+      :bordered="false"
+      size="small"
+      class="sm:flex-1-hidden card-wrapper"
     >
       <template #header-extra>
         <TableHeaderOperation
-            v-model:columns="columnChecks"
-            :disabled-delete="checkedRowKeys.length === 0"
-            :loading="loading"
-            @add="handleAdd"
-            @delete="handleBatchDelete"
-            @refresh="getData"
+          v-model:columns="columnChecks"
+          :disabled-delete="checkedRowKeys.length === 0"
+          :loading="loading"
+          @add="handleAdd"
+          @delete="handleBatchDelete"
+          @refresh="getData"
         />
       </template>
       <NDataTable
-          v-model:checked-row-keys="checkedRowKeys"
-          :columns="columns"
-          :data="data"
-          size="small"
-          :flex-height="!appStore.isMobile"
-          :scroll-x="962"
-          :loading="loading"
-          remote
-          :row-key="row => row.id"
-          :pagination="mobilePagination"
-          class="sm:h-full"
+        v-model:checked-row-keys="checkedRowKeys"
+        :columns="columns"
+        :data="data"
+        size="small"
+        :flex-height="!appStore.isMobile"
+        :scroll-x="962"
+        :loading="loading"
+        remote
+        :row-key="row => row.id"
+        :pagination="mobilePagination"
+        class="sm:h-full"
       />
       <UserOperateDrawer
-          v-model:visible="drawerVisible"
-          :operate-type="operateType"
-          :row-data="editingData"
-          @submitted="getDataByPage"
+        v-model:visible="drawerVisible"
+        :operate-type="operateType"
+        :row-data="editingData"
+        @submitted="getDataByPage"
       />
     </NCard>
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>

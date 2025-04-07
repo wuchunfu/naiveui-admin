@@ -1,137 +1,3 @@
-<template>
-  <div ref="formBoxRef">
-    <n-form
-        v-bind="props"
-        ref="baseFormRef"
-        :model="data"
-        :rules="rules"
-        :inline="props.inline"
-    >
-      <n-grid v-bind="getGridProps">
-        <n-grid-item
-            v-bind="item.giProps"
-            v-for="item in props.items"
-            :key="item.field"
-        >
-          <n-form-item
-              :path="item.field"
-              :label="props.showLabel ? item.label : ''"
-          >
-            <!--标签名右侧温馨提示-->
-            <template v-if="item.labelMessage" #label>
-              <n-space align="center" :justify="props.labelAlign as any" size="small">
-                {{ item.label }}
-                <n-tooltip trigger="hover">
-                  <template #trigger>
-                    <icon-line-md:question-circle class="text-18px text-gray-400 cursor-pointer"/>
-                  </template>
-                  {{ item.labelMessage }}
-                </n-tooltip>
-              </n-space>
-            </template>
-            <!--判断插槽-->
-            <template v-if="item.slot">
-              <slot
-                  :name="item.slot"
-                  :model="props.data"
-                  :field="item.field"
-                  :item="item"
-                  :value="props.data[item.field]"
-              >
-              </slot>
-            </template>
-            <template v-else-if="item.filedType === 'number'">
-              <n-input-number
-                  v-model:value="props.data[item.field]"
-                  class="w-full"
-                  :placeholder="item.filedOptions?.placeholder ?? `请输入${item.label}`"
-                  v-bind="item.filedOptions"
-              />
-            </template>
-            <template v-else-if="item.filedType === 'switch'">
-              <n-switch
-                  v-model:value="props.data[item.field]"
-                  v-bind="item.filedOptions"
-                  :checked-value="true"
-                  :unchecked-value="false"
-              />
-            </template>
-            <template v-else-if="item.filedType === 'select'">
-              <n-select
-                  v-model:value="props.data[item.field]"
-                  :placeholder="item.filedOptions?.placeholder ?? `请选择${item.label}`"
-                  v-bind="item.filedOptions"
-              />
-            </template>
-            <template v-else-if="item.filedType === 'upload'"/>
-            <template v-else-if="['string','phone'].includes(item.filedType)">
-              <n-input
-                  v-model:value="props.data[item.field]"
-                  :placeholder="item.filedOptions?.placeholder ?? `请输入${item.label}`"
-                  v-bind="item.filedOptions"
-              />
-            </template>
-            <template v-else-if="['date','datetime'].includes(item.filedType)">
-              <n-date-picker
-                  class="w-full"
-                  v-model:formatted-value="props.data[item.field]"
-                  :type="item.filedType as any"
-                  :value-format="item?.filedType === 'date' ? 'yyyy-MM-dd':'yyyy-MM-dd HH:mm:ss'"
-                  :placeholder="item.filedOptions?.placeholder ?? `请选择${item.label}`"
-                  v-bind="item.filedOptions"
-              />
-            </template>
-          </n-form-item>
-        </n-grid-item>
-        <n-grid-item
-            v-if="showActionGroup"
-            :span="props.inline?'':'24'"
-            :suffix="props.inline"
-            #="{overflow}"
-        >
-          <n-space
-              align="center"
-              :justify="props.inline ? 'end' : 'center'"
-              :style="{ 'margin-left': `${!props.inline ? 12 : props.labelWidth}px`,'margin-bottom' : `${!overflow ? 24 : 0}px`}"
-          >
-            <slot name="actionGroup">
-              <n-button
-                  ghost
-                  v-bind="submitBtnOptions"
-                  @click="submit"
-              >
-                <template #icon>
-                  <icon-ic:round-search class="text-icon"/>
-                </template>
-                {{ props.submitText }}
-              </n-button>
-              <n-button v-bind="resetBtnOptions" @click="reset">
-                <template #icon>
-                  <icon-line-md:rotate-270 class='text-icon'/>
-                </template>
-                {{ props.resetText }}
-              </n-button>
-              <n-button
-                  v-if="isShowCollapse"
-                  type="primary"
-                  text
-                  icon-placement="right"
-                  @click="unfoldToggle"
-              >
-                <template #icon>
-                  <icon-line-md:chevron-left class="rotate-270" v-if="overflow"/>
-                  <icon-line-md:chevron-left class="rotate-90" v-else/>
-                </template>
-                {{ overflow ? '展开' : '收起' }}
-              </n-button>
-            </slot>
-          </n-space>
-        </n-grid-item>
-      </n-grid>
-    </n-form>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { BaseFormProps, generateRules } from "@/components/basic/form/index";
 import { computed, nextTick, onMounted, reactive, ref } from "vue";
@@ -276,4 +142,158 @@ onMounted(() => {
 })
 </script>
 
-<style scoped lang="scss"></style>
+<template>
+  <div ref="formBoxRef">
+    <n-form
+      v-bind="props"
+      ref="baseFormRef"
+      :model="data"
+      :rules="rules"
+      :inline="props.inline"
+    >
+      <n-grid v-bind="getGridProps">
+        <n-grid-item
+          v-bind="item.giProps"
+          v-for="item in props.items"
+          :key="item.field"
+        >
+          <n-form-item
+            :path="item.field"
+            :label="props.showLabel ? item.label : ''"
+          >
+            <!--标签名右侧温馨提示-->
+            <template v-if="item.labelMessage" #label>
+              <n-space align="center" :justify="props.labelAlign as any" size="small">
+                {{ item.label }}
+                <n-tooltip trigger="hover">
+                  <template #trigger>
+                    <span>
+                       <SvgIcon
+                         icon="line-md:question-circle"
+                         class="text-18px text-gray-400 cursor-pointer"
+                       />
+                    </span>
+                  </template>
+                  {{ item.labelMessage }}
+                </n-tooltip>
+              </n-space>
+            </template>
+            <!--判断插槽-->
+            <template v-if="item.slot">
+              <slot
+                :name="item.slot"
+                :model="props.data"
+                :field="item.field"
+                :item="item"
+                :value="props.data[item.field]"
+              >
+              </slot>
+            </template>
+            <template v-else-if="item.filedType === 'number'">
+              <n-input-number
+                v-model:value="props.data[item.field]"
+                class="w-full"
+                :placeholder="item.filedOptions?.placeholder ?? `请输入${item.label}`"
+                v-bind="item.filedOptions"
+              />
+            </template>
+            <template v-else-if="item.filedType === 'switch'">
+              <n-switch
+                v-model:value="props.data[item.field]"
+                v-bind="item.filedOptions"
+                :checked-value="true"
+                :unchecked-value="false"
+              />
+            </template>
+            <template v-else-if="item.filedType === 'select'">
+              <n-select
+                v-model:value="props.data[item.field]"
+                :placeholder="item.filedOptions?.placeholder ?? `请选择${item.label}`"
+                v-bind="item.filedOptions"
+              />
+            </template>
+            <template v-else-if="item.filedType === 'upload'"/>
+            <template v-else-if="['string','phone'].includes(item.filedType)">
+              <n-input
+                v-model:value="props.data[item.field]"
+                :placeholder="item.filedOptions?.placeholder ?? `请输入${item.label}`"
+                v-bind="item.filedOptions"
+              />
+            </template>
+            <template v-else-if="['date','datetime'].includes(item.filedType)">
+              <n-date-picker
+                class="w-full"
+                v-model:formatted-value="props.data[item.field]"
+                :type="item.filedType as any"
+                :value-format="item?.filedType === 'date' ? 'yyyy-MM-dd':'yyyy-MM-dd HH:mm:ss'"
+                :placeholder="item.filedOptions?.placeholder ?? `请选择${item.label}`"
+                v-bind="item.filedOptions"
+              />
+            </template>
+          </n-form-item>
+        </n-grid-item>
+        <n-grid-item
+          v-if="showActionGroup"
+          :span="props.inline?'':'24'"
+          :suffix="props.inline"
+          #="{overflow}"
+        >
+          <n-space
+            align="center"
+            :justify="props.inline ? 'end' : 'center'"
+            :style="{ 'margin-left': `${!props.inline ? 12 : props.labelWidth}px`,'margin-bottom' : `${!overflow ? 24 : 0}px`}"
+          >
+            <slot name="actionGroup">
+              <n-button
+                ghost
+                v-bind="submitBtnOptions"
+                @click="submit"
+              >
+                <template #icon>
+                  <SvgIcon
+                    icon="ic:round-search"
+                    class='text-icon'
+                  />
+                </template>
+                {{ props.submitText }}
+              </n-button>
+              <n-button v-bind="resetBtnOptions" @click="reset">
+                <template #icon>
+                  <SvgIcon
+                    icon="line-md:rotate-270"
+                    class='text-icon'
+                  />
+                </template>
+                {{ props.resetText }}
+              </n-button>
+              <n-button
+                v-if="isShowCollapse"
+                type="primary"
+                text
+                icon-placement="right"
+                @click="unfoldToggle"
+              >
+                <template #icon>
+                  <SvgIcon
+                    v-if="overflow"
+                    icon="line-md:chevron-left"
+                    class="rotate-270"
+                  />
+                  <SvgIcon
+                    v-else
+                    icon="line-md:chevron-left"
+                    class="rotate-90"
+                  />
+                </template>
+                {{ overflow ? '展开' : '收起' }}
+              </n-button>
+            </slot>
+          </n-space>
+        </n-grid-item>
+      </n-grid>
+    </n-form>
+  </div>
+</template>
+
+<style scoped lang="scss">
+</style>

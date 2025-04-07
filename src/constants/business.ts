@@ -1,29 +1,29 @@
-import { transformRecordToOption } from '@/utils/common';
+import { transformRecordToI18n, translateOptions } from '@/utils/common';
 
-export const enableStatusRecord: Record<Api.Common.EnableStatus, I18n.I18nKey> = {
+export const enableStatusRecord: Record<CommonType.EnableStatus, I18n.I18nKey> = {
   '1': 'page.manage.common.status.enable',
   '2': 'page.manage.common.status.disable'
 };
 
-export const enableStatusOptions = transformRecordToOption(enableStatusRecord);
+export const enableStatusOptions = transformRecordToI18n(enableStatusRecord);
 
-export const userGenderRecord: Record<Api.SystemManage.UserGender, I18n.I18nKey> = {
+export const userGenderRecord: Record<CommonType.UserGender, I18n.I18nKey> = {
   '1': 'page.manage.user.gender.male',
   '2': 'page.manage.user.gender.female'
 };
 
-export const userGenderOptions = transformRecordToOption(userGenderRecord);
+export const userGenderOptions = transformRecordToI18n(userGenderRecord);
 
-export const menuTypeRecord: Record<Api.SystemManage.MenuType, I18n.I18nKey> = {
+export const menuTypeRecord: Record<CommonType.MenuType, I18n.I18nKey> = {
   '1': 'page.manage.menu.type.directory',
   '2': 'page.manage.menu.type.menu'
 };
 
-export const menuTypeOptions = transformRecordToOption(menuTypeRecord);
+export const menuTypeOptions = transformRecordToI18n(menuTypeRecord);
 
-export const menuIconTypeRecord: Record<Api.SystemManage.IconType, I18n.I18nKey> = {
+export const menuIconTypeRecord: Record<CommonType.IconType, I18n.I18nKey> = {
   '1': 'page.manage.menu.iconType.iconify',
   '2': 'page.manage.menu.iconType.local'
 };
 
-export const menuIconTypeOptions = transformRecordToOption(menuIconTypeRecord);
+export const menuIconTypeOptions = transformRecordToI18n(menuIconTypeRecord);

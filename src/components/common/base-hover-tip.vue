@@ -1,22 +1,3 @@
-<template>
-  <n-tooltip :placement="placement" trigger="hover" v-if="text">
-    <template #trigger>
-      <div
-          class="flex-center h-full cursor-pointer"
-          :class="[props.hoverStyle?'dark:hover:bg-#333 hover:bg-#f6f6f6':'']"
-      >
-        <slot></slot>
-      </div>
-    </template>
-    <span>{{ props.text }}</span>
-  </n-tooltip>
-  <n-tooltip :placement="placement" trigger="hover" v-else>
-    <template #trigger>
-      <slot></slot>
-    </template>
-  </n-tooltip>
-</template>
-
 <script setup lang="ts">
 import { computed, PropType } from "vue";
 import { useThemeStore } from "@/store";
@@ -42,6 +23,25 @@ const contentClass = computed(() => {
   return `${ theme.mode === "dark" ? 'hover:bg-primary' : 'hover:bg-#f6f6f6' }`
 })
 </script>
+
+<template>
+  <n-tooltip :placement="placement" trigger="hover" v-if="text">
+    <template #trigger>
+      <div
+        class="flex-center h-full cursor-pointer"
+        :class="[props.hoverStyle?'dark:hover:bg-#333 hover:bg-#f6f6f6':'']"
+      >
+        <slot></slot>
+      </div>
+    </template>
+    <span>{{ props.text }}</span>
+  </n-tooltip>
+  <n-tooltip :placement="placement" trigger="hover" v-else>
+    <template #trigger>
+      <slot></slot>
+    </template>
+  </n-tooltip>
+</template>
 
 <style scoped lang="scss">
 </style>

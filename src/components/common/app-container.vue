@@ -1,13 +1,3 @@
-<template>
-  <div
-      :style="style"
-      class="wh-full flex-col"
-      :class="{'bg-#fff dark:bg-dark':!props.transparent}"
-  >
-    <slot></slot>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { computed } from "vue";
 import { useThemeStore } from "@/store";
@@ -45,6 +35,16 @@ const style = computed(() => {
   return style
 })
 </script>
+
+<template>
+  <div
+    :style="style"
+    class="wh-full flex-col"
+    :class="{'bg-#fff dark:bg-dark':!props.transparent}"
+  >
+    <slot></slot>
+  </div>
+</template>
 
 <style scoped lang="scss">
 </style>

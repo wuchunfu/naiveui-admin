@@ -214,6 +214,7 @@ const local: I18n.Schema = {
       common: {
         accountLogin: '账号登录',
         qrcodeLogin: '扫码登录',
+        wechatLogin: '微信登录',
         login: '登录',
         account: '账号',
         accountPlaceholder: '请输入账号',
@@ -252,6 +253,13 @@ const local: I18n.Schema = {
         reGetCode: '{time}秒后重新获取',
         sendCodeSuccess: '验证码发送成功',
         imageCodePlaceholder: '请输入图片验证码'
+      },
+      qrcodeLogin: {
+        title: '扫码登录'
+      },
+      wechatLogin: {
+        title: '微信扫码登录',
+        tips: '如已关注, 请回复 登录 获取验证码'
       },
       register: {
         title: '注册账号',

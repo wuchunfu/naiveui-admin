@@ -214,6 +214,7 @@ const local: I18n.Schema = {
       common: {
         accountLogin: 'Account Login',
         qrcodeLogin: 'Qrcode Login',
+        wechatLogin: 'Wechat Login',
         login: 'Login',
         account: 'Account',
         accountPlaceholder: 'Please enter account',
@@ -252,6 +253,13 @@ const local: I18n.Schema = {
         reGetCode: 'Reacquire after {time}s',
         sendCodeSuccess: 'Verification code sent successfully',
         imageCodePlaceholder: 'Please enter image verification code'
+      },
+      qrcodeLogin: {
+        title: 'Qrcode Login'
+      },
+      wechatLogin: {
+        title: 'Wechat Qrcode Login',
+        tips: 'If you have followed, please reply login get verification code'
       },
       register: {
         title: 'Register',

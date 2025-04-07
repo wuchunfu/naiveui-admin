@@ -18,10 +18,10 @@ const menuLayoutOptions = [
   <div class="flex items-center justify-between">
     <p class="text-16px">菜单布局</p>
     <n-select
-        class="w-120px text-center"
-        v-model:value="themeStore.menu.layout"
-        :options="menuLayoutOptions"
-        placeholder="选择布局"
+      class="w-120px text-center"
+      v-model:value="themeStore.menu.layout"
+      :options="menuLayoutOptions"
+      placeholder="选择布局"
     />
   </div>
   <template v-if="themeStore.menu.layout === 'base'">
@@ -37,9 +37,9 @@ const menuLayoutOptions = [
   <div class="flex items-center justify-between mt-12px">
     <p class="text-16px">头部高度</p>
     <n-input-number
-        class="w-120px text-center"
-        v-model:value="themeStore.menu.headerHeight"
-        :min="44"
+      class="w-120px text-center"
+      v-model:value="themeStore.menu.headerHeight"
+      :min="44"
     />
   </div>
   <div class="flex items-center justify-between mt-12px">
@@ -49,9 +49,9 @@ const menuLayoutOptions = [
   <div class="flex items-center justify-between mt-12px">
     <p class="text-16px">标签栏高度</p>
     <n-input-number
-        class="w-120px text-center"
-        v-model:value="themeStore.menu.tabsHeight"
-        :min="32"
+      class="w-120px text-center"
+      v-model:value="themeStore.menu.tabsHeight"
+      :min="32"
     />
   </div>
   <div class="flex items-center justify-between mt-12px">
@@ -60,4 +60,5 @@ const menuLayoutOptions = [
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>

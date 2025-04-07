@@ -1,5 +1,5 @@
+import type { RouteLocationRaw } from "vue-router"
 import { router as globalRouter } from "@/router"
-import { RouteLocationRaw, useRouter } from "vue-router";
 import { RouterEnum } from "@/enums/RouterEnum";
 
 export function usePageRouter(isSetup = true) {

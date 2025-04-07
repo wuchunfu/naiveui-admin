@@ -1,17 +1,4 @@
-<template>
-  <div class="flex-1 wh-full flex-col">
-    <iframe
-        :src="route.meta?.href as any"
-        class="flex-1 overflow-hidden box-border"
-        ref="iframeRef">
-    </iframe>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from "vue";
-import { useRoute } from "vue-router";
-
 defineOptions({
   name: 'IframeLayout'
 });
@@ -25,7 +12,7 @@ const state = reactive({
 
 const iframeRef = ref<HTMLIFrameElement | null>(null);
 
-function init() {
+const init = () => {
   if (!iframeRef.value) return;
   const _frame = iframeRef.value as any;
   if (_frame.attachEvent) {
@@ -37,7 +24,7 @@ function init() {
       state.loading = false;
     };
   }
-}
+};
 
 onMounted(() => {
   state.loading = true;
@@ -45,5 +32,15 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss" scoped>
+<template>
+  <div class="flex-1 wh-full flex-col">
+    <iframe
+      :src="route.meta?.href as any"
+      class="flex-1 overflow-hidden box-border"
+      ref="iframeRef">
+    </iframe>
+  </div>
+</template>
+
+<style scoped lang="scss">
 </style>

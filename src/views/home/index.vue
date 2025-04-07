@@ -1,9 +1,3 @@
-<template>
-  <app-container>
-    <h1>{{ $t('system.title') }}</h1>
-  </app-container>
-</template>
-
 <script setup lang="ts">
 import { $t } from '@/locales';
 
@@ -11,6 +5,12 @@ defineOptions({
   name: 'Home'
 });
 </script>
+
+<template>
+  <app-container>
+    <h1>{{ $t('system.title') }}</h1>
+  </app-container>
+</template>
 
 <style scoped lang="scss">
 </style>

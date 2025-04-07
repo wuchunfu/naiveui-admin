@@ -1,44 +1,8 @@
-<template>
-  <div class="page-header bg-#ffffff dark:bg-dark" :style="[getHeaderStyle]">
-    <div class="page-header-left" v-if="false">
-      <page-menu :mode="'horizontal'"/>
-    </div>
-    <n-space align="center" v-else>
-      <template v-if="theme.menu.layout === 'base'">
-        <MenuToggle
-            v-if="props.showCollapsed"
-            :collapsed="props.collapsed"
-            @click="handleCollapsed"
-        />
-        <!--   todo 可扩展   -->
-        <div class="h-full flex-center" v-else>
-          <!--        <n-button round secondary type="primary">常用</n-button>-->
-        </div>
-        <!--   面包屑   -->
-        <header-breadcrumb v-if="props.showBreadcrumb" :show-icon="props.showBreadcrumbIcon"/>
-      </template>
-      <header-app-title v-else/>
-    </n-space>
-    <div class="flex h-full">
-      <header-github/>
-      <LangSwitch
-          :lang="appStore.locale"
-          :lang-options="appStore.localeOptions"
-          @change-lang="appStore.changeLocale"
-      />
-      <header-theme/>
-      <header-theme-setting/>
-      <header-avatar/>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import PageMenu from "@/layouts/components/menu/index.vue";
 import HeaderBreadcrumb from "@/layouts/components/header/header-breadcrumb.vue";
 import HeaderAvatar from "@/layouts/components/header/header-avatar.vue";
 import HeaderTheme from "@/layouts/components/header/header-theme.vue";
-import { computed, PropType } from "vue";
 import { useThemeStore } from "@/store";
 import HeaderGithub from "@/layouts/components/header/header-github.vue";
 import HeaderThemeSetting from "@/layouts/components/header/header-theme-setting.vue";
@@ -93,6 +57,41 @@ const handleCollapsed = () => {
   emits('update:collapsed', !props.collapsed)
 }
 </script>
+
+<template>
+  <div class="page-header bg-#ffffff dark:bg-dark" :style="[getHeaderStyle]">
+    <div class="page-header-left" v-if="false">
+      <page-menu :mode="'horizontal'"/>
+    </div>
+    <n-space align="center" v-else>
+      <template v-if="theme.menu.layout === 'base'">
+        <MenuToggle
+          v-if="props.showCollapsed"
+          :collapsed="props.collapsed"
+          @click="handleCollapsed"
+        />
+        <!--   todo 可扩展   -->
+        <div class="h-full flex-center" v-else>
+          <!--        <n-button round secondary type="primary">常用</n-button>-->
+        </div>
+        <!--   面包屑   -->
+        <header-breadcrumb v-if="props.showBreadcrumb" :show-icon="props.showBreadcrumbIcon"/>
+      </template>
+      <header-app-title v-else/>
+    </n-space>
+    <div class="flex h-full">
+      <header-github/>
+      <LangSwitch
+        :lang="appStore.locale"
+        :lang-options="appStore.localeOptions"
+        @change-lang="appStore.changeLocale"
+      />
+      <header-theme/>
+      <header-theme-setting/>
+      <header-avatar/>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .page-header {

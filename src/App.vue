@@ -25,10 +25,10 @@ subscribeThemeStore()
 
 <template>
   <n-config-provider
-      :theme="themeStore.systemTheme"
-      :theme-overrides="themeStore.getNaiveThemeOverrides"
-      :locale="naiveLocale"
-      :date-locale="naiveDateLocale"
+    :theme="themeStore.systemTheme"
+    :theme-overrides="themeStore.getNaiveThemeOverrides"
+    :locale="naiveLocale"
+    :date-locale="naiveDateLocale"
   >
     <app-provider>
       <router-view/>
@@ -36,4 +36,5 @@ subscribeThemeStore()
   </n-config-provider>
 </template>
 
-<style lang="scss" scoped></style>
+<style scoped lang="scss">
+</style>

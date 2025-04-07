@@ -1,31 +1,3 @@
-<template>
-  <div class="flex items-center justify-between w-full mb-12px" ref="formRef">
-    <n-card
-        v-if="searchFormFields.length"
-        size="small"
-        :bordered="false"
-        class="caret-wrapper"
-    >
-      <n-collapse>
-        <n-collapse-item title="搜索" name="search">
-          <BaseForm
-              ref="formRef"
-              :data="data"
-              :items="searchFormFields"
-              inline
-              is-search
-              submit-text="搜索"
-              :grid-props="{cols: props.searchCols}"
-              @collapse="getTableHeight"
-              @submit="submit"
-              @reset="reset"
-          />
-        </n-collapse-item>
-      </n-collapse>
-    </n-card>
-  </div>
-</template>
-
 <script setup lang="ts">
 import BaseForm from "@/components/basic/form/index.vue";
 import { computed, onMounted, PropType, ref } from "vue";
@@ -101,4 +73,33 @@ defineExpose({
 });
 </script>
 
-<style scoped lang="scss"></style>
+<template>
+  <div class="flex items-center justify-between w-full mb-12px" ref="formRef">
+    <n-card
+      v-if="searchFormFields.length"
+      size="small"
+      :bordered="false"
+      class="caret-wrapper"
+    >
+      <n-collapse>
+        <n-collapse-item title="搜索" name="search">
+          <BaseForm
+            ref="formRef"
+            :data="data"
+            :items="searchFormFields"
+            inline
+            is-search
+            submit-text="搜索"
+            :grid-props="{cols: props.searchCols}"
+            @collapse="getTableHeight"
+            @submit="submit"
+            @reset="reset"
+          />
+        </n-collapse-item>
+      </n-collapse>
+    </n-card>
+  </div>
+</template>
+
+<style scoped lang="scss">
+</style>

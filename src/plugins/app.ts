@@ -1,19 +1,19 @@
 import { App, h } from 'vue';
 import { $t } from '@/locales';
-import { NButton } from "naive-ui";
+import { NButton } from 'naive-ui';
 
-export function setupAppErrorHandle(app: App) {
+export const setupAppErrorHandle = (app: App) => {
   app.config.errorHandler = (err, vm, info) => {
     // eslint-disable-next-line no-console
     console.error(err, vm, info);
   };
-}
+};
 
-export function setupAppVersionNotification() {
+export const setupAppVersionNotification = () => {
   let isShow = false;
 
   document.addEventListener('visibilitychange', async () => {
-    const preConditions = [!isShow, document.visibilityState === 'visible', !import.meta.env.DEV];
+    const preConditions = [!isShow, document.visibilityState === 'visible', !import.meta.env.VITE_SERVICE_ENV];
 
     if (!preConditions.every(Boolean)) {
       return;
@@ -58,9 +58,9 @@ export function setupAppVersionNotification() {
       }
     });
   });
-}
+};
 
-async function getHtmlBuildTime() {
+const getHtmlBuildTime = async () => {
   const baseURL = import.meta.env.VITE_BASE_URL;
 
   const res = await fetch(`${ baseURL }index.html`);
@@ -70,4 +70,4 @@ async function getHtmlBuildTime() {
   const match = html.match(/<meta name="buildTime" content="(.*)">/);
 
   return match?.[1] || '';
-}
+};

@@ -1,4 +1,4 @@
-import { RouteRecordRaw } from "vue-router";
+import type { RouteRecordRaw } from 'vue-router'
 import { RouterEnum } from "@/enums/RouterEnum";
 
 const { VITE_ROUTE_HOME_PATH } = import.meta.env;

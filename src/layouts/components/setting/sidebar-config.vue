@@ -21,17 +21,17 @@ const themeStore = useThemeStore();
   <div class="flex items-center justify-between mt-12px">
     <p class="text-16px">折叠宽度</p>
     <n-input-number
-        class="w-120px text-center"
-        v-model:value="themeStore.sidebar.collapsedWidth"
-        :min="64"
+      class="w-120px text-center"
+      v-model:value="themeStore.sidebar.collapsedWidth"
+      :min="64"
     />
   </div>
   <div class="flex items-center justify-between mt-12px">
     <p class="text-16px ">展开宽度</p>
     <n-input-number
-        class="w-120px text-center"
-        v-model:value="themeStore.sidebar.width"
-        :min="200"
+      class="w-120px text-center"
+      v-model:value="themeStore.sidebar.width"
+      :min="200"
     />
   </div>
   <div class="flex items-center justify-between mt-12px">
@@ -40,4 +40,5 @@ const themeStore = useThemeStore();
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>

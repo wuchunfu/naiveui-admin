@@ -8,7 +8,7 @@ import { setupUnplugin } from './unplugin';
 import { setupCompressionPlugin } from './compression';
 import { setupHtmlPlugin } from './html';
 
-export function setupVitePlugins(viteEnv: Env.ImportMeta, buildTime: string) {
+export const setupVitePlugins = (viteEnv: Env.ImportMeta, buildTime: string) => {
   const plugins: PluginOption = [
     Vue({
       include: [
@@ -27,4 +27,4 @@ export function setupVitePlugins(viteEnv: Env.ImportMeta, buildTime: string) {
   ];
 
   return plugins;
-}
+};

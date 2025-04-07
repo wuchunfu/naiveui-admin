@@ -17,11 +17,12 @@ const themeStore = useThemeStore();
   <div class="flex items-center justify-between mt-12px">
     <p class="text-16px ">底部高度</p>
     <n-input-number
-        class="w-120px text-center"
-        v-model:value="themeStore.footer.height"
-        :min="44"
+      class="w-120px text-center"
+      v-model:value="themeStore.footer.height"
+      :min="44"
     />
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>

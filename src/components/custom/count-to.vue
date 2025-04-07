@@ -58,7 +58,7 @@ function formatValue(num: number) {
   const rgx = /(\d+)(\d{3})/;
   if (separator) {
     while (rgx.test(x1)) {
-      x1 = x1.replace(rgx, `$1${separator}$2`);
+      x1 = x1.replace(rgx, `$1${ separator }$2`);
     }
   }
 
@@ -85,4 +85,5 @@ watch(
   <span>{{ value }}</span>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+</style>

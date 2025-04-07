@@ -1,12 +1,12 @@
 import type { ComputedRef, Ref } from 'vue';
 import { ref, toValue } from 'vue';
-import type { FormInst } from 'naive-ui';
-import { REGEXP_CODE_SIX, REGEXP_EMAIL, REGEXP_PHONE, REGEXP_PWD, REGEXP_USER_NAME } from '@/constants/regexp';
+import type { FormInst, FormItemRule } from 'naive-ui';
 import { $t } from '@/locales';
+import { REGEXP_CODE_SIX, REGEXP_EMAIL, REGEXP_PHONE, REGEXP_PWD, REGEXP_USER_NAME } from '@/constants/regexp';
 
 export function useFormRules() {
   const patternRules = {
-    userName: {
+    account: {
       pattern: REGEXP_USER_NAME,
       message: $t('form.userName.invalid'),
       trigger: 'change'
@@ -16,7 +16,7 @@ export function useFormRules() {
       message: $t('form.phone.invalid'),
       trigger: 'change'
     },
-    pwd: {
+    password: {
       pattern: REGEXP_PWD,
       message: $t('form.pwd.invalid'),
       trigger: 'change'
@@ -31,20 +31,20 @@ export function useFormRules() {
       message: $t('form.email.invalid'),
       trigger: 'change'
     }
-  } satisfies Record<string, Global.FormRule>;
+  } satisfies Record<string, FormItemRule>;
 
   const formRules = {
-    userName: [createRequiredRule($t('form.userName.required')), patternRules.userName],
+    account: [createRequiredRule($t('form.userName.required')), patternRules.account],
     phone: [createRequiredRule($t('form.phone.required')), patternRules.phone],
-    pwd: [createRequiredRule($t('form.pwd.required')), patternRules.pwd],
+    password: [createRequiredRule($t('form.pwd.required')), patternRules.password],
     code: [createRequiredRule($t('form.code.required')), patternRules.code],
     email: [createRequiredRule($t('form.email.required')), patternRules.email]
-  } satisfies Record<string, Global.FormRule[]>;
+  } satisfies Record<string, FormItemRule[]>;
 
   /** the default required rule */
   const defaultRequiredRule = createRequiredRule($t('form.required'));
 
-  function createRequiredRule(message: string): Global.FormRule {
+  function createRequiredRule(message: string): FormItemRule {
     return {
       required: true,
       message
@@ -52,12 +52,15 @@ export function useFormRules() {
   }
 
   /** create a rule for confirming the password */
-  function createConfirmPwdRule(pwd: string | Ref<string> | ComputedRef<string>) {
-    const confirmPwdRule: Global.FormRule[] = [
-      { required: true, message: $t('form.confirmPwd.required') },
+  function createConfirmPwdRule(password: string | Ref<string> | ComputedRef<string>) {
+    const confirmPwdRule: FormItemRule[] = [
+      {
+        required: true,
+        message: $t('form.confirmPwd.required')
+      },
       {
         asyncValidator: (rule, value) => {
-          if (value.trim() !== '' && value !== toValue(pwd)) {
+          if (value.trim() !== '' && value !== toValue(password)) {
             return Promise.reject(rule.message);
           }
           return Promise.resolve();

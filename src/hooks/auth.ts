@@ -4,7 +4,7 @@ export function useAuth() {
   const authStore = useAuthStore();
 
   function hasAuth(codes: string | string[]) {
-    if (!authStore.isLogin) {
+    if (!authStore.token) {
       return false;
     }
 

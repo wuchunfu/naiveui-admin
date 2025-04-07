@@ -1,58 +1,3 @@
-<template>
-  <div>
-    <!--  搜索  -->
-    <BaseSearch
-        :data="formData"
-        :searchFormItems="searchFormItems"
-        @submit="onFormSubmit"
-        @reset="onGetTableData"
-    />
-
-    <n-card
-        :bordered="false"
-        :content-style="{margin:0,padding:'16px' }"
-        class="mb-12px mt-10px"
-    >
-      <BaseTableHeader
-          ref="headDom"
-          :title="title"
-          :desc="desc"
-          :loading="loading"
-          :isAddAction="isAddAction"
-          :isDeleteAction="isDeleteAction"
-          @add="addHandle"
-          @delete="deleteHandle"
-          @refresh="onGetTableData"
-      />
-
-      <n-data-table
-          :columns="tableColumns"
-          :row-key="rowData => rowData[props.rowKey]"
-          :data="tableData"
-          :loading="props.loading"
-          striped
-          :pagination="pagination"
-          :max-height="tableHeight"
-          :scroll-x="tableHeight"
-          @update:page-size="onPageSizeChange"
-          @update:page="onPageChange"
-      >
-        <template #empty>
-          <div class="flex-col-center">
-            <SvgIcon local-icon="empty" class="text-400px text-primary"/>
-            <p class="text-20px text-primary" v-if="!props.emptyText">
-              无{{ props.title }}数据~
-            </p>
-            <p class="text-20px text-primary" v-else>
-              {{ props.emptyText }}
-            </p>
-          </div>
-        </template>
-      </n-data-table>
-    </n-card>
-  </div>
-</template>
-
 <script setup lang="tsx">
 import { BaseFormItemProps } from "@/components/basic/form/index";
 import BaseSearch from "@/components/basic/search/index.vue";
@@ -235,45 +180,45 @@ const defaultAction = reactive<ITableColumn>({
   labelWidth: 140,
   render: (row: any, rowIndex: number) => {
     return (
-        <NSpace size="small" justify="center">
-          {
-            props.rowAction?.(row, rowIndex)
-          }
-          {
-              props.isEditAction && (
-                  <NButton
-                      type="primary"
+      <NSpace size="small" justify="center">
+        {
+          props.rowAction?.(row, rowIndex)
+        }
+        {
+          props.isEditAction && (
+            <NButton
+              type="primary"
+              ghost
+              size="small"
+              onClick={ () => editHandle(row) }
+            >
+              编辑
+            </NButton>
+          )
+        }
+        {
+          props.isDeleteAction && (
+            <NPopconfirm
+              onPositiveClick={ () => deleteHandle }
+              v-slots={ {
+                trigger: () => {
+                  return (
+                    <NButton
+                      type="error"
                       ghost
                       size="small"
-                      onClick={ () => editHandle(row) }
-                  >
-                    编辑
-                  </NButton>
-              )
-          }
-          {
-              props.isDeleteAction && (
-                  <NPopconfirm
-                      onPositiveClick={ () => deleteHandle }
-                      v-slots={ {
-                        trigger: () => {
-                          return (
-                              <NButton
-                                  type="error"
-                                  ghost
-                                  size="small"
-                              >
-                                删除
-                              </NButton>
-                          );
-                        },
-                      } }
-                  >
-                    确认删除吗？
-                  </NPopconfirm>
-              )
-          }
-        </NSpace>
+                    >
+                      删除
+                    </NButton>
+                  );
+                },
+              } }
+            >
+              确认删除吗？
+            </NPopconfirm>
+          )
+        }
+      </NSpace>
     );
   }
 });
@@ -350,4 +295,60 @@ onMounted(() => {
 });
 </script>
 
-<style scoped lang="scss"></style>
+<template>
+  <div>
+    <!--  搜索  -->
+    <BaseSearch
+      :data="formData"
+      :searchFormItems="searchFormItems"
+      @submit="onFormSubmit"
+      @reset="onGetTableData"
+    />
+
+    <n-card
+      :bordered="false"
+      :content-style="{margin:0,padding:'16px' }"
+      class="mb-12px mt-10px"
+    >
+      <BaseTableHeader
+        ref="headDom"
+        :title="title"
+        :desc="desc"
+        :loading="loading"
+        :isAddAction="isAddAction"
+        :isDeleteAction="isDeleteAction"
+        @add="addHandle"
+        @delete="deleteHandle"
+        @refresh="onGetTableData"
+      />
+
+      <n-data-table
+        :columns="tableColumns"
+        :row-key="rowData => rowData[props.rowKey]"
+        :data="tableData"
+        :loading="props.loading"
+        striped
+        :pagination="pagination"
+        :max-height="tableHeight"
+        :scroll-x="tableHeight"
+        @update:page-size="onPageSizeChange"
+        @update:page="onPageChange"
+      >
+        <template #empty>
+          <div class="flex-col-center">
+            <SvgIcon local-icon="empty" class="text-400px text-primary"/>
+            <p class="text-20px text-primary" v-if="!props.emptyText">
+              无{{ props.title }}数据~
+            </p>
+            <p class="text-20px text-primary" v-else>
+              {{ props.emptyText }}
+            </p>
+          </div>
+        </template>
+      </n-data-table>
+    </n-card>
+  </div>
+</template>
+
+<style scoped lang="scss">
+</style>

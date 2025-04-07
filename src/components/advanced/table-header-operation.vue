@@ -46,7 +46,10 @@ function refresh() {
     <slot name="default">
       <NButton size="small" ghost type="primary" @click="add">
         <template #icon>
-          <icon-ic-round:plus class="text-icon"/>
+          <SvgIcon
+            icon="ic-round:plus"
+            class='text-icon'
+          />
         </template>
         {{ $t('common.add') }}
       </NButton>
@@ -54,7 +57,10 @@ function refresh() {
         <template #trigger>
           <NButton size="small" ghost type="error" :disabled="disabledDelete">
             <template #icon>
-              <icon-ic-round:delete class="text-icon"/>
+              <SvgIcon
+                icon="ic-round:delete"
+                class='text-icon'
+              />
             </template>
             {{ $t('common.batchDelete') }}
           </NButton>
@@ -64,7 +70,11 @@ function refresh() {
     </slot>
     <NButton size="small" @click="refresh">
       <template #icon>
-        <icon-mdi:refresh class="text-icon" :class="{ 'animate-spin': loading }"/>
+        <SvgIcon
+          icon="mdi:refresh"
+          class='text-icon'
+          :class="{ 'animate-spin': loading }"
+        />
       </template>
       {{ $t('common.refresh') }}
     </NButton>
@@ -73,4 +83,5 @@ function refresh() {
   </NSpace>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>

@@ -1,13 +1,3 @@
-<template>
-  <BaseTable
-      :columns="columns"
-      :data="data"
-      :search-form-items="formFiledList"
-      is-add-action title="基本列表"
-      desc="基本列表秒杀"
-  />
-</template>
-
 <script setup lang="ts">
 import { ITableColumn } from "@/components/basic/table/index";
 import BaseTable from "@/components/basic/table/index.vue";
@@ -51,17 +41,23 @@ const data = computed(() => {
 
 function getTestTable() {
   // for 100次
-  let data = []
+  let data: any[] = []
   for (let i = 0; i < 100; i++) {
-    data.push({
-      name: '特产' + i,
-      age: "" + i,
-    })
+    data.push({name: '特产' + i, age: "" + i})
   }
   return data
 }
 </script>
 
-<style scoped>
+<template>
+  <BaseTable
+      :columns="columns"
+      :data="data"
+      :search-form-items="formFiledList"
+      is-add-action title="基本列表"
+      desc="基本列表秒杀"
+  />
+</template>
 
+<style scoped lang="scss">
 </style>

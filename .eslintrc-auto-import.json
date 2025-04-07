@@ -351,6 +351,11 @@
     "watchWithFilter": true,
     "whenever": true,
     "withDefaults": true,
-    "zhCN": true
+    "zhCN": true,
+    "createRef": true,
+    "onElementRemoval": true,
+    "useCountdown": true,
+    "usePreferredReducedTransparency": true,
+    "useSSRWidth": true
   }
 }

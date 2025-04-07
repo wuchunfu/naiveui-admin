@@ -1,28 +1,17 @@
-<template>
-  <base-dropdown-container :options="options" size="medium" @select="handleSelect">
-    <div class="flex-center cursor-pointer">
-      <n-divider vertical/>
-      <n-avatar :src="avatarUrl" round class="ml-6px"></n-avatar>
-    </div>
-  </base-dropdown-container>
-</template>
-
 <script setup lang="ts">
+import { useDialog } from 'naive-ui';
 import localAvatarUrl from "@/assets/images/user-avatar.png"
-import { useAuthStore, useRouteStore } from "@/store";
+import { useAuthStore } from "@/store";
 import { System } from "@/types/system";
 import { renderIcon } from "@/utils";
-import { useDialog } from "naive-ui";
-import { useRouter } from "vue-router";
 
 defineOptions({
   name: 'HeaderAvatar'
 });
 
 const authStore = useAuthStore()
-const routeStore = useRouteStore()
 
-const avatarUrl = authStore.userInfo?.avatar || localAvatarUrl
+const avatarUrl = computed(() => authStore.userInfo?.avatar || localAvatarUrl)
 // 个人中心 系统设置 退出登录
 const options: System.GlobalDropdown[] = [
   {
@@ -40,13 +29,11 @@ const options: System.GlobalDropdown[] = [
     label: '退出登录',
     icon: renderIcon('line-md:logout'),
   },
-]
+];
 
 const dialog = useDialog()
-const router = useRouter()
 
 const handleSelect = (key: string) => {
-  console.log(key)
   switch (key) {
     case 'profile':
       break
@@ -59,14 +46,30 @@ const handleSelect = (key: string) => {
         positiveText: '确定',
         negativeText: '取消',
         onPositiveClick: () => {
-          authStore.loginOut()
-          router.push({ name: 'login' })
+          authStore.logout()
         }
       })
       break
   }
 }
 </script>
+
+<template>
+  <div class="flex-center cursor-pointer">
+    <n-divider vertical/>
+    <base-dropdown-container
+      :options="options"
+      size="medium"
+      @select="handleSelect"
+    >
+      <n-avatar
+        :src="avatarUrl"
+        round
+        class="ml-6px"
+      />
+    </base-dropdown-container>
+  </div>
+</template>
 
 <style scoped lang="scss">
 </style>

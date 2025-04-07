@@ -1,42 +1,50 @@
-import { effectScope, onScopeDispose, ref, watch } from 'vue';
-import { defineStore } from 'pinia';
-import { SetupStoreId } from '@/enums/AppEnum';
 import { setLocale } from '@/locales';
 import { setDayjsLocale } from '@/locales/dayjs';
 import { localStg } from '@/utils/storage';
+import { SecureStorage } from "@/store/plugins";
 
-export const useAppStore = defineStore(SetupStoreId.App, () => {
+// 定义 state 的类型
+interface AppState {
+  locale: I18n.LangType;
+  localeOptions: I18n.LangOption[];
+  isMobile: boolean;
+}
+
+export const useAppStore = defineStore('app-store', () => {
   const scope = effectScope();
-  const locale = ref<I18n.LangType>(localStg.get('lang') || 'zh-CN');
+  const state = reactive<AppState>({
+    locale: localStg.get('lang') || 'zh-CN',
+    localeOptions: [
+      {
+        label: '中文',
+        key: 'zh-CN'
+      },
+      {
+        label: 'English',
+        key: 'en-US'
+      }
+    ],
+    isMobile: false,
+  });
 
-  const localeOptions: I18n.LangOption[] = [
-    {
-      label: '中文',
-      key: 'zh-CN'
-    },
-    {
-      label: 'English',
-      key: 'en-US'
-    }
-  ];
-
-  function changeLocale(lang: I18n.LangType) {
-    locale.value = lang;
+  const changeLocale = (lang: I18n.LangType) => {
+    state.locale = lang;
     setLocale(lang);
     localStg.set('lang', lang);
-  }
+  };
 
-  function init() {
-    setDayjsLocale(locale.value);
-  }
+  const init = () => {
+    setDayjsLocale(state.locale);
+  };
 
   // watch store
   scope.run(() => {
     // watch locale
-    watch(locale, () => {
-      // set dayjs locale
-      setDayjsLocale(locale.value);
-    });
+    watch(() => state.locale, () => {
+        // set dayjs locale
+        setDayjsLocale(state.locale);
+      }
+    );
   });
 
   /** On scope dispose */
@@ -47,9 +55,16 @@ export const useAppStore = defineStore(SetupStoreId.App, () => {
   // init
   init();
 
+  // 使用 toRefs 将 state 转换为 ref 对象
+  const stateRefs = toRefs(state);
+
   return {
-    locale,
-    localeOptions,
+    ...stateRefs,
     changeLocale
   };
+}, {
+  persist: {
+    // 持久化存储 使用加密的存储方式
+    storage: SecureStorage
+  }
 });

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue';
+import type { FormItemRule } from 'naive-ui';
 import { useFormRules, useNaiveForm } from '@/hooks/form';
 import { fetchGetAllRoles } from '@/service/api';
 import { $t } from '@/locales';
@@ -40,8 +41,8 @@ const title = computed(() => {
 });
 
 type Model = Pick<
-    Api.SystemManage.User,
-    'userName' | 'userGender' | 'nickName' | 'userPhone' | 'userEmail' | 'userRoles' | 'status'
+  Api.SystemManage.User,
+  'userName' | 'userGender' | 'nickName' | 'userPhone' | 'userEmail' | 'userRoles' | 'status'
 >;
 
 const model: Model = reactive(createDefaultModel());
@@ -60,7 +61,7 @@ function createDefaultModel(): Model {
 
 type RuleKey = Extract<keyof Model, 'userName' | 'status'>;
 
-const rules: Record<RuleKey, Global.FormRule> = {
+const rules: Record<RuleKey, FormItemRule> = {
   userName: defaultRequiredRule,
   status: defaultRequiredRule
 };
@@ -69,7 +70,7 @@ const rules: Record<RuleKey, Global.FormRule> = {
 const roleOptions = ref<CommonType.Option<string>[]>([]);
 
 async function getRoleOptions() {
-  const { error, data } = await fetchGetAllRoles();
+  const { data, error }: any = await fetchGetAllRoles();
 
   if (!error) {
     const options = data.map(item => ({
@@ -124,54 +125,54 @@ watch(visible, () => {
       <NForm ref="formRef" :model="model" :rules="rules">
         <NFormItem :label="$t('page.manage.user.userName')" path="userName">
           <NInput
-              v-model:value="model.userName"
-              :placeholder="$t('page.manage.user.form.userName')"
+            v-model:value="model.userName"
+            :placeholder="$t('page.manage.user.form.userName')"
           />
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.userGender')" path="userGender">
           <NRadioGroup v-model:value="model.userGender">
             <NRadio
-                v-for="item in userGenderOptions"
-                :key="item.value"
-                :value="item.value"
-                :label="$t(item.label)"
+              v-for="item in userGenderOptions"
+              :key="item.value"
+              :value="item.value"
+              :label="$t(item.label)"
             />
           </NRadioGroup>
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.nickName')" path="nickName">
           <NInput
-              v-model:value="model.nickName"
-              :placeholder="$t('page.manage.user.form.nickName')"
+            v-model:value="model.nickName"
+            :placeholder="$t('page.manage.user.form.nickName')"
           />
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.userPhone')" path="userPhone">
           <NInput
-              v-model:value="model.userPhone"
-              :placeholder="$t('page.manage.user.form.userPhone')"
+            v-model:value="model.userPhone"
+            :placeholder="$t('page.manage.user.form.userPhone')"
           />
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.userEmail')" path="email">
           <NInput
-              v-model:value="model.userEmail"
-              :placeholder="$t('page.manage.user.form.userEmail')"
+            v-model:value="model.userEmail"
+            :placeholder="$t('page.manage.user.form.userEmail')"
           />
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.userStatus')" path="status">
           <NRadioGroup v-model:value="model.status">
             <NRadio
-                v-for="item in enableStatusOptions"
-                :key="item.value"
-                :value="item.value"
-                :label="$t(item.label)"
+              v-for="item in enableStatusOptions"
+              :key="item.value"
+              :value="item.value"
+              :label="$t(item.label)"
             />
           </NRadioGroup>
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.userRole')" path="roles">
           <NSelect
-              v-model:value="model.userRoles"
-              multiple
-              :options="roleOptions"
-              :placeholder="$t('page.manage.user.form.userRole')"
+            v-model:value="model.userRoles"
+            multiple
+            :options="roleOptions"
+            :placeholder="$t('page.manage.user.form.userRole')"
           />
         </NFormItem>
       </NForm>
@@ -189,4 +190,5 @@ watch(visible, () => {
   </NDrawer>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>

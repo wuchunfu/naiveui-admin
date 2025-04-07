@@ -1,18 +1,3 @@
-<template>
-  <n-dropdown
-      v-if="options.length"
-      :options="props.options"
-      @select="handleDropdown"
-      :key-field="props.keyField"
-      @clickoutside="handleClickOutSide"
-      :label-field="props.labelField"
-      :size="size"
-  >
-    <slot></slot>
-  </n-dropdown>
-  <slot v-else></slot>
-</template>
-
 <script setup lang="ts">
 import { PropType } from "vue";
 import { DropdownOption } from "naive-ui";
@@ -47,6 +32,21 @@ const handleClickOutSide = (e: MouseEvent) => {
   emits('clickOutside', e)
 }
 </script>
+
+<template>
+  <n-dropdown
+    v-if="options.length"
+    :options="props.options"
+    @select="handleDropdown"
+    :key-field="props.keyField"
+    @clickoutside="handleClickOutSide"
+    :label-field="props.labelField"
+    :size="size"
+  >
+    <slot></slot>
+  </n-dropdown>
+  <slot v-else></slot>
+</template>
 
 <style scoped lang="scss">
 </style>

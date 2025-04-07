@@ -20,7 +20,7 @@ declare namespace I18n {
 
   /** The global dropdown key */
   type DropdownKey = 'refresh' | 'closeCurrent' | 'closeOther' | 'closeLeft' | 'closeRight' | 'closeAll';
-  
+
   type Schema = {
     system: {
       title: string;
@@ -81,20 +81,20 @@ declare namespace I18n {
       tokenExpired: string;
     };
     theme: {
-      themeSchema: { title: string } & Record<UnionKey.ThemeScheme, string>;
+      themeSchema: { title: string } & Record<CommonType.ThemeMode, string>;
       grayscale: string;
       colourWeakness: string;
-      layoutMode: { title: string; reverseHorizontalMix: string } & Record<UnionKey.ThemeLayoutMode, string>;
+      layoutMode: { title: string; reverseHorizontalMix: string } & Record<CommonType.ThemeLayoutMode, string>;
       recommendColor: string;
       recommendColorDesc: string;
       themeColor: {
         title: string;
         followPrimary: string;
       } & Theme.ThemeColor;
-      scrollMode: { title: string } & Record<UnionKey.ThemeScrollMode, string>;
+      scrollMode: { title: string } & Record<CommonType.ThemeScrollMode, string>;
       page: {
         animate: string;
-        mode: { title: string } & Record<UnionKey.ThemePageAnimateMode, string>;
+        mode: { title: string } & Record<CommonType.ThemePageAnimateMode, string>;
       };
       fixedHeaderAndTab: string;
       header: {
@@ -108,7 +108,7 @@ declare namespace I18n {
         visible: string;
         cache: string;
         height: string;
-        mode: { title: string } & Record<UnionKey.ThemeTabMode, string>;
+        mode: { title: string } & Record<CommonType.ThemeTabMode, string>;
       };
       sider: {
         inverted: string;
@@ -203,6 +203,7 @@ declare namespace I18n {
         common: {
           accountLogin: string;
           qrcodeLogin: string;
+          wechatLogin: string;
           login: string;
           account: string;
           accountPlaceholder: string,
@@ -213,7 +214,7 @@ declare namespace I18n {
           confirmPassword: string,
           confirmPasswordPlaceholder: string,
           loginSuccess: string;
-          
+
           loginOrRegister: string;
           userNamePlaceholder: string;
           phonePlaceholder: string;
@@ -242,6 +243,13 @@ declare namespace I18n {
           sendCodeSuccess: string;
           imageCodePlaceholder: string;
         };
+        qrcodeLogin: {
+          title: string;
+        };
+        wechatLogin: {
+          title: string;
+          tips: string;
+        },
         register: {
           title: string;
           agreement: string;

@@ -24,10 +24,4 @@ declare global {
 
   /** Build time of the project */
   export const BUILD_TIME: string;
-
-  /** Global namespace */
-  namespace Global {
-    /** Form rule */
-    type FormRule = import('naive-ui').FormItemRule;
-  }
 }

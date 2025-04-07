@@ -5,21 +5,21 @@ import { ProxyOptions } from "vite";
  *
  * @param env - The current env
  */
-export function createViteProxy(env: Env.ImportMeta) {
+export const createViteProxy = (env: Env.ImportMeta) => {
   const isEnableHttpProxy = env.VITE_HTTP_PROXY === 'Y';
 
   if (!isEnableHttpProxy) {
     return undefined;
   }
 
-  const proxyPrefix = env.VITE_PROXY_PREFIX || '/api';
+  const proxyPrefix = env.VITE_PROXY_PREFIX || '/dev-api';
   const proxyTarget = env.VITE_SERVICE_BASE_URL || 'http://localhost:8080';
   const proxy: Record<string, ProxyOptions> = {
     [proxyPrefix]: {
       target: proxyTarget,
       changeOrigin: true,
       ws: true,
-      rewrite: (path) => path.replace(new RegExp(`^${proxyPrefix}`), `${ proxyPrefix }`),
+      rewrite: (path) => path.replace(new RegExp(`^${proxyPrefix}`), ``),
       secure: false,
       configure: (proxy, options) => {
         // 配置此项可在响应头中看到请求的真实地址
@@ -31,4 +31,4 @@ export function createViteProxy(env: Env.ImportMeta) {
     }
   };
   return proxy;
-}
+};

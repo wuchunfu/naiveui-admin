@@ -9,7 +9,7 @@ defineOptions({
 
 interface Props {
   /** Theme schema */
-  themeSchema: UnionKey.ThemeScheme;
+  themeSchema: CommonType.ThemeMode;
   /** Show tooltip */
   showTooltip?: boolean;
   /** Tooltip placement */
@@ -31,7 +31,7 @@ function handleSwitch() {
   emit('switch');
 }
 
-const icons: Record<UnionKey.ThemeScheme, string> = {
+const icons: Record<CommonType.ThemeMode, string> = {
   light: 'material-symbols:sunny',
   dark: 'material-symbols:nightlight-rounded',
   auto: 'material-symbols:hdr-auto'
@@ -50,12 +50,13 @@ const tooltipContent = computed(() => {
 <template>
   <div class="flex-center w-48px text-24px">
     <ButtonIcon
-        :icon="icon"
-        :tooltip-content="tooltipContent"
-        :tooltip-placement="tooltipPlacement"
-        @click="handleSwitch"
+      :icon="icon"
+      :tooltip-content="tooltipContent"
+      :tooltip-placement="tooltipPlacement"
+      @click="handleSwitch"
     />
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>

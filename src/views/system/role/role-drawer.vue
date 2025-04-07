@@ -1,33 +1,3 @@
-<template>
-  <n-drawer
-      v-model:show="visible"
-      @after-enter="onAfterEnter"
-      @after-leave="onAfterLeave"
-      :width="props.width"
-  >
-    <n-drawer-content :title="`${title}角色`">
-      <BaseForm
-          label-width="120px"
-          label-align="right"
-          ref="formRef"
-          :data="formData"
-          :items="formItems"
-          :grid-props="{cols:1}"
-          @submit="onSubmit"
-      >
-        <template #roleScope="{model,field,item}">
-          <menu-select
-              v-model:value="model[field]"
-              v-bind="item?.filedOptions"
-              :loading="optionLoading"
-              check-strategy="all"
-          />
-        </template>
-      </BaseForm>
-    </n-drawer-content>
-  </n-drawer>
-</template>
-
 <script setup lang="ts">
 import { computed, PropType, Ref, ref } from "vue";
 import MenuSelect from "@/views/system/menu/menu-select.vue";
@@ -80,7 +50,7 @@ const optionLoading = ref(false)
 
 async function onSubmit(valid: boolean) {
   if (valid) {
-    const { data, error } = await saveOrUpdateSystemRole(formData.value, props.isUpdate)
+    const { data, error }: any = await saveOrUpdateSystemRole(formData.value, props.isUpdate)
     if (!error) {
       // @ts-ignore
       window.$message.success(`${ props.isUpdate ? "编辑" : "新增" }${ data?.roleName ?? '' }成功`)
@@ -138,4 +108,35 @@ function onAfterLeave() {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<template>
+  <n-drawer
+    v-model:show="visible"
+    @after-enter="onAfterEnter"
+    @after-leave="onAfterLeave"
+    :width="props.width"
+  >
+    <n-drawer-content :title="`${title}角色`">
+      <BaseForm
+        label-width="120px"
+        label-align="right"
+        ref="formRef"
+        :data="formData"
+        :items="formItems"
+        :grid-props="{cols:1}"
+        @submit="onSubmit"
+      >
+        <template #roleScope="{model,field,item}">
+          <menu-select
+            v-model:value="model[field]"
+            v-bind="item?.filedOptions"
+            :loading="optionLoading"
+            check-strategy="all"
+          />
+        </template>
+      </BaseForm>
+    </n-drawer-content>
+  </n-drawer>
+</template>
+
+<style scoped lang="scss">
+</style>

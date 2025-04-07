@@ -21,9 +21,9 @@ const handleModeChange = (val: string) => {
         <base-hover-tip text="基本布局" :hover-style="false">
           <div @click="handleModeChange('base')">
             <SvgIcon
-                local-icon="layout-base"
-                class="p-4px border-2px hover:border-primary rounded-6px text-100px"
-                :class="[themeStore.layout.mode === 'base' ? 'border-primary' : 'border-transparent']"
+              local-icon="layout-base"
+              class="p-4px border-2px hover:border-primary rounded-6px text-100px"
+              :class="[themeStore.layout.mode === 'base' ? 'border-primary' : 'border-transparent']"
             />
           </div>
         </base-hover-tip>
@@ -32,9 +32,9 @@ const handleModeChange = (val: string) => {
         <base-hover-tip text="分离式卡片布局" :hover-style="false">
           <div @click="handleModeChange('card')">
             <SvgIcon
-                local-icon="layout-card"
-                class="p-4px border-2px hover:border-primary rounded-6px text-100px"
-                :class="[themeStore.layout.mode === 'card' ? 'border-primary' : 'border-transparent']"
+              local-icon="layout-card"
+              class="p-4px border-2px hover:border-primary rounded-6px text-100px"
+              :class="[themeStore.layout.mode === 'card' ? 'border-primary' : 'border-transparent']"
             />
           </div>
         </base-hover-tip>
@@ -43,10 +43,10 @@ const handleModeChange = (val: string) => {
         <div class="flex items-center justify-between">
           <p class="text-16px  mr-12px">分离式卡片圆角(px)</p>
           <n-input-number
-              class="w-120px text-center"
-              v-model:value="themeStore.layout.round"
-              :step="2"
-              :min="0"
+            class="w-120px text-center"
+            v-model:value="themeStore.layout.round"
+            :step="2"
+            :min="0"
           />
         </div>
       </n-grid-item>
@@ -54,4 +54,5 @@ const handleModeChange = (val: string) => {
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>

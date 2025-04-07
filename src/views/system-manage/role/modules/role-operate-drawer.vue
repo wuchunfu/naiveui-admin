@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive, watch } from 'vue';
+import type { FormItemRule } from 'naive-ui';
 import { useBoolean } from '@/hooks/use-boolean';
 import { useFormRules, useNaiveForm } from '@/hooks/form';
 import { $t } from '@/locales';
@@ -59,7 +60,7 @@ function createDefaultModel(): Model {
 
 type RuleKey = Exclude<keyof Model, 'roleDesc'>;
 
-const rules: Record<RuleKey, Global.FormRule> = {
+const rules: Record<RuleKey, FormItemRule> = {
   roleName: defaultRequiredRule,
   roleCode: defaultRequiredRule,
   status: defaultRequiredRule
@@ -103,30 +104,30 @@ watch(visible, () => {
       <NForm ref="formRef" :model="model" :rules="rules">
         <NFormItem :label="$t('page.manage.role.roleName')" path="roleName">
           <NInput
-              v-model:value="model.roleName"
-              :placeholder="$t('page.manage.role.form.roleName')"
+            v-model:value="model.roleName"
+            :placeholder="$t('page.manage.role.form.roleName')"
           />
         </NFormItem>
         <NFormItem :label="$t('page.manage.role.roleCode')" path="roleCode">
           <NInput
-              v-model:value="model.roleCode"
-              :placeholder="$t('page.manage.role.form.roleCode')"
+            v-model:value="model.roleCode"
+            :placeholder="$t('page.manage.role.form.roleCode')"
           />
         </NFormItem>
         <NFormItem :label="$t('page.manage.role.roleStatus')" path="status">
           <NRadioGroup v-model:value="model.status">
             <NRadio
-                v-for="item in enableStatusOptions"
-                :key="item.value"
-                :value="item.value"
-                :label="$t(item.label)"
+              v-for="item in enableStatusOptions"
+              :key="item.value"
+              :value="item.value"
+              :label="$t(item.label)"
             />
           </NRadioGroup>
         </NFormItem>
         <NFormItem :label="$t('page.manage.role.roleDesc')" path="roleDesc">
           <NInput
-              v-model:value="model.roleDesc"
-              :placeholder="$t('page.manage.role.form.roleDesc')"
+            v-model:value="model.roleDesc"
+            :placeholder="$t('page.manage.role.form.roleDesc')"
           />
         </NFormItem>
       </NForm>
@@ -154,4 +155,5 @@ watch(visible, () => {
   </NDrawer>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+</style>

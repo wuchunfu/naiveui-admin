@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 defineOptions({
   name: 'SystemLogo'
 });
@@ -8,4 +8,5 @@ defineOptions({
   <SvgIcon local-icon="logo"/>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+</style>

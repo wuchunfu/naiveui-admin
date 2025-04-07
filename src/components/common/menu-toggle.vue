@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import { computed } from 'vue';
 import { $t } from '@/locales';
 
@@ -28,8 +28,8 @@ const icon = computed(() => {
       1: 'line-md:menu-fold-right'
     },
     1: {
-      0: 'ph-caret-double-left-bold',
-      1: 'ph-caret-double-right-bold'
+      0: 'ph:caret-double-left-bold',
+      1: 'ph:caret-double-right-bold'
     }
   };
 
@@ -44,14 +44,14 @@ const icon = computed(() => {
 <template>
   <div class="flex-center w-48px text-24px">
     <ButtonIcon
-        :key="String(collapsed)"
-        :tooltip-content="collapsed ? $t('icon.expand') : $t('icon.collapse')"
-        tooltip-placement="bottom-start"
-        :z-index="zIndex"
-    >
-      <SvgIcon :icon="icon"/>
-    </ButtonIcon>
+      :key="String(collapsed)"
+      :icon="icon"
+      :tooltip-content="collapsed ? $t('icon.expand') : $t('icon.collapse')"
+      tooltip-placement="bottom-start"
+      :z-index="zIndex"
+    />
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>

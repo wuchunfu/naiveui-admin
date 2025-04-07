@@ -15,7 +15,7 @@ import { FileSystemIconLoader } from 'unplugin-icons/loaders';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import { getSrcJoinPath } from "../utils";
 
-export function setupUnplugin(viteEnv: Env.ImportMeta) {
+export const setupUnplugin = (viteEnv: Env.ImportMeta) => {
   const { VITE_ICON_PREFIX, VITE_ICON_LOCAL_PREFIX, VITE_ICON_LOCAL_PATH } = viteEnv;
 
   const localIconPath = getSrcJoinPath(VITE_ICON_LOCAL_PATH);
@@ -59,7 +59,7 @@ export function setupUnplugin(viteEnv: Env.ImportMeta) {
         NaiveUiResolver(),
         IconsResolver({
           customCollections: [collectionName],
-          componentPrefix: VITE_ICON_PREFIX
+          prefix: VITE_ICON_PREFIX
         })
       ]
     }),
@@ -87,21 +87,6 @@ export function setupUnplugin(viteEnv: Env.ImportMeta) {
         '@vueuse/head',
         '@vueuse/core',
         {
-          'naive-ui': [
-            'zhCN',
-            'enUS',
-            'dateZhCN',
-            'dateEnUS',
-            'NButton',
-            'darkTheme',
-            'useDialog',
-            'useOsTheme',
-            'useMessage',
-            'useNotification',
-            'useLoadingBar'
-          ]
-        },
-        {
           'vue': [
             'createVNode',
             'defineOptions',
@@ -117,56 +102,7 @@ export function setupUnplugin(viteEnv: Env.ImportMeta) {
             'useRouter',
             'useRoute',
             'Router'
-          ],
-          'uuid': [
-            ['v4', 'uuidv4']
-          ],
-          // 全局使用 _.xxxx()
-          'lodash-es': [
-            // default imports
-            ['*', '_'] // import { * as _ } from 'lodash-es',
           ]
-        },
-        // type import
-        {
-          from: 'vue',
-          imports: [
-            'App',
-            'VNode',
-            'defineOptions',
-            'ComponentPublicInstance',
-            'ComponentPublicInstanceCustom',
-            'ComponentInternalInstance'
-          ],
-          type: true
-        },
-        {
-          from: 'vue-router',
-          imports: [
-            'RouteRecordRaw',
-            'RouteLocationRaw',
-            'LocationQuery',
-            'RouteParams',
-            'RouteLocationNormalizedLoaded',
-            'RouteRecordName',
-            'NavigationGuard'
-          ],
-          type: true
-        },
-        {
-          from: 'naive-ui',
-          imports: [
-            'NLocale',
-            'FormInst',
-            'arkTheme',
-            'useOsTheme',
-            'MenuOption',
-            'NDateLocale',
-            'DropdownOption',
-            'PopoverPlacement',
-            'GlobalThemeOverrides',
-          ],
-          type: true
         }
       ],
     }),
@@ -187,9 +123,7 @@ export function setupUnplugin(viteEnv: Env.ImportMeta) {
       inject: 'body-last',
       customDomId: '__SVG_ICON_LOCAL__'
     }),
-    ImageMin({
-      mode: "sharp",
-    }),
+    ImageMin(),
     VueJsx(),
     VueNamedExport(),
     Markdown({
@@ -215,5 +149,4 @@ export function setupUnplugin(viteEnv: Env.ImportMeta) {
   ];
 
   return plugins;
-}
-
+};

@@ -1,17 +1,17 @@
 // 渲染icon
-import EgIcon from "@/components/common/eg-icon.vue";
+import SvgIcon from "@/components/common/svg-icon.vue";
 import { h } from "vue";
 
 export const renderIcon = (icon?: string, localIcon?: string) => {
-  if (!icon && !localIcon) {
-    console.warn('not find icon')
-    return null
+  if (icon && localIcon) {
+    // 默认p 内容为icon
+    return () => h(SvgIcon, { icon, localIcon })
+  } else {
+    return () => h(SvgIcon, { icon })
   }
-  // 默认p 内容为icon
-  return () => h(EgIcon, { icon, localIcon })
 }
 
-export function getLocalIcons() {
+export const getLocalIcons = () => {
   const svgIcons = import.meta.glob('/src/assets/svg-icon/*.svg');
 
   return Object.keys(svgIcons)

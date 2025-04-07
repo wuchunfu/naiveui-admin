@@ -15,9 +15,10 @@ const __APP_INFO__ = {
 const rootPath = getRootPath();
 const srcPath = getSrcPath();
 
-export default defineConfig(configEnv => {
+// @ts-ignore
+export default defineConfig(({ mode }) => {
   // 获取环境变量
-  const viteEnv = loadEnv(configEnv.mode, process.cwd()) as unknown as Env.ImportMeta;
+  const viteEnv = loadEnv(mode, process.cwd(), '') as Env.ImportMeta;
 
   const { VITE_PORT, VITE_BASE_URL, VITE_DROP_CONSOLE, VITE_SOURCE_MAP } = viteEnv;
 
@@ -37,10 +38,7 @@ export default defineConfig(configEnv => {
       open: false, // 项目启动时是否自动在浏览器中打开应用程序
       hmr: true, // 开启热更新
       cors: true, // 跨域允许
-      proxy: createViteProxy(viteEnv),
-      fs: {
-        cachedChecks: false
-      }
+      proxy: createViteProxy(viteEnv)
     },
     // server: {
     //   host: '0.0.0.0',

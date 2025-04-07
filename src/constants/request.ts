@@ -31,18 +31,3 @@ export const NO_ERROR_MSG_CODE: (string | number)[] = [];
 
 /** 刷新登录的code  哪些信息需要刷新登录*/
 export const REFRESH_LOGIN_CODE: (string | number)[] = [401];
-
-/** 样式配置 */
-export const STYLE_CONFIG: Service.StyleConfig = {
-  loadingBar: true
-}
-
-/** 后端接口返回的数据结构配置 */
-export const RESULT_CONFIG: Service.ResultConfig = {
-  codeKey: 'code',
-  dataKey: 'data',
-  msgKey: 'msg',
-  // successCode: '0000',
-  successCode: 200,
-  loginCode: 401
-}

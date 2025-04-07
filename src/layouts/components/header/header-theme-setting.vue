@@ -1,47 +1,4 @@
-<template>
-  <div class="flex-center w-48px text-24px">
-    <ButtonIcon
-        icon="majesticons:color-swatch-line"
-        :tooltip-content="$t('icon.themeConfig')"
-        tooltip-placement="bottom"
-        @click="drawerShow = true"
-    />
-  </div>
-
-  <n-drawer
-      v-model:show="drawerShow"
-      display-directive="show"
-      :width="props.width"
-  >
-    <n-drawer-content :title="$t('theme.themeDrawerTitle')">
-      <n-space vertical>
-        <ThemeModeConfig/>
-
-        <LayoutModeConfig/>
-        
-        <MenuConfig/>
-
-        <ColorConfig/>
-
-        <SidebarConfig/>
-
-        <AnimationConfig/>
-
-        <FooterConfig/>
-
-        <NaiveUIConfig/>
-      </n-space>
-      <template #footer>
-        <n-button type="warning" @click="themeStore.resetThemeStore()">
-          重置主题样式
-        </n-button>
-      </template>
-    </n-drawer-content>
-  </n-drawer>
-</template>
-
 <script setup lang="ts">
-import { ref } from "vue";
 import { useThemeStore } from "@/store";
 import { $t } from "@/locales";
 import ThemeModeConfig from "@/layouts/components/setting/theme-mode-config.vue";
@@ -72,6 +29,48 @@ const emits = defineEmits(['update:show'])
 const drawerShow = ref(false)
 const themeStore = useThemeStore()
 </script>
+
+<template>
+  <div class="flex-center w-48px text-24px">
+    <ButtonIcon
+      icon="majesticons:color-swatch-line"
+      :tooltip-content="$t('icon.themeConfig')"
+      tooltip-placement="bottom"
+      @click="drawerShow = true"
+    />
+  </div>
+
+  <n-drawer
+    v-model:show="drawerShow"
+    display-directive="show"
+    :width="props.width"
+  >
+    <n-drawer-content :title="$t('theme.themeDrawerTitle')">
+      <n-space vertical>
+        <ThemeModeConfig/>
+
+        <LayoutModeConfig/>
+
+        <MenuConfig/>
+
+        <ColorConfig/>
+
+        <SidebarConfig/>
+
+        <AnimationConfig/>
+
+        <FooterConfig/>
+
+        <NaiveUIConfig/>
+      </n-space>
+      <template #footer>
+        <n-button type="warning" @click="themeStore.$reset()">
+          重置主题样式
+        </n-button>
+      </template>
+    </n-drawer-content>
+  </n-drawer>
+</template>
 
 <style scoped lang="scss">
 </style>

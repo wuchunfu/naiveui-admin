@@ -1,18 +1,3 @@
-<template>
-  <n-tree-select
-      v-model:value="selectValue"
-      :multiple="props.multiple"
-      checkable
-      :loading="props.loading"
-      :options="props.options"
-      :check-strategy="props.checkStrategy"
-      :default-expand-all="props.expandAll"
-      :label-field="props.labelField"
-      clearable
-      :key-field="props.keyField"
-  />
-</template>
-
 <script setup lang="ts">
 import { computed, PropType } from "vue";
 
@@ -63,4 +48,20 @@ const selectValue = computed({
 })
 </script>
 
-<style scoped lang="scss"></style>
+<template>
+  <n-tree-select
+    v-model:value="selectValue"
+    :multiple="props.multiple"
+    checkable
+    :loading="props.loading"
+    :options="props.options"
+    :check-strategy="props.checkStrategy"
+    :default-expand-all="props.expandAll"
+    :label-field="props.labelField"
+    clearable
+    :key-field="props.keyField"
+  />
+</template>
+
+<style scoped lang="scss">
+</style>

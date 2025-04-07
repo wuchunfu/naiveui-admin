@@ -1,39 +1,7 @@
-<template>
-  <n-space vertical>
-    <n-form :rules="rules" ref="formRef" :model="formValue">
-      <n-form-item-row :label="$t('page.login.common.account')" path="account">
-        <n-input
-            v-model:value="formValue.account"
-            :placeholder="$t('page.login.common.accountPlaceholder')"
-        />
-      </n-form-item-row>
-      <n-form-item-row :label="$t('page.login.common.password')" path="password">
-        <n-input
-            type="password"
-            v-model:value="formValue.password"
-            :placeholder="$t('page.login.common.passwordPlaceholder')"
-            show-password-on="click"
-        />
-      </n-form-item-row>
-    </n-form>
-    <n-button
-        type="primary"
-        block
-        @click="handleSubmit"
-        :disabled="loading"
-        :loading="loading"
-    >
-      {{ $t('page.login.common.login') }}
-    </n-button>
-  </n-space>
-</template>
-
 <script setup lang="ts">
+import type { FormInst } from 'naive-ui';
 import { $t } from '@/locales';
 import { useAuthStore } from "@/store";
-import type { FormInst } from 'naive-ui';
-import { reactive, ref } from "vue";
-import { useRouter } from "vue-router";
 
 defineOptions({
   name: 'AccountLogin'
@@ -97,6 +65,36 @@ function goHome() {
   }
 }
 </script>
+
+<template>
+  <n-space vertical>
+    <n-form :rules="rules" ref="formRef" :model="formValue">
+      <n-form-item-row :label="$t('page.login.common.account')" path="account">
+        <n-input
+          v-model:value="formValue.account"
+          :placeholder="$t('page.login.common.accountPlaceholder')"
+        />
+      </n-form-item-row>
+      <n-form-item-row :label="$t('page.login.common.password')" path="password">
+        <n-input
+          type="password"
+          v-model:value="formValue.password"
+          :placeholder="$t('page.login.common.passwordPlaceholder')"
+          show-password-on="click"
+        />
+      </n-form-item-row>
+    </n-form>
+    <n-button
+      type="primary"
+      block
+      @click="handleSubmit"
+      :disabled="loading"
+      :loading="loading"
+    >
+      {{ $t('page.login.common.login') }}
+    </n-button>
+  </n-space>
+</template>
 
 <style scoped lang="scss">
 </style>

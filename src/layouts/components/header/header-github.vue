@@ -1,14 +1,3 @@
-<template>
-  <div class="flex-center w-48px text-24px">
-    <ButtonIcon
-        icon="line-md:github"
-        :tooltip-content="$t('icon.github')"
-        tooltip-placement="bottom"
-        @click="openGithub"
-    />
-  </div>
-</template>
-
 <script setup lang="ts">
 import { $t } from '@/locales';
 
@@ -23,4 +12,16 @@ function openGithub() {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<template>
+  <div class="flex-center w-48px text-24px">
+    <ButtonIcon
+      icon="line-md:github"
+      :tooltip-content="$t('icon.github')"
+      tooltip-placement="bottom"
+      @click="openGithub"
+    />
+  </div>
+</template>
+
+<style scoped lang="scss">
+</style>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { $t } from '@/locales';
 
 defineOptions({
@@ -39,20 +38,21 @@ const tooltipContent = computed(() => {
 
 <template>
   <NDropdown
-      :value="lang"
-      :options="langOptions"
-      :show-arrow="true"
-      trigger="hover"
-      @select="changeLang"
+    :value="lang"
+    :options="langOptions"
+    :show-arrow="true"
+    trigger="hover"
+    @select="changeLang"
   >
     <div class="flex-center w-48px text-24px">
       <ButtonIcon
-          icon="heroicons:language"
-          :tooltip-content="tooltipContent"
-          tooltip-placement="left"
+        icon="heroicons:language"
+        :tooltip-content="tooltipContent"
+        tooltip-placement="left"
       />
     </div>
   </NDropdown>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>

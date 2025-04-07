@@ -1,25 +1,3 @@
-<template>
-  <n-breadcrumb>
-    <n-breadcrumb-item v-for="item in breadcrumbList" :key="item.name">
-      <n-dropdown
-          v-if="item.children"
-          :options="item.children"
-          @select="breadcrumbClick"
-          key-field="name"
-      >
-        <div class="flex-center">
-          <component :is="item.icon" v-if="item.icon && props.showIcon" class="mr-6px"/>
-          {{ item.label }}
-        </div>
-      </n-dropdown>
-      <div class="flex-center" v-else>
-        <component :is="item.icon" v-if="item.icon && props.showIcon" class="mr-6px"/>
-        {{ item.label }}
-      </div>
-    </n-breadcrumb-item>
-  </n-breadcrumb>
-</template>
-
 <script setup lang="ts">
 // 生成面包屑数据
 import { RouteLocationMatched, useRoute } from "vue-router";
@@ -48,7 +26,7 @@ const generateBreadcrumbList = (matched: RouteLocationMatched[] | any) => {
       const breadcrumb: System.GlobalBreadcrumb = {
         label: item?.meta?.title as any,
         name: item?.name as any,
-        icon: item?.meta?.icon && renderIcon(item?.meta?.icon as any),
+        icon: renderIcon(item?.meta?.icon),
         disabled: item.name === route.name,
       };
       if (item.children && item.children.length > 1) {
@@ -68,6 +46,28 @@ const breadcrumbClick = (item: any) => {
   }
 }
 </script>
+
+<template>
+  <n-breadcrumb>
+    <n-breadcrumb-item v-for="item in breadcrumbList" :key="item.name">
+      <n-dropdown
+        v-if="item.children"
+        :options="item.children"
+        @select="breadcrumbClick"
+        key-field="name"
+      >
+        <div class="flex-center">
+          <component :is="item.icon" v-if="item.icon && props.showIcon" class="mr-6px"/>
+          {{ item.label }}
+        </div>
+      </n-dropdown>
+      <div class="flex-center" v-else>
+        <component :is="item.icon" v-if="item.icon && props.showIcon" class="mr-6px"/>
+        {{ item.label }}
+      </div>
+    </n-breadcrumb-item>
+  </n-breadcrumb>
+</template>
 
 <style scoped lang="scss">
 </style>

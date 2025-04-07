@@ -1,3 +1,15 @@
+<script setup lang="ts">
+import { $t } from "@/locales";
+import { useThemeStore } from "@/store";
+import { useAppStore } from '@/store/modules/app';
+import PageLogo from "@/layouts/components/logo/index.vue";
+import AccountLogin from "@/views/login/components/account-login.vue";
+import QrcodeLogin from "@/views/login/components/qrcode-login.vue";
+
+const appStore = useAppStore();
+const themeStore = useThemeStore()
+</script>
+
 <template>
   <app-container height="100vh">
     <n-grid cols="5" item-responsive>
@@ -5,15 +17,15 @@
         <div class="login">
           <div class="absolute right-10 top-10">
             <ThemeSchemaSwitch
-                :theme-schema="theme.mode"
-                :show-tooltip="true"
-                @switch="toggleThemeScheme"
+              :theme-schema="themeStore.mode"
+              :show-tooltip="true"
+              @switch="themeStore.toggleThemeMode"
             />
             <LangSwitch
-                :lang="appStore.locale"
-                :lang-options="appStore.localeOptions"
-                :show-tooltip="true"
-                @change-lang="appStore.changeLocale"
+              :lang="appStore.locale"
+              :lang-options="appStore.localeOptions"
+              :show-tooltip="true"
+              @change-lang="appStore.changeLocale"
             />
           </div>
           <div class="login-item">
@@ -38,46 +50,6 @@
     </n-grid>
   </app-container>
 </template>
-
-<script setup lang="ts">
-import PageLogo from "@/layouts/components/logo/index.vue";
-import { useAuthStore, useThemeStore } from "@/store";
-import { useAppStore } from '@/store/modules/app';
-import AccountLogin from "@/views/login/components/account-login.vue";
-import QrcodeLogin from "@/views/login/components/qrcode-login.vue";
-import { useRouter } from "vue-router";
-
-const appStore = useAppStore();
-const ua = useAuthStore()
-const theme = useThemeStore()
-
-const router = useRouter()
-
-const toggleThemeScheme = () => {
-  const mode = theme.mode;
-  if (mode === 'light') {
-    theme.setThemeMode('dark')
-  } else if (mode === 'dark') {
-    theme.setThemeMode('auto')
-  } else {
-    theme.setThemeMode('light')
-  }
-}
-
-// const login = async () => {
-//   await ua.login()
-// }
-
-function goHome() {
-  const { query } = router.currentRoute.value
-  if (query?.redirect) {
-    console.log(query.redirect)
-    router.push({ path: query.redirect as string })
-  } else {
-    router.push({ name: 'home' })
-  }
-}
-</script>
 
 <style scoped lang="scss">
 .login {
