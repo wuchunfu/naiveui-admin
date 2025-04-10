@@ -31,7 +31,6 @@ declare namespace CommonType {
    */
   type EnableStatus = '1' | '2';
 
-
   /**
    * user gender
    *
@@ -68,7 +67,9 @@ declare namespace CommonType {
    */
   type LoginModule = 'pwd-login' | 'code-login' | 'qrcode-login' | 'wechat-login' | 'register' | 'reset-pwd';
 
-  /** Theme mode */
+  /**
+   * Theme mode
+   */
   type ThemeMode = 'light' | 'dark' | 'auto';
 
   /**
@@ -91,7 +92,9 @@ declare namespace CommonType {
    */
   type ThemeScrollMode = 'wrapper' | 'content';
 
-  /** Page animate mode */
+  /**
+   * Page animate mode
+   */
   type ThemePageAnimateMode = 'fade' | 'fade-slide' | 'fade-bottom' | 'fade-scale' | 'zoom-fade' | 'zoom-out' | 'none';
 
   /**

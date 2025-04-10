@@ -47,7 +47,8 @@ const local: I18n.Schema = {
     yesOrNo: {
       yes: 'Yes',
       no: 'No'
-    }
+    },
+    unSupported: 'Not supported yet'
   },
   request: {
     logout: 'Logout user after request failed',
@@ -424,19 +425,19 @@ const local: I18n.Schema = {
   },
   form: {
     required: 'Cannot be empty',
-    userName: {
-      required: 'Please enter user name',
-      invalid: 'User name format is incorrect'
+    account: {
+      required: 'Please enter account name',
+      invalid: 'Account name format is incorrect'
     },
     phone: {
       required: 'Please enter phone number',
       invalid: 'Phone number format is incorrect'
     },
-    pwd: {
+    password: {
       required: 'Please enter password',
       invalid: '6-18 characters, including letters, numbers, and underscores'
     },
-    confirmPwd: {
+    confirmPassword: {
       required: 'Please enter password again',
       invalid: 'The two passwords are inconsistent'
     },

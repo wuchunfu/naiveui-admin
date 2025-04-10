@@ -1,18 +1,5 @@
-<template>
-  <div class="size-full min-h-520px flex-col-center gap-24px overflow-hidden">
-    <div class="flex text-400px text-primary">
-      <SvgIcon :local-icon="icon"/>
-    </div>
-    <NButton type="primary" @click="backHome">
-      {{ $t('common.backToHome') }}
-    </NButton>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { computed, PropType } from "vue";
 import { $t } from '@/locales';
-import { useRouter } from "vue-router";
 
 defineOptions({
   name: 'ExceptionBase'
@@ -46,6 +33,17 @@ function backHome() {
   emits('click')
 }
 </script>
+
+<template>
+  <div class="size-full min-h-520px flex-col-center gap-24px overflow-hidden">
+    <div class="flex text-400px text-primary">
+      <SvgIcon :local-icon="icon"/>
+    </div>
+    <NButton type="primary" @click="backHome">
+      {{ $t('common.backToHome') }}
+    </NButton>
+  </div>
+</template>
 
 <style scoped lang="scss">
 </style>

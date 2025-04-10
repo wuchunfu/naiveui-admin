@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, PropType } from "vue";
-import { useThemeStore } from "@/store";
+defineOptions({
+  name: 'BaseHoverTip'
+});
 
 const props = defineProps({
   text: {
@@ -15,12 +16,6 @@ const props = defineProps({
     type: Boolean,
     default: true
   }
-})
-
-const theme = useThemeStore()
-
-const contentClass = computed(() => {
-  return `${ theme.mode === "dark" ? 'hover:bg-primary' : 'hover:bg-#f6f6f6' }`
 })
 </script>
 

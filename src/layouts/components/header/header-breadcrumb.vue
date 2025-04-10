@@ -24,9 +24,9 @@ const generateBreadcrumbList = (matched: RouteLocationMatched[] | any) => {
   if (matched && matched.length) {
     matched.forEach((item: RouteLocationMatched) => {
       const breadcrumb: System.GlobalBreadcrumb = {
-        label: item?.meta?.title as any,
-        name: item?.name as any,
-        icon: renderIcon(item?.meta?.icon),
+        label: item?.meta?.title as string,
+        name: item?.name as string,
+        icon: renderIcon(item?.meta?.icon as string),
         disabled: item.name === route.name,
       };
       if (item.children && item.children.length > 1) {

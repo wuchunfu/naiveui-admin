@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import { computed } from "vue";
 import { useThemeStore } from "@/store";
+
+defineOptions({
+  name: 'AppContainer'
+});
 
 /**
  * @description 通用容器组件

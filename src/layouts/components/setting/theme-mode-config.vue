@@ -17,9 +17,19 @@ const handleSegmentChange = (value: string | number) => {
 <template>
   <n-divider>{{ $t('theme.themeSchema.title') }}</n-divider>
   <div class="flex-col items-center">
-    <n-tabs type="segment" animated :value="themeStore.mode" @update:value="handleSegmentChange">
-      <n-tab-pane v-for="(item, key) in themeSchemaRecord" :key="key" :name="key">
-        <template #tab>
+    <n-tabs
+      type="segment"
+      animated
+      :value="themeStore.mode"
+      @update:value="handleSegmentChange"
+    >
+      <n-tab-pane
+        v-for="(item, key) in themeSchemaRecord"
+        :key="key"
+        :name="key"
+      >
+        <!-- 使用动态插槽语法 -->
+        <template #[`tab`]>
           <SvgIcon :icon="themeSchemaIcons[key]" class="h-24px text-icon-small"/>
           <p class="ml-5px">{{ $t(item) }}</p>
         </template>

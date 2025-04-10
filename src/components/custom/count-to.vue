@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from 'vue';
 import { TransitionPresets, useTransition } from '@vueuse/core';
 
 defineOptions({

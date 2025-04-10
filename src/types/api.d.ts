@@ -4,6 +4,8 @@
  * All backend api type
  */
 declare namespace Api {
+  import { RouteMeta } from 'vue-router';
+
   namespace Common {
     /** common params of paginating */
     interface PaginatingCommonParams {
@@ -38,25 +40,6 @@ declare namespace Api {
       /** record status */
       status: EnableStatus | null;
     } & T;
-  }
-
-  /**
-   * namespace Auth
-   *
-   * backend api module: "auth"
-   */
-  namespace Auth {
-    interface LoginToken {
-      token: string;
-      refreshToken: string;
-    }
-
-    interface UserInfo {
-      userId: string;
-      userName: string;
-      roles: string[];
-      buttons: string[];
-    }
   }
 
   /**
@@ -125,7 +108,7 @@ declare namespace Api {
     };
 
     type MenuPropsOfRoute = Pick<
-      import('vue-router').RouteMeta,
+      RouteMeta,
       | 'i18nKey'
       | 'keepAlive'
       | 'constant'

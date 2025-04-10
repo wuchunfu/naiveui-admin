@@ -1,9 +1,9 @@
 import { useAuthStore } from '@/store/modules/auth';
 
-export function useAuth() {
+export const useAuth = () => {
   const authStore = useAuthStore();
 
-  function hasAuth(codes: string | string[]) {
+  const hasAuth = (codes: string | string[]) => {
     if (!authStore.token) {
       return false;
     }

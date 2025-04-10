@@ -16,8 +16,8 @@ const theme = useThemeStore();
 const isCard = computed(() => theme.layout.mode === "card");
 
 const pageContentStyle = computed(() => {
-  const padding = 56;
-  let top = theme.menu.headerHeight;
+  const padding = 12;
+  let top = theme.menu.showTabs ? theme.menu.headerHeight + theme.menu.tabsHeight : theme.menu.headerHeight;
   const bottom = theme.footer.show ? theme.footer.height : 0;
   const style = {} as any;
   if (!isCard.value) {
@@ -32,14 +32,14 @@ const pageContentStyle = computed(() => {
 <template>
   <n-layout has-sider class="bg-layout layout">
     <n-layout-sider
-      class="layout-side "
+      class="layout-side"
       :collapsed-width="theme.sidebar.collapsedWidth"
       :collapsed="theme.sidebar.collapsed"
       collapse-mode="width"
       :width="theme.sidebar.width"
       :inverted="theme.sidebar.inverted"
       :native-scrollbar="false"
-      :show-trigger="theme.sidebar.showCollapse&&'bar'"
+      :show-trigger="theme.sidebar.showCollapse ? 'bar' : false"
       @collapse="theme.setSidebarCollapsed(true)"
       @expand="theme.setSidebarCollapsed(false)"
     >
@@ -60,7 +60,7 @@ const pageContentStyle = computed(() => {
       <n-layout-header
         class="bg-layout"
         :class="[isCard&&'px-12px']"
-        :style="{height: theme.menu.tabsHeight + theme.menu.headerHeight+'px'}"
+        :style="{height: theme.menu.tabsHeight + theme.menu.headerHeight + 'px'}"
       >
         <div class="flex-col">
           <page-header

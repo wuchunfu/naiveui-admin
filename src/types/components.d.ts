@@ -40,7 +40,6 @@ declare module 'vue' {
     IconIcRoundRefresh: typeof import('~icons/ic/round-refresh')['default']
     IconIcRoundRemove: typeof import('~icons/ic/round-remove')['default']
     IconIcRoundSearch: typeof import('~icons/ic/round-search')['default']
-    'IconLineMd:redditLoop': typeof import('~icons/line-md/reddit-loop')['default']
     IconMdiDrag: typeof import('~icons/mdi/drag')['default']
     LangSwitch: typeof import('./../components/common/lang-switch.vue')['default']
     LayoutModeConfig: typeof import('./../layouts/components/setting/layout-mode-config.vue')['default']

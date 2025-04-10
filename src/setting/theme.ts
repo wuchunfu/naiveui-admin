@@ -38,7 +38,7 @@ export const themeSetting: Theme.GlobalTheme = {
   },
   sidebar: {
     collapsed: false,
-    width: 220,
+    width: 200,
     collapsedWidth: 64,
     inverted: false,
     showCollapse: true

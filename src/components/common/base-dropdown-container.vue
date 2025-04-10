@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { PropType } from "vue";
 import { DropdownOption } from "naive-ui";
 import { System } from "@/types/system";
+
+defineOptions({
+  name: 'BaseDropdownContainer'
+});
 
 const props = defineProps({
   options: {

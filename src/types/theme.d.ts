@@ -1,7 +1,5 @@
 /** Theme namespace */
 declare namespace Theme {
-  type ColorPaletteNumber = import('@/utils/color/types').ColorPaletteNumber;
-
   type GlobalTheme = {
     // 主题模式
     mode: 'light' | 'dark' | 'auto';
@@ -80,21 +78,4 @@ declare namespace Theme {
       // 其他配置
     }
   }
-
-  interface OtherColor {
-    info: string;
-    success: string;
-    warning: string;
-    error: string;
-  }
-
-  interface ThemeColor extends OtherColor {
-    primary: string;
-  }
-
-  type ThemeColorKey = keyof ThemeColor;
-
-  type ThemePaletteColor = {
-    [key in ThemeColorKey | `${ ThemeColorKey }-${ ColorPaletteNumber }`]: string;
-  };
 }

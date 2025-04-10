@@ -8,7 +8,7 @@ export function useFormRules() {
   const patternRules = {
     account: {
       pattern: REGEXP_USER_NAME,
-      message: $t('form.userName.invalid'),
+      message: $t('form.account.invalid'),
       trigger: 'change'
     },
     phone: {
@@ -18,7 +18,7 @@ export function useFormRules() {
     },
     password: {
       pattern: REGEXP_PWD,
-      message: $t('form.pwd.invalid'),
+      message: $t('form.password.invalid'),
       trigger: 'change'
     },
     code: {
@@ -34,9 +34,9 @@ export function useFormRules() {
   } satisfies Record<string, FormItemRule>;
 
   const formRules = {
-    account: [createRequiredRule($t('form.userName.required')), patternRules.account],
+    account: [createRequiredRule($t('form.account.required')), patternRules.account],
     phone: [createRequiredRule($t('form.phone.required')), patternRules.phone],
-    password: [createRequiredRule($t('form.pwd.required')), patternRules.password],
+    password: [createRequiredRule($t('form.password.required')), patternRules.password],
     code: [createRequiredRule($t('form.code.required')), patternRules.code],
     email: [createRequiredRule($t('form.email.required')), patternRules.email]
   } satisfies Record<string, FormItemRule[]>;
@@ -56,7 +56,7 @@ export function useFormRules() {
     const confirmPwdRule: FormItemRule[] = [
       {
         required: true,
-        message: $t('form.confirmPwd.required')
+        message: $t('form.confirmPassword.required')
       },
       {
         asyncValidator: (rule, value) => {
@@ -65,7 +65,7 @@ export function useFormRules() {
           }
           return Promise.resolve();
         },
-        message: $t('form.confirmPwd.invalid'),
+        message: $t('form.confirmPassword.invalid'),
         trigger: 'input'
       }
     ];

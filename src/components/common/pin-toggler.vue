@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { $t } from '@/locales';
 
 defineOptions({
@@ -17,12 +16,12 @@ const icon = computed(() => (props.pin ? 'mdi-pin-off' : 'mdi-pin'));
 
 <template>
   <ButtonIcon
+    :key="String(pin)"
+    :icon="icon"
     :tooltip-content="pin ? $t('icon.unpin') : $t('icon.pin')"
     tooltip-placement="bottom-start"
     :z-index="100"
-  >
-    <SvgIcon :icon="icon"/>
-  </ButtonIcon>
+  />
 </template>
 
 <style scoped lang="scss">

@@ -71,6 +71,7 @@ declare namespace I18n {
         yes: string;
         no: string;
       };
+      unSupported: string;
     };
     request: {
       logout: string;
@@ -89,8 +90,13 @@ declare namespace I18n {
       recommendColorDesc: string;
       themeColor: {
         title: string;
+        info: string;
+        success: string;
+        warning: string;
+        error: string;
+        primary: string;
         followPrimary: string;
-      } & Theme.ThemeColor;
+      };
       scrollMode: { title: string } & Record<CommonType.ThemeScrollMode, string>;
       page: {
         animate: string;
@@ -412,10 +418,10 @@ declare namespace I18n {
     };
     form: {
       required: string;
-      userName: FormMsg;
+      account: FormMsg;
       phone: FormMsg;
-      pwd: FormMsg;
-      confirmPwd: FormMsg;
+      password: FormMsg;
+      confirmPassword: FormMsg;
       code: FormMsg;
       email: FormMsg;
     };

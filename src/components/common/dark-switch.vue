@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { useThemeStore } from "@/store";
 
+defineOptions({
+  name: 'DarkSwitch'
+});
+
 const theme = useThemeStore()
 </script>
 

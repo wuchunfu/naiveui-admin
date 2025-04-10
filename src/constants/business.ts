@@ -1,4 +1,4 @@
-import { transformRecordToI18n, translateOptions } from '@/utils/common';
+import { transformRecordToI18n } from '@/utils/common';
 
 export const enableStatusRecord: Record<CommonType.EnableStatus, I18n.I18nKey> = {
   '1': 'page.manage.common.status.enable',
