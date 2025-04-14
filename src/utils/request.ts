@@ -3,9 +3,7 @@ import { useAuthStore } from "@/store";
 import { ERROR_STATUS } from "@/constants/request";
 import { usePageRouter } from "@/hooks";
 
-const isHttpProxy = import.meta.env.VITE_HTTP_PROXY === 'Y';
-const proxyPrefix = import.meta.env.VITE_PROXY_PREFIX;
-const serviceBaseUrl = import.meta.env.VITE_SERVICE_BASE_URL;
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 export type ContentType =
   | 'text/html'
@@ -18,7 +16,7 @@ export type ContentType =
 // 配置新建一个 axios 实例
 const service = axios.create({
   // axios中请求配置有baseURL选项，表示请求URL公共部分
-  baseURL: isHttpProxy ? proxyPrefix : serviceBaseUrl,
+  baseURL: baseUrl,
   // 超时
   timeout: 50000,
   headers: {

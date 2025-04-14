@@ -61,9 +61,9 @@ export const setupAppVersionNotification = () => {
 };
 
 const getHtmlBuildTime = async () => {
-  const baseURL = import.meta.env.VITE_BASE_URL;
+  const basePath = import.meta.env.VITE_BASE_PATH;
 
-  const res = await fetch(`${ baseURL }index.html`);
+  const res = await fetch(`${ basePath }index.html`);
 
   const html = await res.text();
 

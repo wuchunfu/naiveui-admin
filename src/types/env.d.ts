@@ -16,6 +16,8 @@ interface ImportMetaEnv {
   readonly VITE_PORT: number;
   /** 项目基本地址 */
   readonly VITE_BASE_URL: string;
+  /** 项目基础路径 */
+  readonly VITE_BASE_PATH: string;
   /** 项目名称 */
   readonly VITE_APP_NAME: string;
   /** 项目标题 */
@@ -26,8 +28,6 @@ interface ImportMetaEnv {
   readonly VITE_DROP_CONSOLE?: CommonType.YesOrNo;
   /** 后端服务的环境类型 */
   readonly VITE_SERVICE_ENV?: ServiceEnvType;
-  /** backend service base url */
-  readonly VITE_SERVICE_BASE_URL: string;
   /** The router history mode */
   readonly VITE_ROUTER_HISTORY_MODE?: RouterHistoryMode;
   /** hash路由模式 */
@@ -39,6 +39,8 @@ interface ImportMetaEnv {
   readonly VITE_HTTP_PROXY?: CommonType.YesOrNo;
   /** 开启请求代理前缀 */
   readonly VITE_PROXY_PREFIX?: string;
+  /** http代理服务器地址 */
+  readonly VITE_PROXY_SERVER_URL?: string;
   /** 是否开启打包文件大小结果分析 */
   readonly VITE_VISUALIZER?: CommonType.YesOrNo;
   /** 是否开启打包压缩 */

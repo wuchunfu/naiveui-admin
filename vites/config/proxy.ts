@@ -13,7 +13,7 @@ export const createViteProxy = (env: Env.ImportMeta) => {
   }
 
   const proxyPrefix = env.VITE_PROXY_PREFIX || '/dev-api';
-  const proxyTarget = env.VITE_SERVICE_BASE_URL || 'http://localhost:8080';
+  const proxyTarget = env.VITE_PROXY_SERVER_URL || 'http://localhost:8080';
   const proxy: Record<string, ProxyOptions> = {
     [proxyPrefix]: {
       target: proxyTarget,

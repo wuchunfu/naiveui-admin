@@ -3,13 +3,13 @@ import { constantRoutes } from "@/router/common";
 import { PageRoute } from "@/types/route";
 import { createRouterGuard } from "@/router/permissions";
 
-const { VITE_BASE_URL } = import.meta.env;
+const basePath = import.meta.env.VITE_BASE_PATH;
 
 /**
  * 创建路由
  */
 export const router = createRouter({
-  history: createWebHistory(VITE_BASE_URL),
+  history: createWebHistory(basePath),
   routes: constantRoutes,
   strict: true,
   // 刷新时，滚动条位置还原

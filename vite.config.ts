@@ -20,11 +20,11 @@ export default defineConfig(({ mode }) => {
   // 获取环境变量
   const viteEnv = loadEnv(mode, process.cwd(), '') as Env.ImportMeta;
 
-  const { VITE_PORT, VITE_BASE_URL, VITE_DROP_CONSOLE, VITE_SOURCE_MAP } = viteEnv;
+  const { VITE_PORT, VITE_BASE_PATH, VITE_DROP_CONSOLE, VITE_SOURCE_MAP } = viteEnv;
 
   const buildTime = getBuildTime();
   return {
-    base: VITE_BASE_URL,
+    base: VITE_BASE_PATH,
     resolve: {
       alias: {
         '~': rootPath,
