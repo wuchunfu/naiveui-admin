@@ -8,6 +8,8 @@
       "ESNext",
       "DOM.Iterable"
     ],
+    // 模块解析策略，ts默认用node的解析策略，即相对的方式导入,
+    "moduleResolution": "bundler",
     // 是否跳过声明文件的类型检查，这可以在编译期间以牺牲类型系统准确性为代价来节省时间，默认：false。,
     "skipLibCheck": true,
     // 是否跳过默认库声明文件的类型检查，默认：false。,
@@ -22,8 +24,6 @@
     "esModuleInterop": true,
     // 文件名大小写不敏感,
     "forceConsistentCasingInFileNames": true,
-    // 模块解析策略，ts默认用node的解析策略，即相对的方式导入,
-    "moduleResolution": "node",
     // 允许导入 .ts 文件，默认：false,
     "allowImportingTsExtensions": true,
     // 允许从 .json 文件导入模块, 默认：false,
@@ -42,6 +42,8 @@
     "strictFunctionTypes": false,
     // 是否允许把 null、undefined 赋值给其他类型的变量,
     "strictNullChecks": true,
+    // 是否允许对没有显式导出的变量进行导入,
+    "useDefineForClassFields": true,
     // 不允许this有隐式的any类型,
     "noImplicitThis": true,
     // 检查只声明、未使用的局部变量(只提示不报错),
@@ -69,8 +71,7 @@
     },
     "types": [
       "vite/client",
-      "node",
-      "unplugin-icons/types/vue"
+      "node"
     ]
   },
   "include": [
