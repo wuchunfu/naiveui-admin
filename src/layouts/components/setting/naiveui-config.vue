@@ -9,9 +9,9 @@ const themeStore = useThemeStore();
 </script>
 
 <template>
-  <n-divider><p>naive-ui配置</p></n-divider>
+  <n-divider>naive-ui配置</n-divider>
   <div class="flex items-center justify-between">
-    <p class="text-16px ">全局圆角</p>
+    <p class="text-16px">全局圆角</p>
     <n-input-number
       class="w-120px text-center"
       v-model:value="themeStore.naive.borderRadius"

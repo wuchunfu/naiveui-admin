@@ -109,7 +109,7 @@
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-progress": "0.0.7",
     "vite-plugin-svg-icons": "2.0.1",
-    "vite-plugin-vue-devtools": "7.7.7",
+    "vite-plugin-vue-devtools": "8.0.0",
     "vue-tsc": "^3.0.4",
     "vuedraggable": "^4.1.0"
   },

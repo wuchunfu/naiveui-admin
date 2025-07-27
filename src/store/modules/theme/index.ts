@@ -98,11 +98,6 @@ export const useThemeStore = defineStore('theme-store', () => {
     state.color.error = color;
   };
 
-  // 设置边框圆角
-  const setThemeRounded = (round: number) => {
-    state.layout.round = round;
-  };
-
   // 设置过渡动画类型
   const setThemeAnimation = (animation: Theme.GlobalTheme["animation"]) => {
     state.animation = animation;
@@ -132,7 +127,6 @@ export const useThemeStore = defineStore('theme-store', () => {
     setSuccessColor,
     setWarningColor,
     setErrorColor,
-    setThemeRounded,
     setThemeAnimation,
     setSidebarCollapsed,
     setLayoutMode,

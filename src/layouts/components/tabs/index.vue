@@ -5,17 +5,13 @@ import { PageRoute } from "@/types/route";
 import { useRoute, useRouter } from "vue-router";
 import elementResizeDetectorMaker from "element-resize-detector";
 import { renderIcon } from "@/utils";
-import { useRouteStore, useTabsStore, useThemeStore } from "@/store";
+import { useRouteStore, useTabsStore } from "@/store";
 
 defineOptions({
   name: 'TabsView'
 });
 
 const props = defineProps({
-  isCard: {
-    type: Boolean,
-    default: false
-  },
   height: {
     type: Number,
     default: 44
@@ -119,17 +115,6 @@ const tabsMenuOptions = computed(() => {
 const onTagClick = (tag: PageRoute) => {
   router.push({ name: tag.name })
 }
-
-const theme = useThemeStore()
-
-const getHeaderStyle = computed(() => {
-  if (theme.layout.mode === 'card') {
-    return {
-      borderBottomLeftRadius: theme.layout.round + 'px',
-      borderBottomRightRadius: theme.layout.round + 'px',
-    }
-  }
-})
 
 // 右键菜单
 const onContextMenu = (e: MouseEvent, tab: PageRoute) => {
@@ -284,9 +269,8 @@ window.addEventListener('scroll', onScroll, true)
 
 <template>
   <div
-    class="tabs-view flex w-full items-center"
-    :class="[props.isCard ? '' : 'px-12px bg-#fff dark:bg-dark']"
-    :style="{height: `${props.height}px`, ...getHeaderStyle}"
+    class="tabs-view flex w-full items-center px-12px bg-#fff dark:bg-dark"
+    :style="{height:`${props.height}px`}"
   >
     <div class="tabs-view-main">
       <div
@@ -326,10 +310,8 @@ window.addEventListener('scroll', onScroll, true)
                 <div class="flex-1 flex items-center justify-center">
                   <n-button
                     size="small"
-                    class=""
                     :type="state.activeTag === element.name ? 'primary' : 'default'"
                     ghost
-                    :class="[props.isCard && 'bg-container']"
                   >
                     <SvgIcon
                       :icon="element.meta.icon"

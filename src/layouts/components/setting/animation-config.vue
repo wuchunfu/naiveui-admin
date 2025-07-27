@@ -30,13 +30,13 @@ const animationOptions = [
 </script>
 
 <template>
-  <n-divider><p>动画配置</p></n-divider>
+  <n-divider>动画配置</n-divider>
   <div class="flex items-center justify-between">
-    <p class="text-16px ">过渡动画</p>
+    <p class="text-16px">过渡动画</p>
     <n-switch v-model:value="themeStore.animation.enable"/>
   </div>
   <div class="flex items-center justify-between mt-12px">
-    <p class="text-16px ">动画效果</p>
+    <p class="text-16px">动画效果</p>
     <n-select
       class="w-120px text-center"
       v-model:value="themeStore.animation.type"

@@ -9,13 +9,13 @@ const themeStore = useThemeStore();
 </script>
 
 <template>
-  <n-divider><p>底部配置</p></n-divider>
+  <n-divider>底部配置</n-divider>
   <div class="flex items-center justify-between">
-    <p class="text-16px ">显示底部</p>
+    <p class="text-16px">显示底部</p>
     <n-switch v-model:value="themeStore.footer.show"/>
   </div>
   <div class="flex items-center justify-between mt-12px">
-    <p class="text-16px ">底部高度</p>
+    <p class="text-16px">底部高度</p>
     <n-input-number
       class="w-120px text-center"
       v-model:value="themeStore.footer.height"

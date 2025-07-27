@@ -1,8 +1,7 @@
 export const themeSetting: Theme.GlobalTheme = {
   mode: "light",
   layout: {
-    mode: "base",
-    round: 4
+    mode: "vertical"
   },
   color: {
     primary: "#6366F1",

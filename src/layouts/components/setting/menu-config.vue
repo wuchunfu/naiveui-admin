@@ -14,7 +14,7 @@ const menuLayoutOptions = [
 </script>
 
 <template>
-  <n-divider><p>菜单配置</p></n-divider>
+  <n-divider>菜单配置</n-divider>
   <div class="flex items-center justify-between">
     <p class="text-16px">菜单布局</p>
     <n-select
@@ -26,11 +26,11 @@ const menuLayoutOptions = [
   </div>
   <template v-if="themeStore.menu.layout === 'base'">
     <div class="flex items-center justify-between mt-12px">
-      <p class="text-16px ">显示面包屑</p>
+      <p class="text-16px">显示面包屑</p>
       <n-switch v-model:value="themeStore.menu.showBreadcrumb"/>
     </div>
     <div class="flex items-center justify-between mt-12px">
-      <p class="text-16px ">显示面包屑图标</p>
+      <p class="text-16px">显示面包屑图标</p>
       <n-switch v-model:value="themeStore.menu.showBreadcrumbIcon"/>
     </div>
   </template>
@@ -43,7 +43,7 @@ const menuLayoutOptions = [
     />
   </div>
   <div class="flex items-center justify-between mt-12px">
-    <p class="text-16px ">显示标签栏</p>
+    <p class="text-16px">显示标签栏</p>
     <n-switch v-model:value="themeStore.menu.showTabs"/>
   </div>
   <div class="flex items-center justify-between mt-12px">
@@ -55,7 +55,7 @@ const menuLayoutOptions = [
     />
   </div>
   <div class="flex items-center justify-between mt-12px">
-    <p class="text-16px ">显示折叠</p>
+    <p class="text-16px">显示折叠</p>
     <n-switch v-model:value="themeStore.menu.showCollapse"/>
   </div>
 </template>

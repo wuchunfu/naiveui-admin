@@ -9,13 +9,13 @@ const themeStore = useThemeStore();
 </script>
 
 <template>
-  <n-divider><p>侧边栏配置</p></n-divider>
+  <n-divider>侧边栏配置</n-divider>
   <div class="flex items-center justify-between">
-    <p class="text-16px ">侧边栏深色</p>
+    <p class="text-16px">侧边栏深色</p>
     <n-switch v-model:value="themeStore.sidebar.inverted"/>
   </div>
   <div class="flex items-center justify-between mt-12px">
-    <p class="text-16px ">侧边栏折叠</p>
+    <p class="text-16px">侧边栏折叠</p>
     <n-switch v-model:value="themeStore.sidebar.collapsed"/>
   </div>
   <div class="flex items-center justify-between mt-12px">
@@ -27,7 +27,7 @@ const themeStore = useThemeStore();
     />
   </div>
   <div class="flex items-center justify-between mt-12px">
-    <p class="text-16px ">展开宽度</p>
+    <p class="text-16px">展开宽度</p>
     <n-input-number
       class="w-120px text-center"
       v-model:value="themeStore.sidebar.width"
@@ -35,7 +35,7 @@ const themeStore = useThemeStore();
     />
   </div>
   <div class="flex items-center justify-between mt-12px">
-    <p class="text-16px ">显示折叠操作条</p>
+    <p class="text-16px">显示折叠操作条</p>
     <n-switch v-model:value="themeStore.sidebar.showCollapse"/>
   </div>
 </template>

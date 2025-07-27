@@ -3,11 +3,9 @@ declare namespace Theme {
   type GlobalTheme = {
     // 主题模式
     mode: 'light' | 'dark' | 'auto';
-    // 布局模式 基本布局 | 分离式卡片布局
+    // 布局模式
     layout: {
-      mode: string | 'base' | 'card';
-      //  分离式卡片圆角
-      round: number;
+      mode: string | 'vertical' | 'horizontal' | 'horizontal-mix';
     }
     // 颜色色配置
     color: {

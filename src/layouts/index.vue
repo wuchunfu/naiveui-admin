@@ -13,16 +13,12 @@ defineOptions({
 
 const theme = useThemeStore();
 
-const isCard = computed(() => theme.layout.mode === "card");
-
 const pageContentStyle = computed(() => {
   const padding = 12;
   let top = theme.menu.showTabs ? theme.menu.headerHeight + theme.menu.tabsHeight : theme.menu.headerHeight;
   const bottom = theme.footer.show ? theme.footer.height : 0;
   const style = {} as any;
-  if (!isCard.value) {
-    top += padding;
-  }
+  top += padding;
   style.top = `${ top }px`;
   style.bottom = theme.footer.show ? `${ bottom + padding }px` : '0';
   return style;
@@ -43,12 +39,12 @@ const pageContentStyle = computed(() => {
       @collapse="theme.setSidebarCollapsed(true)"
       @expand="theme.setSidebarCollapsed(false)"
     >
-      <page-logo
+      <PageLogo
         class="logo"
         :collapsed="theme.sidebar.collapsed"
         :height="theme.menu.headerHeight"
       />
-      <page-menu
+      <PageMenu
         class="menu"
         :style="{top:`${theme.menu.headerHeight}px`}"
         :collapsed="theme.sidebar.collapsed"
@@ -59,11 +55,10 @@ const pageContentStyle = computed(() => {
     <n-layout style="height: 100vh" class="bg-layout">
       <n-layout-header
         class="bg-layout"
-        :class="[isCard&&'px-12px']"
         :style="{height: theme.menu.tabsHeight + theme.menu.headerHeight + 'px'}"
       >
         <div class="flex-col">
-          <page-header
+          <PageHeader
             :collapsed="theme.sidebar.collapsed"
             :show-collapsed="theme.menu.showCollapse"
             :height="theme.menu.headerHeight"
@@ -71,9 +66,8 @@ const pageContentStyle = computed(() => {
             :show-breadcrumb-icon="theme.menu.showBreadcrumbIcon"
             @update:collapsed="theme.setSidebarCollapsed"
           />
-          <page-tabs
+          <PageTabs
             :height="theme.menu.tabsHeight"
-            :is-card="isCard"
             v-if="theme.menu.showTabs"
           />
         </div>
@@ -84,13 +78,11 @@ const pageContentStyle = computed(() => {
         :style="[pageContentStyle]"
         class="bg-layout"
       >
-        <page-content/>
+        <PageContent/>
       </n-layout>
       <PageFooter
         v-if="theme.footer.show"
-        :is-card="isCard"
         :height="theme.footer.height"
-        :round="theme.layout.round"
       />
     </n-layout>
   </n-layout>

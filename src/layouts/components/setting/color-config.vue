@@ -9,7 +9,7 @@ const themeStore = useThemeStore();
 </script>
 
 <template>
-  <n-divider><p>颜色色配置</p></n-divider>
+  <n-divider>颜色色配置</n-divider>
   <div class="flex items-center justify-between">
     <p class="text-16px">主题色</p>
     <n-color-picker

@@ -9,6 +9,10 @@ import HeaderThemeSetting from "@/layouts/components/header/header-theme-setting
 import HeaderAppTitle from "@/layouts/components/header/header-app-title.vue";
 import { useAppStore } from '@/store/modules/app';
 
+defineOptions({
+  name: 'Header'
+});
+
 const props = defineProps({
   collapsed: {
     // 侧边栏菜单是否收起
@@ -41,25 +45,16 @@ const emits = defineEmits(['update:collapsed', 'clickMenuItem']);
 const appStore = useAppStore();
 const theme = useThemeStore()
 
-const getHeaderStyle = computed(() => {
-  let style = {} as any
-  if (theme.layout.mode === 'card') {
-    if (theme.menu.showTabs) {
-      style.borderBottomLeftRadius = theme.layout.round + 'px'
-      style.borderBottomRightRadius = theme.layout.round + 'px'
-    }
-  }
-  style.height = props.height + 'px'
-  return style
-})
-
 const handleCollapsed = () => {
   emits('update:collapsed', !props.collapsed)
 }
 </script>
 
 <template>
-  <div class="page-header bg-#ffffff dark:bg-dark" :style="[getHeaderStyle]">
+  <div
+    class="page-header bg-#ffffff dark:bg-dark"
+    :style="{height:`${props.height}px`}"
+  >
     <div class="page-header-left" v-if="false">
       <page-menu :mode="'horizontal'"/>
     </div>
