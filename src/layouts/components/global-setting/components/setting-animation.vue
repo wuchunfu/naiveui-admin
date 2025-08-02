@@ -2,7 +2,7 @@
 import { useThemeStore } from '@/store';
 
 defineOptions({
-  name: 'AnimationConfig'
+  name: 'SettingAnimation'
 });
 
 const themeStore = useThemeStore();

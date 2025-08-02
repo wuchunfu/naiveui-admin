@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { useThemeStore } from '@/store';
 import { $t } from "@/locales";
+import { LayoutEnum } from '@/enums/LayoutEnum.ts';
 
 defineOptions({
-  name: 'LayoutModeConfig'
+  name: 'SettingLayoutMode'
 });
 
 const themeStore = useThemeStore();
@@ -18,7 +19,7 @@ const handleModeChange = (mode: string) => {
   <div class="flex text-primary gap-4">
     <BaseHoverTip text="垂直" :hover-style="false">
       <n-el
-        :class="{'outline outline-2': themeStore.layout.mode === 'vertical'}"
+        :class="{'outline outline-2': themeStore.layout.mode === LayoutEnum.VERTICAL}"
         class="grid grid-cols-[20%_1fr] outline-[var(--primary-color)] hover:(outline outline-2) cursor-pointer"
         @click="handleModeChange('vertical')"
       >
@@ -29,7 +30,7 @@ const handleModeChange = (mode: string) => {
 
     <BaseHoverTip text="水平" :hover-style="false">
       <n-el
-        :class="{'outline outline-2': themeStore.layout.mode === 'horizontal'}"
+        :class="{'outline outline-2': themeStore.layout.mode === LayoutEnum.HORIZONTAL}"
         class="grid grid-rows-[30%_1fr] outline-[var(--primary-color)] hover:(outline outline-2) cursor-pointer"
         @click="handleModeChange('horizontal')"
       >
@@ -40,7 +41,7 @@ const handleModeChange = (mode: string) => {
 
     <BaseHoverTip text="混合" :hover-style="false">
       <n-el
-        :class="{'outline outline-2': themeStore.layout.mode === 'horizontal-mix'}"
+        :class="{'outline outline-2': themeStore.layout.mode === LayoutEnum.HORIZONTAL_MIX}"
         class="grid grid-cols-[20%_1fr] grid-rows-[20%_1fr] outline-[var(--primary-color)] hover:(outline outline-2) cursor-pointer"
         @click="handleModeChange('horizontal-mix')"
       >

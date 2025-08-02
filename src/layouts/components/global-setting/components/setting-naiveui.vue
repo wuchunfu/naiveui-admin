@@ -2,7 +2,7 @@
 import { useThemeStore } from '@/store';
 
 defineOptions({
-  name: 'NaiveUIConfig'
+  name: 'SettingNaiveUI'
 });
 
 const themeStore = useThemeStore();

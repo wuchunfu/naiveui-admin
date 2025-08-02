@@ -2,7 +2,7 @@
 import { useThemeStore } from '@/store';
 
 defineOptions({
-  name: 'MenuConfig'
+  name: 'SettingMenu'
 });
 
 const themeStore = useThemeStore();

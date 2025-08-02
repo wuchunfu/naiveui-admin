@@ -2,7 +2,7 @@
 import { useThemeStore } from '@/store';
 
 defineOptions({
-  name: 'ColorConfig'
+  name: 'SettingColor'
 });
 
 const themeStore = useThemeStore();

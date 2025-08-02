@@ -2,7 +2,7 @@
 import { $t } from "@/locales";
 import { useThemeStore } from "@/store";
 import { useAppStore } from '@/store/modules/app';
-import PageLogo from "@/layouts/components/logo/index.vue";
+import GlobalLogo from "@/layouts/components/global-logo/index.vue";
 import AccountLogin from "@/views/login/components/account-login.vue";
 import QrcodeLogin from "@/views/login/components/qrcode-login.vue";
 
@@ -32,7 +32,7 @@ const themeStore = useThemeStore()
             <SvgIcon local-icon="login-bg" class="text-500px text-primary px-20px"/>
           </div>
           <div class="login-item px-4 w-360px">
-            <PageLogo/>
+            <GlobalLogo/>
             <p class="text-20px my-4">{{ $t('page.login.common.login') }}</p>
             <n-tabs type="segment">
               <n-tab-pane name="chap1" :tab="$t('page.login.common.accountLogin')">

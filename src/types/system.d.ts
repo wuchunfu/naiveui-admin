@@ -19,7 +19,7 @@ declare namespace System {
   type GlobalBreadcrumb = {
     label: string;
     name: string;
-    icon: () => VNodeChild;
+    icon?: () => VNodeChild;
     meta?: IRouteMeta;
     children?: GlobalBreadcrumb[]
     // 下拉中disabled

@@ -2,7 +2,7 @@
 import { useThemeStore } from '@/store';
 
 defineOptions({
-  name: 'FooterConfig'
+  name: 'SettingFooter'
 });
 
 const themeStore = useThemeStore();

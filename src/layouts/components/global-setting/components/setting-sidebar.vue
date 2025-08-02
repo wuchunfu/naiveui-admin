@@ -2,7 +2,7 @@
 import { useThemeStore } from '@/store';
 
 defineOptions({
-  name: 'SiderConfig'
+  name: 'SettingSidebar'
 });
 
 const themeStore = useThemeStore();

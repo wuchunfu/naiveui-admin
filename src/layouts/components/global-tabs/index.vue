@@ -1,29 +1,27 @@
 <script setup lang="ts">
 import Draggable from 'vuedraggable'
-import { computed, nextTick, onMounted, reactive, ref, watch } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, reactive, ref, watch } from "vue";
 import { PageRoute } from "@/types/route";
 import { useRoute, useRouter } from "vue-router";
 import elementResizeDetectorMaker from "element-resize-detector";
 import { renderIcon } from "@/utils";
-import { useRouteStore, useTabsStore } from "@/store";
+import { useRouteStore, useTabsStore, useThemeStore } from "@/store";
+import { debounce, throttle } from 'lodash-es';
 
 defineOptions({
-  name: 'TabsView'
+  name: 'GlobalTabs'
 });
 
-const props = defineProps({
-  height: {
-    type: Number,
-    default: 44
-  }
-})
-
+const theme = useThemeStore();
 const tabsStore = useTabsStore()
-const tabsList = computed(() => tabsStore.tabList);
+const routeStore = useRouteStore()
 const router = useRouter();
 const route = useRoute();
+
 const tabsScroll = ref<HTMLElement | null>(null);
-const tabsWrap = ref(null);
+const tabsWrap = ref<HTMLElement | null>(null);
+const pageIsAffix = ref(false);
+const activePage = ref<PageRoute | null>(null);
 
 const state = reactive({
   activeTag: computed(() => route.name as string),
@@ -34,63 +32,21 @@ const state = reactive({
   currentTab: null as PageRoute | null,
 })
 
-const pageIsAffix = ref(false);
-const activePage = ref<PageRoute | null>(null);
-
-// 展开操作key
-// 刷新 关闭 关闭其他 关闭所有
-type ExpandKey = 'refresh' | 'closeCurrent' | 'closeOther' | 'closeAll'
-
-const route2PageRoute = (route: any): PageRoute => {
-  return {
-    name: route.name,
-    path: route.path,
-    meta: route.meta,
-    type: "self"
-  }
-}
-
-const onDropdownClick = (key: ExpandKey) => {
-  switch (key) {
-    case 'refresh':
-      refreshTabs()
-      break;
-    case 'closeCurrent':
-      closeCurrentTabs(state.currentTab ?? route2PageRoute(route))
-      break;
-    case 'closeOther':
-      closeOtherTabs(route2PageRoute(route))
-      break;
-    case 'closeAll':
-      closeAllTabs()
-      break;
-  }
-  updateTabsScroll()
-  state.showDropdown = false
-}
-
-const isClose = (item: PageRoute) => {
-  if (item.meta?.affix) {
-    return false
-  }
-  const { VITE_ROUTE_HOME_PATH } = import.meta.env
-  return item.path !== VITE_ROUTE_HOME_PATH;
-}
+// 标签栏高度
+const show = computed(() => theme.menu.showTabs);
+const tabsHeight = computed(() => theme.menu.tabsHeight);
+const tabsList = computed(() => tabsStore.tabList);
 
 const tabsMenuOptions = computed(() => {
-  const isDisabled = tabsList.value.length == 1
-  let isRefresh = false
-  if (activePage.value) {
-    isRefresh = activePage.value?.name != route.name
-  } else {
-    isRefresh = true;
-  }
+  const isDisabled = tabsList.value.length <= 1;
+  const isRefresh = activePage.value?.name !== route.name;
+
   return [
     {
       label: '刷新页面',
       key: 'refresh',
       disabled: isRefresh,
-      icon: renderIcon('line-md:backup-restore'),
+      icon: renderIcon('line-md:rotate-270'),
     },
     {
       label: '关闭当前',
@@ -112,18 +68,45 @@ const tabsMenuOptions = computed(() => {
   ]
 })
 
+// 类型定义
+type ExpandKey = 'refresh' | 'closeCurrent' | 'closeOther' | 'closeAll'
+
+// 工具函数
+const route2PageRoute = (route: any): PageRoute => {
+  return {
+    name: route.name,
+    path: route.path,
+    meta: route.meta,
+    type: "self"
+  }
+}
+
+// 判断标签页是否可以关闭
+const isClose = (item: PageRoute) => {
+  // 固定标签页不能关闭
+  if (item.meta?.affix) {
+    return false
+  }
+  // 首页不能关闭
+  const { VITE_ROUTE_HOME_PATH } = import.meta.env
+  return item.path !== VITE_ROUTE_HOME_PATH;
+}
+
+// 标签页点击处理
 const onTagClick = (tag: PageRoute) => {
   router.push({ name: tag.name })
 }
 
-// 右键菜单
+// 右键菜单处理
 const onContextMenu = (e: MouseEvent, tab: PageRoute) => {
   e.preventDefault();
   e.stopPropagation();
+
   activePage.value = tab;
-  pageIsAffix.value = (tab.meta?.affix ?? false);
-  state.showDropdown = false;
+  pageIsAffix.value = !!tab.meta?.affix;
   state.currentTab = tab;
+  state.showDropdown = false;
+
   nextTick().then(() => {
     state.showDropdown = true;
     state.dropdownX = e.clientX;
@@ -131,146 +114,218 @@ const onContextMenu = (e: MouseEvent, tab: PageRoute) => {
   });
 }
 
-// 关闭
+// 关闭标签页
 const onCloseTabs = (tag: PageRoute) => {
   closeCurrentTabs(tag)
 }
 
+// 下拉菜单点击处理
+const onDropdownClick = (key: ExpandKey) => {
+  switch (key) {
+    case 'refresh':
+      refreshTabs()
+      break;
+    case 'closeCurrent':
+      closeCurrentTabs(state.currentTab ?? route2PageRoute(route))
+      break;
+    case 'closeOther':
+      closeOtherTabs(route2PageRoute(route))
+      break;
+    case 'closeAll':
+      closeAllTabs()
+      break;
+  }
+  updateTabsScroll()
+  state.showDropdown = false
+}
+
+// 刷新当前标签页
 const refreshTabs = async () => {
-  const routeStore = useRouteStore()
   await routeStore.reloadPage()
   await updateTabsScroll()
 }
 
+// 关闭当前标签页
 const closeCurrentTabs = (page: PageRoute) => {
+  // 固定标签页不能关闭
   if (page.meta?.affix) {
     return
   }
+
   tabsStore.closeCurrentTab(page)
-  // 关闭的当前页跳转到上一页
+
+  // 如果关闭的是当前激活的标签页，则跳转到前一个标签页
   if (page.name === state.activeTag) {
     const preTab = tabsStore.tabList[Math.max(0, tabsStore.tabList.length - 1)]
     router.push({ name: preTab.name })
   }
+
   updateTabsScroll()
 }
 
+// 关闭其他标签页
 const closeOtherTabs = (page: PageRoute) => {
   tabsStore.closeOtherTabs(page)
   updateTabsScroll()
 }
 
+// 关闭所有标签页
 const closeAllTabs = () => {
   tabsStore.closeAllTabs()
   router.replace({ path: '/' })
   updateTabsScroll()
 }
 
-const updateTabsScroll = async (autoScroll = false) => {
+// 更新标签页滚动状态 - 使用防抖优化
+const updateTabsScroll = debounce(async (autoScroll = false) => {
   await nextTick()
+
   if (!tabsScroll.value) {
     return
   }
+
   const wrapWidth = tabsScroll.value.scrollWidth
   const scrollWidth = tabsScroll.value.offsetWidth
-  if (scrollWidth < wrapWidth) {
-    if (autoScroll) {
-      state.scrollable = true;
-      let tagList = tabsScroll.value.querySelectorAll('.tabs-line-scroll-item') || [];
-      [...tagList].forEach((tag: HTMLElement) => {
-        // fix SyntaxError
-        if (tag.id === `tab_item_${ state.activeTag }`) {
-          tag.scrollIntoView && tag.scrollIntoView();
-        }
-      });
-    }
-  } else {
-    state.scrollable = false;
-  }
-}
 
-/**
- * 滚动到指定位置
- * @param value 滚动的距离
- * @param amplitude 振幅
- */
-const scrollTo = (value: number, amplitude: number) => {
-  if (!tabsScroll.value) {
-    return;
+  state.scrollable = scrollWidth < wrapWidth
+
+  if (state.scrollable && autoScroll) {
+    const tagList = tabsScroll.value.querySelectorAll('.tabs-line-scroll-item')
+    tagList.forEach((tag: Element) => {
+      const htmlTag = tag as HTMLElement
+      if (htmlTag.id === `tab_item_${ state.activeTag }`) {
+        htmlTag.scrollIntoView?.()
+      }
+    })
   }
+}, 100)
+
+// 滚动到指定位置 - 使用节流优化
+const scrollTo = throttle((value: number, amplitude: number) => {
+  if (!tabsScroll.value) {
+    return
+  }
+
   const currentScroll = tabsScroll.value.scrollLeft
   const scrollWidth =
     (amplitude > 0 && currentScroll + amplitude >= value) ||
     (amplitude < 0 && currentScroll + amplitude <= value)
       ? value
-      : currentScroll + amplitude;
-  tabsScroll.value && tabsScroll.value.scrollTo(scrollWidth, 0);
-  if (scrollWidth === value) return;
-  return window.requestAnimationFrame(() => scrollTo(value, amplitude));
-}
+      : currentScroll + amplitude
 
-/**
- * 向左滚动
- */
+  tabsScroll.value.scrollTo(scrollWidth, 0)
+
+  if (scrollWidth !== value) {
+    window.requestAnimationFrame(() => scrollTo(value, amplitude))
+  }
+}, 16)
+
+// 向左滚动
 const scrollLeft = () => {
   if (!tabsScroll.value) {
-    return;
+    return
   }
-  const containerWidth = tabsScroll.value.offsetWidth;
-  const currentScroll = tabsScroll.value.scrollLeft;
+
+  const containerWidth = tabsScroll.value.offsetWidth
+  const currentScroll = tabsScroll.value.scrollLeft
+
   if (!currentScroll) {
-    return;
+    return
   }
-  const scrollLeft = currentScroll > containerWidth ? currentScroll - containerWidth : 0;
-  scrollTo(scrollLeft, (scrollLeft - currentScroll) / 20);
+
+  const scrollLeft = currentScroll > containerWidth
+    ? currentScroll - containerWidth
+    : 0
+
+  scrollTo(scrollLeft, (scrollLeft - currentScroll) / 20)
 }
 
-/**
- * 向右滚动
- */
+// 向右滚动
 const scrollRight = () => {
   if (!tabsScroll.value) {
-    return;
+    return
   }
-  const containerWidth = tabsScroll.value.offsetWidth;
-  const navWidth = tabsScroll.value.scrollWidth;
-  const currentScroll = tabsScroll.value.scrollLeft;
-  if (navWidth - currentScroll <= containerWidth) return;
+
+  const containerWidth = tabsScroll.value.offsetWidth
+  const navWidth = tabsScroll.value.scrollWidth
+  const currentScroll = tabsScroll.value.scrollLeft
+
+  if (navWidth - currentScroll <= containerWidth) {
+    return
+  }
+
   const scrollLeft = navWidth - currentScroll > containerWidth * 2
     ? currentScroll + containerWidth
-    : navWidth - containerWidth;
-  scrollTo(scrollLeft, (scrollLeft - currentScroll) / 20);
+    : navWidth - containerWidth
+
+  scrollTo(scrollLeft, (scrollLeft - currentScroll) / 20)
 }
 
-/**
- * 监听窗口变化
- */
+// 窗口大小变化处理
 const onResize = () => {
   updateTabsScroll(true)
 }
 
+// 监听元素大小变化
 const onElementResize = () => {
-  elementResizeDetectorMaker().listenTo(tabsScroll.value, onResize);
+  if (tabsScroll.value) {
+    elementResizeDetectorMaker().listenTo(tabsScroll.value, onResize)
+  }
 }
 
-const onScroll = (e) => {
-}
+// 滚动事件处理
+const onScroll = throttle((e: Event) => {
+  // 在页面滚动时确保当前激活的标签页在可视区域内
+  if (state.activeTag && tabsScroll.value) {
+    const activeTabElement = document.getElementById(`tab_item_${ state.activeTag }`)
+    if (activeTabElement) {
+      const containerRect = tabsScroll.value.getBoundingClientRect()
+      const tabRect = activeTabElement.getBoundingClientRect()
 
-watch(() => route.name, (to) => {
-  tabsStore.addTab(route2PageRoute(route))
-}, { immediate: true })
+      // 检查标签是否在可视区域内
+      if (tabRect.left < containerRect.left || tabRect.right > containerRect.right) {
+        // 如果不在可视区域内，则滚动到该标签
+        activeTabElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'center'
+        })
+      }
+    }
+  }
+}, 100)
 
+// 监听路由变化，添加标签页
+watch(() => route.name, () => {
+    tabsStore.addTab(route2PageRoute(route))
+  },
+  { immediate: true }
+)
+
+// 组件挂载后初始化
 onMounted(() => {
   onElementResize()
 })
 
-window.addEventListener('scroll', onScroll, true)
+// 添加全局滚动监听
+const scrollHandler = (e: Event) => onScroll(e);
+window.addEventListener('scroll', scrollHandler, true)
+
+// 组件卸载时清理事件监听器
+onUnmounted(() => {
+  window.removeEventListener('scroll', scrollHandler, true)
+  // 如果使用了 elementResizeDetectorMaker，也应该在这里清理
+  if (tabsScroll.value) {
+    elementResizeDetectorMaker().removeAllListeners(tabsScroll.value)
+  }
+})
 </script>
 
 <template>
   <div
     class="tabs-view flex w-full items-center px-12px bg-#fff dark:bg-dark"
-    :style="{height:`${props.height}px`}"
+    :style="{ height: `${tabsHeight}px` }"
+    v-if="show"
   >
     <div class="tabs-view-main">
       <div
@@ -293,12 +348,13 @@ window.addEventListener('scroll', onScroll, true)
           <SvgIcon icon="line-md:chevron-right"/>
         </div>
         <div class="tabs-line-scroll" ref="tabsScroll">
-          <!--     拖动     -->
+          <!-- 标签页拖拽区域 -->
           <Draggable
             :list="tabsList"
             animation="300"
             item-key="fullPath"
             class="flex"
+            @end="updateTabsScroll"
           >
             <template #item="{element}">
               <div
@@ -332,11 +388,8 @@ window.addEventListener('scroll', onScroll, true)
           </Draggable>
         </div>
       </div>
-      <!--      <div class="tabs-close bg-#fff dark:bg-#333 text-#666 dark:text-#999">-->
-      <!--        <n-dropdown trigger="hover" :options="tabsMenuOptions" placement="bottom-end"  @select="onDropdownClick">-->
-      <!--          <icon-solar:alt-arrow-down-linear/>-->
-      <!--        </n-dropdown>-->
-      <!--      </div>-->
+
+      <!-- 下拉菜单 -->
       <n-dropdown
         trigger="hover"
         :options="tabsMenuOptions"
@@ -351,6 +404,8 @@ window.addEventListener('scroll', onScroll, true)
           </n-button>
         </div>
       </n-dropdown>
+
+      <!-- 右键菜单 -->
       <n-dropdown
         :show="state.showDropdown"
         :x="state.dropdownX"
@@ -391,8 +446,6 @@ window.addEventListener('scroll', onScroll, true)
     }
 
     &-item {
-      //padding: 0 12px;
-      //border-radius: 3px;
       margin-right: 12px;
       cursor: pointer;
       display: inline-block;
@@ -413,6 +466,7 @@ window.addEventListener('scroll', onScroll, true)
     align-items: center;
     justify-content: center;
     border-radius: 3px;
+    z-index: 10;
 
     &:hover {
       background: rgba(0, 0, 0, 0.1);

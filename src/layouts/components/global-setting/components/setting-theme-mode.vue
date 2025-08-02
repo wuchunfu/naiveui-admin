@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { themeSchemaIcons, themeSchemaRecord } from '@/constants/app';
+import { themeSchemaIcons, themeSchemaRecord } from '@/constants/app.ts';
 import { useThemeStore } from "@/store";
 import { $t } from '@/locales';
 
 defineOptions({
-  name: 'ThemeModeConfig'
+  name: 'SettingThemeMode'
 });
 
 const themeStore = useThemeStore();
