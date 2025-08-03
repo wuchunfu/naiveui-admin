@@ -23,8 +23,8 @@ const headerHeight = computed(() => theme.menu.headerHeight);
   >
     <SvgIcon
       local-icon="logo"
-      class="text-32px"
-      :class="{ 'mr-2': !headerHeight }"
+      class="mr-1"
+      :style="{ fontSize: `${headerHeight/2}px` }"
     />
     <h2 v-show="!collapsed" class="text-xl font-semibold">
       {{ VITE_APP_TITLE }}

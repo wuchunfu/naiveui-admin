@@ -51,7 +51,7 @@ const setCollapsed = (collapsed: boolean) => {
     @collapse="setCollapsed(true)"
     @expand="setCollapsed(false)"
   >
-    <GlobalLogo class="logo"/>
+    <GlobalLogo/>
     <GlobalMenu
       class="menu"
       :mode="mode"
@@ -71,13 +71,6 @@ const setCollapsed = (collapsed: boolean) => {
   z-index: 99;
   box-shadow: 2px 0 8px 0 rgb(29, 35, 41, 0.05);
   position: relative;
-
-  & .logo {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
 
   & .menu {
     position: absolute;

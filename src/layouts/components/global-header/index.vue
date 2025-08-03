@@ -58,7 +58,11 @@ const menuLayout = computed(() => theme.menu.layout);
         class="page-header bg-#ffffff dark:bg-dark"
         :style="{ height: `${headerHeight}px` }"
       >
-        <div class="page-header-left" v-if="layoutMode !== LayoutEnum.VERTICAL">
+        <div class="flex items-center" v-if="layoutMode !== LayoutEnum.VERTICAL">
+          <GlobalLogo
+            :style="{ width: `${theme.sidebar.width}px` }"
+            v-if="layoutMode === LayoutEnum.HORIZONTAL"
+          />
           <GlobalMenu
             :mode="LayoutEnum.HORIZONTAL"
             :active-key="activeKey"
