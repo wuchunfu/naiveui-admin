@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import JSONbig from 'json-bigint';
 import { useAuthStore } from "@/store";
 import { ERROR_STATUS } from "@/constants/request";
 import { usePageRouter } from "@/hooks";
@@ -21,6 +22,13 @@ const service = axios.create({
   timeout: 50000,
   headers: {
     'Content-Type': 'application/json; charset=utf-8'
+  },
+  transformResponse: data => {
+    try {
+      return JSONbig.parse(data)
+    } catch (err) {
+      return JSON.parse(data)
+    }
   },
 });
 

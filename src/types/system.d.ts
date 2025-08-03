@@ -11,9 +11,9 @@ declare namespace System {
     label: string;
     routeName: string;
     routePath: string;
-    meta: IRouteMeta;
+    meta?: IRouteMeta;
     component?: RouteComponent;
-    icon: () => VNodeChild;
+    icon?: () => VNodeChild;
     children?: GlobalMenu[];
   }
   type GlobalBreadcrumb = {
@@ -29,7 +29,7 @@ declare namespace System {
   type GlobalDropdown = {
     label: string;
     key: string;
-    icon: () => VNodeChild;
+    icon?: () => VNodeChild;
     disabled?: boolean;
     render?: () => VNodeChild;
     [x: string]: any;
