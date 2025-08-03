@@ -1,67 +1,68 @@
 import { NAvatar, NImage, NSpace, NTag } from 'naive-ui'
 import { unref } from "vue";
-import { ITableColumn } from "./index";
+import { ITableColumn, OptionsType } from "./index";
 
 export function generateTableColumnRender(field: ITableColumn) {
   let res: any;
   switch (field.type) {
     case "switch":
       res = (data: any) => {
-        return (
-          <NTag
-            round
-            type={ data[field.field] ? 'success' : 'error' }
-            size='small'
-          >
-            { data[field.field] ? field?.typeOptions?.switchTag?.trueText ?? '开启' :
-              field?.typeOptions?.switchTag?.falseText ?? '关闭' }
-          </NTag>
-        )
-      }
-      break
-    case "select":
-      res = (data: any) => {
-        const val = data[field.field]
-        if (field?.typeOptions?.options) {
+        const selectedValues = data[field.field];
+        const options = unref(field?.typeOptions?.options);
+        if (options && options.length > 0) {
           return (
             <NSpace size='small' justify='center'>
               {
-                unref(field?.typeOptions?.options).map((item: any) => {
-                  if (field?.typeOptions?.multiple && data[field.field] && data[field.field].length) {
-                    if (data[field.field].includes(item.value)) {
-                      return (
-                        <NTag
-                          round
-                          type={ item.tagType ?? 'primary' }
-                          size='small'
-                        >
-                          { item.label }
-                        </NTag>
-                      )
-                    }
-                  } else {
-                    if (item.value === data[field.field]) {
-                      return (
-                        <NTag
-                          round
-                          type={ item.tagType ?? 'primary' }
-                          size='small'
-                        >
-                          { item.label }
-                        </NTag>
-                      )
-                    }
-                  }
-                })
+                options
+                  .filter((item: OptionsType) => item.value === selectedValues)
+                  .map((item: OptionsType, index: number) => (
+                    <NTag
+                      key={ index }
+                      round
+                      type={ item.type ?? 'primary' }
+                      size='small'
+                    >
+                      { item.label }
+                    </NTag>
+                  ))
               }
             </NSpace>
           )
         }
-        return (
-          <span>{ val }</span>
-        )
-      }
-      break
+        return <span>{ selectedValues }</span>;
+      };
+      break;
+    case "select":
+      res = (data: any) => {
+        const selectedValues = data[field.field];
+        const options = unref(field?.typeOptions?.options);
+        if (options && options.length > 0) {
+          return (
+            <NSpace size='small' justify='center'>
+              {
+                options
+                  .filter((item: OptionsType) =>
+                    field?.typeOptions?.multiple
+                      ? selectedValues?.includes(item.value)
+                      : item.value === selectedValues
+                  )
+                  .map((item: OptionsType, index: number) => (
+                    <NTag
+                      key={ index }
+                      round
+                      type={ item.type ?? 'primary' }
+                      size='small'
+                    >
+                      { item.label }
+                    </NTag>
+                  ))
+              }
+            </NSpace>
+          );
+        }
+        return <span>{ selectedValues }</span>;
+      };
+      break;
     case "date":
     case "datetime":
       res = (data: any) => {
@@ -97,8 +98,8 @@ export function generateTableColumnRender(field: ITableColumn) {
         return (
           <NTag
             round
-            type={ field?.typeOptions?.type }
-            size={ field?.typeOptions?.size }
+            type={ field?.typeOptions?.type ?? 'primary' }
+            size={ field?.typeOptions?.size ?? 'small' }
           >
             { data[field.field] }
           </NTag>

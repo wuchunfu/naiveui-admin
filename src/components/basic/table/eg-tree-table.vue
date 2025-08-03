@@ -302,7 +302,6 @@ onMounted(() => {
         :isAddAction="isAddAction"
         :isDeleteAction="isDeleteAction"
         @add="addHandle"
-        @delete="deleteHandle"
         @refresh="onGetTableData"
       />
 

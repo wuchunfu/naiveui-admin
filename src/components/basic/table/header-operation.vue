@@ -38,7 +38,7 @@ const props = defineProps({
 interface Emits {
   (e: "add"): void;
 
-  (e: "delete", data: any): void;
+  (e: "delete"): void;
 
   (e: "refresh"): void;
 }
@@ -49,8 +49,8 @@ const addHandle = () => {
   emits('add');
 };
 
-const deleteHandle = (e: any) => {
-  emits('delete', e);
+const deleteHandle = () => {
+  emits('delete');
 };
 
 const refresh = () => {

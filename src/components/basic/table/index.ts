@@ -1,3 +1,13 @@
+type ColumnType = 'image' | 'switch' | 'select' | 'date' | 'datetime' | 'avatar' | 'string' | 'tag' | 'number'
+
+export type ColorType = 'success' | 'info' | 'warning' | 'error' | 'default'
+
+export interface OptionsType {
+  label: string;
+  value: string | number;
+  type?: ColorType;
+}
+
 export interface ITableColumn {
   // 表格字段
   field: string,
@@ -11,18 +21,12 @@ export interface ITableColumn {
   fixed?: boolean | string,
   tree?: boolean,
   typeOptions?: {
-    switchTag?: {
-      trueText?: string,
-      falseText?: string,
-    },
+    options?: OptionsType[],
+    type?: any,
     multiple?: boolean,
     size?: 'small' | 'medium' | 'large' | number | any,
-    options?: Array<any>,
-    type?: any,
   },
   hide?: boolean,
   // 结尾
   suffix?: string
 }
-
-type ColumnType = 'image' | 'switch' | 'select' | 'date' | 'datetime' | 'avatar' | 'string' | 'tag' | 'number'

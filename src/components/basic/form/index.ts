@@ -1,8 +1,10 @@
+import type { SelectOption } from 'naive-ui'
 import { FormItemRule, FormRules, GridItemProps, GridProps } from "naive-ui";
 import type { ButtonProps } from 'naive-ui/lib/button';
 import { REGEXP_PHONE } from "@/constants/regexp";
+import { cloneDeep } from "lodash-es";
 
-export type FiledType =
+export type FieldType =
   'string'
   | 'number'
   | 'select'
@@ -22,59 +24,70 @@ export type FiledType =
   | 'crop-img'
   | 'btn-group'
   | 'phone'
+  | 'password'
 
 export type FiledRuleType = 'string' | 'number' | 'array' | 'boolean' | string | undefined
 
-interface FiledOptions {
-  options?: any[],
-  required?: boolean,
-  placeholder?: string,
-  suffix?: string,
-  prefix?: string,
-  disabled?: boolean,
-  multiple?: boolean,
-  max?: number,
-  min?: number,
-  validate?: Array<FormItemRule>,
-  clearable?: boolean,
-  fixedNumber?: [number, number],
+interface FieldOptions {
+  options?: SelectOption[];
+  required?: boolean;
+  placeholder?: string;
+  suffix?: string;
+  prefix?: string;
+  disabled?: boolean;
+  multiple?: boolean;
+  max?: number;
+  min?: number;
+  validate?: Array<FormItemRule>;
+  clearable?: boolean;
+  fixedNumber?: [number, number];
 
   [key: string]: any;
 }
 
+interface SwitchOptions {
+  checkedValue?: string | number | boolean;
+  uncheckedValue?: string | number | boolean;
+}
+
 export interface BaseFormItemProps {
-  label: string,
-  field: string,
+  field: string;
+  fieldType: FieldType;
+  label: string;
   /** 标题解释 */
   labelMessage?: string;
-  required?: boolean,
-  filedType: FiledType,
-  ruleType?: FiledRuleType,
-  filedOptions?: FiledOptions,
-  slot?: string,
-  giProps?: GridItemProps;
-  customRule?: Array<FormItemRule>
+  /**
+   * 默认值
+   */
+  defaultValue?: any;
+  required?: boolean;
+  isSearch?: boolean;
   isFull?: boolean;
-  isSearch?: boolean,
   suffix?: string;
+  ruleType?: FiledRuleType;
+  fieldOptions?: FieldOptions;
+  switchOptions?: SwitchOptions;
+  customRule?: Array<FormItemRule>;
+  giProps?: GridItemProps;
+  slot?: string;
 }
 
 export interface BaseFormProps {
-  data: Object,
-  items: Array<BaseFormItemProps>,
-  size?: 'small' | 'medium' | 'large',
+  data: Object;
+  items: Array<BaseFormItemProps>;
+  size?: 'small' | 'medium' | 'large';
   /** 标签的宽度，在 label-placement 是 'left' 的时候可能会有用，'auto' 意味着 label width 会被自动调整*/
-  labelWidth?: number | string | 'auto',
+  labelWidth?: number | string | 'auto';
   /** 标签显示的位置 */
-  labelPlacement?: 'top' | 'left',
+  labelPlacement?: 'top' | 'left';
   /** 标签的文本对齐方式 */
-  labelAlign?: 'left' | 'right',
+  labelAlign?: 'left' | 'right';
   /** 是否展示标签 */
-  showLabel?: boolean,
+  showLabel?: boolean;
   /** 是否展示为行内表单 */
-  inline?: boolean,
+  inline?: boolean;
   /** 是否禁用所有表单项 */
-  disabled?: boolean,
+  disabled?: boolean;
   /** 是否full */
   isFull?: boolean;
   /** 是否搜索 搜索模式没有rule */
@@ -101,23 +114,23 @@ export function generateRules(items: Array<BaseFormItemProps>): FormRules {
     if (item?.required) {
       let ruleType: FiledRuleType = item?.ruleType
       if (!ruleType) {
-        if (['string'].includes(item?.filedType)) {
+        if (['string'].includes(item?.fieldType)) {
           ruleType = 'string'
-        } else if (['select-user', 'select'].includes(item?.filedType) && item.filedOptions?.multiple) {
+        } else if (['select-user', 'select'].includes(item?.fieldType) && item.fieldOptions?.multiple) {
           ruleType = 'array'
-        } else if (['slider', 'number'].includes(item?.filedType)) {
+        } else if (['slider', 'number'].includes(item?.fieldType)) {
           ruleType = 'number'
-        } else if (item.filedType === 'switch') {
+        } else if (item.fieldType === 'switch') {
           ruleType = 'boolean'
-        } else if (['map'].includes(item.filedType)) {
+        } else if (['map'].includes(item.fieldType)) {
           ruleType = 'string'
-        } else if (['facility', 'policy'].includes(item.filedType)) {
+        } else if (['facility', 'policy'].includes(item.fieldType)) {
           ruleType = 'array'
         } else {
           ruleType = 'string'
         }
       }
-      switch (item.filedType) {
+      switch (item.fieldType) {
         case "map":
           itemRules.push({
             required: true,
@@ -156,4 +169,26 @@ export function generateRules(items: Array<BaseFormItemProps>): FormRules {
     rules[item.field] = itemRules;
   });
   return rules;
+}
+
+/**
+ * 初始化表单数据
+ *
+ * @param rawData
+ * @param formItems
+ */
+export function useFormData(
+  rawData: Record<string, any>,
+  formItems: Array<{ field: string; defaultValue?: any }>
+) {
+  const data = {} as Record<string, any>
+
+  for (const item of formItems) {
+    if (item.field in rawData) {
+      data[item.field] = rawData[item.field]
+    } else if (item.defaultValue !== undefined) {
+      data[item.field] = cloneDeep(item.defaultValue)
+    }
+  }
+  return data
 }

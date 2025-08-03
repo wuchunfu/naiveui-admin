@@ -49,7 +49,7 @@ const props = defineProps({
   // 默认操作按钮
   isAction: {
     type: Boolean,
-    default: true
+    default: false
   },
   // 添加按钮
   isAddAction: {
@@ -59,12 +59,12 @@ const props = defineProps({
   // 编辑按钮
   isEditAction: {
     type: Boolean,
-    default: true
+    default: false
   },
   // 删除按钮
   isDeleteAction: {
     type: Boolean,
-    default: true
+    default: false
   },
   // 类型 page：分页列表  list：列表
   type: {
@@ -112,6 +112,7 @@ const emits = defineEmits<{
   /**
    * 删除
    * @param e 事件名
+   * @param data 数据
    */
   (e: 'delete', data: any): void;
 }>();
@@ -132,13 +133,38 @@ const deleteHandle = (e: any) => {
   emits('delete', e);
 };
 
+const checkedRowKeys = ref<string[]>([]);
+
+const selectedRows = computed(() => {
+  const checkedIds = checkedRowKeys.value;
+  if (!checkedIds.length || !props.data?.lists) {
+    return [];
+  }
+
+  const idSet = new Set(checkedIds);
+  const rowKey = props.rowKey;
+
+  return props.data.lists.filter((item: any) => {
+    const itemKey = item[rowKey];
+    return itemKey !== undefined && idSet.has(itemKey);
+  });
+});
+
+const batchDeleteHandle = () => {
+  if (!selectedRows.value.length) {
+    window.$message?.warning('请至少选择一条数据');
+    return;
+  }
+  emits('delete', selectedRows.value);
+};
+
 const formData = reactive({});
 
 // 分页数据
 const pagination = reactive({
-  page: parseInt(props.data?.current ?? 1),
-  pageSize: parseInt(props.data?.size ?? 10),
-  pageCount: parseInt(props.data?.total ?? 1),
+  page: parseInt(props.data?.pageNo ?? 1),
+  pageSize: parseInt(props.data?.pageSize ?? 10),
+  pageCount: parseInt(props.data?.count ?? 1),
   pageSizes: [10, 20, 30, 40, 50],
   showSizePicker: true
 });
@@ -199,7 +225,7 @@ const defaultAction = reactive<ITableColumn>({
         {
           props.isDeleteAction && (
             <NPopconfirm
-              onPositiveClick={ () => deleteHandle }
+              onPositiveClick={ () => deleteHandle(row) }
               v-slots={ {
                 trigger: () => {
                   return (
@@ -242,7 +268,7 @@ const getDomHeight = (dom: any) => {
   return unref(dom)?.clientHeight ?? 0
 }
 
-const tableHeight = ref(910);
+const tableHeight = ref(410);
 
 function onPageChange(page: number) {
   pagination.page = page;
@@ -272,13 +298,13 @@ function onFormSubmit(state: boolean) {
 function onGetTableData() {
   if (props.type === 'page') {
     const params = {
-      page: pagination.page,
+      pageNo: pagination.page,
       pageSize: pagination.pageSize,
       ...unref(formData)
     }
     getDataHandle(params)
     props.getData?.({
-      page: pagination.page,
+      pageNo: pagination.page,
       pageSize: pagination.pageSize,
       ...unref(formData)
     })
@@ -307,7 +333,7 @@ onMounted(() => {
 
     <n-card
       :bordered="false"
-      :content-style="{margin:0,padding:'16px' }"
+      :content-style="{ margin: 0, padding: '16px' }"
       class="mb-12px mt-10px"
     >
       <BaseTableHeader
@@ -318,12 +344,13 @@ onMounted(() => {
         :isAddAction="isAddAction"
         :isDeleteAction="isDeleteAction"
         @add="addHandle"
-        @delete="deleteHandle"
+        @delete="batchDeleteHandle"
         @refresh="onGetTableData"
       />
 
       <n-data-table
         :columns="tableColumns"
+        :checked-row-keys="checkedRowKeys"
         :row-key="rowData => rowData[props.rowKey]"
         :data="tableData"
         :loading="props.loading"
@@ -333,6 +360,7 @@ onMounted(() => {
         :scroll-x="tableHeight"
         @update:page-size="onPageSizeChange"
         @update:page="onPageChange"
+        @update:checked-row-keys="(keys: string[]) => checkedRowKeys = keys"
       >
         <template #empty>
           <div class="flex-col-center">

@@ -50,8 +50,8 @@ const searchFormFields = computed(() => {
   const items: BaseFormItemProps[] = [];
   Object.assign(items, props.searchFormItems)
   return items.filter(item => item?.isSearch).map(item => {
-    if (item?.filedOptions?.disabled) {
-      item.filedOptions.disabled = false
+    if (item?.fieldOptions?.disabled) {
+      item.fieldOptions.disabled = false
     }
     return item;
   });

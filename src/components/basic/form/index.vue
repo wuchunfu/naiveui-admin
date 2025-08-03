@@ -11,15 +11,17 @@ const props = withDefaults(defineProps<BaseFormProps>(), {
   data: () => ({}),
   items: () => ([]),
   size: "medium",
+  labelWidth: 80,
   labelPlacement: "left",
   labelAlign: "left",
-  labelWidth: 80,
   showLabel: true,
   inline: false,
-  giProps: () => ({}),
-  gridProps: () => ({}),
-  collapsedRows: 1,
+  disabled: false,
+  isFull: false,
   isSearch: false,
+  gridProps: () => ({}),
+  giProps: () => ({}),
+  collapsedRows: 1,
   showActionGroup: true,
   submitText: "提交",
   resetText: "重置",
@@ -189,45 +191,68 @@ onMounted(() => {
               >
               </slot>
             </template>
-            <template v-else-if="item.filedType === 'number'">
+            <template v-else-if="item.fieldType === 'number'">
               <n-input-number
                 v-model:value="props.data[item.field]"
                 class="w-full"
-                :placeholder="item.filedOptions?.placeholder ?? `请输入${item.label}`"
-                v-bind="item.filedOptions"
+                :placeholder="item.fieldOptions?.placeholder ?? `请输入${item.label}`"
+                v-bind="item.fieldOptions"
               />
             </template>
-            <template v-else-if="item.filedType === 'switch'">
+            <template v-else-if="item.fieldType === 'switch'">
               <n-switch
                 v-model:value="props.data[item.field]"
-                v-bind="item.filedOptions"
-                :checked-value="true"
-                :unchecked-value="false"
+                v-bind="item.fieldOptions"
+                :checked-value="item.switchOptions?.checkedValue ?? true"
+                :unchecked-value="item.switchOptions?.uncheckedValue ?? false"
               />
             </template>
-            <template v-else-if="item.filedType === 'select'">
+            <template v-else-if="item.fieldType === 'select'">
               <n-select
                 v-model:value="props.data[item.field]"
-                :placeholder="item.filedOptions?.placeholder ?? `请选择${item.label}`"
-                v-bind="item.filedOptions"
+                :placeholder="item.fieldOptions?.placeholder ?? `请选择${item.label}`"
+                v-bind="item.fieldOptions"
               />
             </template>
-            <template v-else-if="item.filedType === 'upload'"/>
-            <template v-else-if="['string','phone'].includes(item.filedType)">
+            <template v-else-if="item.fieldType === 'upload'"/>
+            <template v-else-if="item.fieldType === 'string'">
               <n-input
                 v-model:value="props.data[item.field]"
-                :placeholder="item.filedOptions?.placeholder ?? `请输入${item.label}`"
-                v-bind="item.filedOptions"
+                :placeholder="item.fieldOptions?.placeholder ?? `请输入${item.label}`"
+                v-bind="item.fieldOptions"
               />
             </template>
-            <template v-else-if="['date','datetime'].includes(item.filedType)">
+            <template v-else-if="item.fieldType === 'phone'">
+              <n-input
+                v-model:value="props.data[item.field]"
+                :placeholder="item.fieldOptions?.placeholder ?? `请输入${item.label}`"
+                v-bind="item.fieldOptions"
+              />
+            </template>
+            <template v-else-if="item.fieldType === 'password'">
+              <n-input
+                type="password"
+                v-model:value="props.data[item.field]"
+                :placeholder="item.fieldOptions?.placeholder ?? `请输入${item.label}`"
+                v-bind="item.fieldOptions"
+              />
+            </template>
+            <template v-else-if="item.fieldType === 'textarea'">
+              <n-input
+                type="textarea"
+                v-model:value="props.data[item.field]"
+                :placeholder="item.fieldOptions?.placeholder ?? `请输入${item.label}`"
+                v-bind="item.fieldOptions"
+              />
+            </template>
+            <template v-else-if="['date','datetime'].includes(item.fieldType)">
               <n-date-picker
                 class="w-full"
                 v-model:formatted-value="props.data[item.field]"
-                :type="item.filedType as any"
-                :value-format="item?.filedType === 'date' ? 'yyyy-MM-dd':'yyyy-MM-dd HH:mm:ss'"
-                :placeholder="item.filedOptions?.placeholder ?? `请选择${item.label}`"
-                v-bind="item.filedOptions"
+                :type="item.fieldType as any"
+                :value-format="item?.fieldType === 'date' ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm:ss'"
+                :placeholder="item.fieldOptions?.placeholder ?? `请选择${item.label}`"
+                v-bind="item.fieldOptions"
               />
             </template>
           </n-form-item>
